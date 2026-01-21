@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Bubbler+One&display=swap");
+/* FONT */
+.bubbler-one-regular {
+  font-family: "Bubbler One", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 2rem;
+}
+
+/* NAVBAR */
+.bg-navbar {
+  background-color: #fcdcda;
+}
+
+/* FOOTER */
+.bg-footer {
+  background-color: #fcdcda;
+}
+
+.app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+}
