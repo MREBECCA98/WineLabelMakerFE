@@ -12,11 +12,17 @@
   background-color: #fcdcda;
 }
 
+/* SIDE-NAVBAR */
+.side-navbar {
+  position: fixed;
+  background-color: transparent;
+  cursor: pointer;
+}
+
 /* FOOTER */
 .bg-footer {
   background-color: #fcdcda;
 }
-
 .app-wrapper {
   min-height: 100vh;
   display: flex;

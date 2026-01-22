@@ -1,13 +1,14 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
 import Logo from "../assets/LogoOrizzontale7.png";
 import { People } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 
 function MyNavbar() {
   return (
     <Navbar expand="lg" className="bg-navbar sticky-top">
       <Container>
         {/* LOGO & HOME */}
-        <Navbar.Brand href="#home">
+        <Navbar.Brand as={Link} to="/">
           <img src={Logo} alt="LogoWLM" width={100} />
           <span className="bubbler-one-regular d-none d-sm-inline ">Wine Label Maker</span>
         </Navbar.Brand>
@@ -15,11 +16,11 @@ function MyNavbar() {
         <Navbar.Collapse id="basic-navbar-nav">
           {/* I NOSTRI LAVORI */}
           <Nav className="ms-auto">
-            <Nav.Link href="#work" className="d-flex align-items-center " style={{ fontSize: "24px" }}>
+            <Nav.Link as={Link} to="/work" className="d-flex align-items-center " style={{ fontSize: "24px" }}>
               I nostri lavori
             </Nav.Link>
             {/* REGISTER & LOGIN */}
-            <Nav.Link href="#login" className="d-flex align-items-center ms-4 ">
+            <Nav.Link as={Link} to="/login" className="d-flex align-items-center ms-4 ">
               <People size={30} />
             </Nav.Link>
           </Nav>

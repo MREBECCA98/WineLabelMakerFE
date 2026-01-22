@@ -1,5 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { Facebook, Instagram, Linkedin } from "react-bootstrap-icons";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -52,14 +53,14 @@ function Footer() {
           <Col md={4} className="text-center">
             <h5 className="mb-4 bubbler-one-regular border-bottom border-dark">Link utili</h5>
             <p>
-              <a href="#work" className="text-dark text-decoration-none">
+              <Link to="/work" className="text-dark text-decoration-none">
                 I nostri lavori
-              </a>
+              </Link>
             </p>
             <p>
-              <a href="#register" className="text-dark text-decoration-none">
+              <Link to="/register" className="text-dark text-decoration-none">
                 Registrati
-              </a>
+              </Link>
             </p>
           </Col>
         </Row>
