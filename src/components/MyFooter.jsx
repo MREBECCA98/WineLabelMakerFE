@@ -9,7 +9,7 @@ function Footer() {
         <Row>
           {/* CONTATTI */}
           <Col md={4} className="text-center">
-            <h5 className="mb-4 bubbler-one-regular border-bottom border-dark">Contatti</h5>
+            <h5 className="mb-4 bubbler-one-regular border-bottom border-white">Contatti</h5>
             <div>
               <p className="text-decoration mb-1  fw-semibold">Wine Label Maker</p>
               <p className="mb-0">Email: WineLabelMaker@gmail.com</p>
@@ -29,7 +29,7 @@ function Footer() {
 
           {/* SEGUICI */}
           <Col md={4} className="text-center">
-            <h5 className="mb-4 bubbler-one-regular border-bottom border-dark">Seguici</h5>
+            <h5 className="mb-4 bubbler-one-regular border-bottom border-white">Seguici</h5>
             <div className="d-flex flex-column align-items-center gap-2">
               {/* Instagram Facebook */}
               <div className="d-flex gap-3 mb-3">
@@ -51,14 +51,14 @@ function Footer() {
 
           {/* LINK UTILI */}
           <Col md={4} className="text-center">
-            <h5 className="mb-4 bubbler-one-regular border-bottom border-dark">Link utili</h5>
+            <h5 className="mb-4 bubbler-one-regular border-bottom border-white">Link utili</h5>
             <p>
-              <Link to="/work" className="text-dark text-decoration-none">
+              <Link to="/work" className="text-white text-decoration-none">
                 I nostri lavori
               </Link>
             </p>
             <p>
-              <Link to="/register" className="text-dark text-decoration-none">
+              <Link to="/register" className="text-white text-decoration-none">
                 Registrati
               </Link>
             </p>

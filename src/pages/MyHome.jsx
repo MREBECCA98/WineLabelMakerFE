@@ -1,9 +1,10 @@
 import { Col, Container, Row } from "react-bootstrap";
 import SideNavbar from "../components/SideNavbar";
+import LogoWLM from "../assets/logoRed.png";
 
 function MyHome() {
   return (
-    <Container className="py-5">
+    <Container className="py-4">
       <Row>
         {/* SIDEBAR LATERALE */}
         <Col xs={12} md={3}>
@@ -13,11 +14,9 @@ function MyHome() {
         {/* HOME */}
         <Col xs={12} md={9}>
           <section id="intro">
-            <p className="bubbler-one-regular text-center mb-0" style={{ fontSize: "1.5rem" }}>
-              Benvenuto in
-            </p>
-            <h1 className="bubbler-one-regular text-center fw-semibold ">Wine Label Maker</h1>
-            <p>Scopri come creare etichette di vino personalizzate e uniche.</p>
+            <div className="text-center">
+              <img src={LogoWLM} alt="Logo Wine Label Maker" className="img-fluid w-80" />
+            </div>
           </section>
 
           <section id="chi-siamo" className="py-5 bg-light">
