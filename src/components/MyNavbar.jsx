@@ -1,5 +1,5 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
-import Logo from "../assets/LogoOrizzontale7.png";
+import Logo from "../assets/logoRed4.png";
 import { People } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 
@@ -8,9 +8,9 @@ function MyNavbar() {
     <Navbar expand="lg" className="bg-navbar sticky-top">
       <Container>
         {/* LOGO & HOME */}
-        <Navbar.Brand as={Link} to="/">
-          <img src={Logo} alt="LogoWLM" width={100} />
-          <span className="bubbler-one-regular d-none d-sm-inline ">Wine Label Maker</span>
+        <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+          <img src={Logo} alt="LogoWLM" width={270} />
+          <span className="bubbler-one-regular d-none d-sm-inline  ">Wine Label Maker</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
