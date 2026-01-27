@@ -79,7 +79,10 @@ function Login() {
         <Row className="justify-content-center">
           <Col xs={12} md={8} lg={6}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">IL TUO PRODOTTO - LA TUA STORIA!</h2>
-            <p className="text-center bubbler-one-regular  fs-3"> Accedi e lasciaci trasformare il tuo vino in un’opera d’arte!</p>
+            <p className="text-center bubbler-one-regular  fs-3">
+              {" "}
+              Accedi per raccontarci l'esprit del tuo prodotto, lasciaci trasformare il tuo vino in un’opera d’arte!
+            </p>
 
             {/*ALERT SUCCESS */}
             {success ? (
@@ -130,7 +133,7 @@ function Login() {
               </Form.Group>
 
               <div className="d-flex justify-content-center mt-5">
-                <Button variant="transparent" type="submit" className="border border-dark bubbler-one-regular fs-5 fw-bold w-100">
+                <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-5 fw-bold w-100">
                   Accedi
                 </Button>
               </div>

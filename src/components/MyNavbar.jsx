@@ -10,13 +10,13 @@ function MyNavbar() {
         {/* LOGO & HOME */}
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
           <img src={Logo} alt="LogoWLM" width={270} />
-          <span className="bubbler-one-regular d-none d-sm-inline  ">Wine Label Maker</span>
+          <span className="bubbler-one-regular d-none d-sm-inline fs-1  ">Wine Label Maker</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           {/* I NOSTRI LAVORI */}
           <Nav className="ms-auto">
-            <Nav.Link as={Link} to="/work" className="d-flex align-items-center " style={{ fontSize: "24px" }}>
+            <Nav.Link as={Link} to="/work" className="d-flex align-items-center bubbler-one-regular fs-3 text-black" style={{ fontSize: "24px" }}>
               I nostri lavori
             </Nav.Link>
             {/* REGISTER & LOGIN */}

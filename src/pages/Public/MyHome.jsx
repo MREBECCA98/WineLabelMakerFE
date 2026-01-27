@@ -19,7 +19,7 @@ function MyHome() {
               <div className="text-center">{/* <img src={LogoWLM} alt="Logo Wine Label Maker" className="img-fluid w-80" /> */}</div>
             </section>
 
-            <section id="chi-siamo" className="py-5 bg-light">
+            <section id="chi-siamo" className="py-5 ">
               <h2>Chi siamo</h2>
               <p>Siamo un team appassionato di vino e design.</p>
             </section>
