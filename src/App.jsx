@@ -19,6 +19,7 @@ import UserPage from "./pages/Client/UserPage.jsx";
 function App() {
   return (
     <div className="app-wrapper">
+      <MyNavbar />
       <main className="content">
         <Routes>
           <Route path="/" element={<MyHome />} />

@@ -1,9 +1,11 @@
-import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
-import MyNavbar from "../../components/MyNavbar";
+import { Alert, Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { useState } from "react";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
@@ -17,41 +19,80 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //mettere la logica di registrazione
 
-    console.log({
-      name,
-      surname,
-      email,
-      birthday,
-      phoneNumber,
-      password,
-      confirmPassword,
-    });
+    //CONTROLLO CAMPPI VUOTI
+    if (!name || !surname || !email || !birthday || !phoneNumber || !password || !confirmPassword) {
+      setError("Compila tutti i campi!");
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+      return;
+    }
+
+    //CONTROLLO PASSWORD E CONFERMA PASSWORD
+    if (password !== confirmPassword) {
+      setError("Le password non coincidono!");
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+      return;
+    }
+
+    //OGGETTO BODY
+    const body = {
+      Email: email,
+      Password: password,
+      Name: name,
+      Surname: surname,
+      PhoneNumber: phoneNumber,
+      Birthday: birthday ? `${birthday}T00:00:00` : null,
+    };
+
+    //FETCH REGISTER
+    try {
+      const response = await fetch("https://localhost:7046/api/AspNetUser/Register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        throw new Error("Errore nella registrazione");
+      }
+
+      setSuccess("Registrazione effettuata con successo!");
+      setTimeout(() => {
+        setSuccess("");
+
+        //PULIZIA CAMPI FORM
+        setName("");
+        setSurname("");
+        setEmail("");
+        setBirthday("");
+        setPhoneNumber("");
+        setPassword("");
+        setConfirmPassword("");
+
+        navigate("/login");
+      }, 2000);
+    } catch (error) {
+      console.log("Errore durante la registrazione:", error);
+      setError(error.message);
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+    }
   };
 
   return (
     <>
-      <MyNavbar />
       <Container className="mt-5">
         <Row className="justify-content-center">
           <Col xs={12} md={8} lg={6}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">OGNI VINO HA UN RACCONTO..</h2>
             <p className="text-center bubbler-one-regular  fs-3"> Registrati per dare vita a un percorso esclusivo, dove il tuo vino diventa protagonista</p>
-
-            {/* ALERT SUCCESS */}
-            {success ? (
-              <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
-                {success}
-              </Alert>
-            ) : null}
-
-            {/* ALERT ERROR */}
-            {error ? (
-              <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
-                {error}
-              </Alert>
-            ) : null}
 
             <Form onSubmit={handleSubmit}>
               {/* NAME */}
@@ -133,6 +174,7 @@ function Register() {
                     {showPassword ? <EyeSlash /> : <Eye />}
                   </InputGroup.Text>
                 </InputGroup>
+
                 {/* REQUISITI PASSWORD */}
                 <ul className="fs-6" style={{ marginTop: "10px" }}>
                   <li style={{ color: password.length >= 8 ? "green" : "red" }}>Minimo 8 caratteri</li>
@@ -143,7 +185,7 @@ function Register() {
               </Form.Group>
 
               {/* CONFERMA PASSWORD */}
-              <Form.Group className="mb-3" controlId="confirmPassword">
+              <Form.Group className="mb-3" controlId="formConfirmPassword">
                 <Form.Label className="bubbler-one-regular fs-5">Conferma Password</Form.Label>
                 <InputGroup>
                   <Form.Control
@@ -162,6 +204,20 @@ function Register() {
                   </InputGroup.Text>
                 </InputGroup>
               </Form.Group>
+
+              {/* ALERT SUCCESS */}
+              {success ? (
+                <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
+                  {success}
+                </Alert>
+              ) : null}
+
+              {/* ALERT ERROR */}
+              {error ? (
+                <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
+                  {error}
+                </Alert>
+              ) : null}
 
               <div className="d-flex justify-content-center mt-5">
                 <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-5 fw-bold w-100">

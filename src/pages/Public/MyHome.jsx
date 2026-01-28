@@ -1,22 +1,20 @@
 import { Col, Container, Row } from "react-bootstrap";
 import SideNavbar from "../../components/SideNavbar";
-import MyNavbar from "../../components/MyNavbar";
 
 function MyHome() {
   return (
     <>
-      <MyNavbar />
       <Container className="py-4">
         <Row>
           {/* SIDEBAR LATERALE */}
-          <Col xs={12} md={3}>
+          <Col md={3}>
             <SideNavbar />
           </Col>
 
           {/* HOME */}
           <Col xs={12} md={9}>
             <section id="intro">
-              <div className="text-center">{/* <img src={LogoWLM} alt="Logo Wine Label Maker" className="img-fluid w-80" /> */}</div>
+              <div className="text-center"></div>
             </section>
 
             <section id="chi-siamo" className="py-5 ">

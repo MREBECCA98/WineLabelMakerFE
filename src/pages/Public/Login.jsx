@@ -1,10 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col, Alert, InputGroup } from "react-bootstrap";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router-dom";
-import MyNavbar from "../../components/MyNavbar";
+
+//localStorage.setItem("chiave", "valore") - salva un dato.
+//localStorage.getItem("chiave") - recupera un dato.
+//localStorage.removeItem("chiave") - elimina un dato specifico.
+//localStorage.clear() - elimina tutti i dati salvati.
 
 function Login() {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+
+    if (token && role) {
+      if (role === "Admin") navigate("/adminPage");
+      else navigate("/userPage");
+    }
+  }, []);
+
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -25,6 +39,7 @@ function Login() {
       return;
     }
 
+    //FETCH LOGIN
     try {
       const response = await fetch("https://localhost:7046/api/AspNetUser/Login", {
         method: "POST",
@@ -74,13 +89,11 @@ function Login() {
 
   return (
     <>
-      <MyNavbar />
       <Container className="mt-5">
         <Row className="justify-content-center">
           <Col xs={12} md={8} lg={6}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">IL TUO PRODOTTO - LA TUA STORIA!</h2>
             <p className="text-center bubbler-one-regular  fs-3">
-              {" "}
               Accedi per raccontarci l'esprit del tuo prodotto, lasciaci trasformare il tuo vino in un’opera d’arte!
             </p>
 
@@ -139,6 +152,7 @@ function Login() {
               </div>
             </Form>
 
+            {/* //REGISTER LINK */}
             <div className="text-center mt-5">
               <span className="bubbler-one-regular fs-5">Non hai un account? </span>
               <Link to="/register" className="bubbler-one-regular fs-5 fw-bold text-decoration-none">
