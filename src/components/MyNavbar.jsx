@@ -21,7 +21,12 @@ function MyNavbar() {
         {/* LOGO & HOME */}
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
           <img src={Logo} alt="LogoWLM" width={270} />
-          <span className="bubbler-one-regular d-none d-sm-inline fs-1  ">Wine Label Maker</span>
+          <span
+            className="bubbler-one-regular d-none d-md-inline fs-1 
+            "
+          >
+            Wine Label Maker
+          </span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

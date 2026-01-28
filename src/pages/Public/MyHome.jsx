@@ -14,7 +14,9 @@ function MyHome() {
           {/* HOME */}
           <Col xs={12} md={9}>
             <section id="intro">
-              <div className="text-center"></div>
+              <div className="text-center">
+                <h1 className="bubbler-one-regular d-md-none   ">Wine Label Maker</h1>
+              </div>
             </section>
 
             <section id="chi-siamo" className="py-5 ">

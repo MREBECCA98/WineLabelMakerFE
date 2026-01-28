@@ -10,12 +10,14 @@
 
 /* NAVBAR */
 .bg-navbar {
-  border-top: 2.5px solid #790c0a;
-  border-bottom: 2.5px solid #790c0a;
+  padding: 20px;
+  border-top: 3px solid #790c0a;
+  border-bottom: 3px solid #790c0a;
   background-color: white;
 }
 @media (max-width: 768px) {
   .bg-navbar {
+    padding: 0px;
     border-top: 1.5px solid #790c0a;
     border-bottom: 1.5px solid #790c0a;
   }
