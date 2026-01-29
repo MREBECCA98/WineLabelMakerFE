@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col, Alert, InputGroup } from "react-bootstrap";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router-dom";
+import MyNavbar from "../../components/MyNavbar";
 
 //localStorage.setItem("chiave", "valore") - salva un dato.
 //localStorage.getItem("chiave") - recupera un dato.
@@ -14,8 +15,8 @@ function Login() {
     const role = localStorage.getItem("role");
 
     if (token && role) {
-      if (role === "Admin") navigate("/adminPage");
-      else navigate("/userPage");
+      if (role === "Admin") navigate("/message");
+      else navigate("/wineLabel");
     }
   }, []);
 
@@ -70,9 +71,9 @@ function Login() {
 
         //USE NAVIGATE IN BASE AL RUOLO
         if (data.role === "Admin") {
-          navigate("/adminPage");
+          navigate("/message");
         } else {
-          navigate("/userPage");
+          navigate("/wineLabel");
         }
       }, 2000);
     } catch (error) {
@@ -89,6 +90,7 @@ function Login() {
 
   return (
     <>
+      <MyNavbar />
       <Container className="mt-5">
         <Row className="justify-content-center">
           <Col xs={12} md={8} lg={6}>

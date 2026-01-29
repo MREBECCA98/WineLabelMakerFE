@@ -1,4 +1,11 @@
+import NavbarAdmin from "../../components/NavbarAdmin";
+
 function AdminPage() {
-  return <h1>Benvenuto nella pagina Admin</h1>;
+  return (
+    <>
+      <NavbarAdmin />
+      <h1>Benvenuto nella pagina Admin</h1>;
+    </>
+  );
 }
 export default AdminPage;

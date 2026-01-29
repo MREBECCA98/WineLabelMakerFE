@@ -1,9 +1,11 @@
 import { Col, Container, Row } from "react-bootstrap";
 import SideNavbar from "../../components/SideNavbar";
+import MyNavbar from "../../components/MyNavbar";
 
 function MyHome() {
   return (
     <>
+      <MyNavbar />
       <Container className="py-4">
         <Row>
           {/* SIDEBAR LATERALE */}

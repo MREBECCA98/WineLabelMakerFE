@@ -2,6 +2,7 @@ import { Alert, Button, Col, Container, Form, InputGroup, Row } from "react-boot
 import { useState } from "react";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
+import MyNavbar from "../../components/MyNavbar";
 
 function Register() {
   const navigate = useNavigate();
@@ -88,6 +89,7 @@ function Register() {
 
   return (
     <>
+      <MyNavbar />
       <Container className="mt-5">
         <Row className="justify-content-center">
           <Col xs={12} md={8} lg={6}>
