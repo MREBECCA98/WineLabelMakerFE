@@ -24,7 +24,7 @@ function NavbarUser() {
         <Navbar.Collapse id="basic-navbar-nav">
           {/*RICHIESTE  */}
           <Nav className="ms-auto">
-            <Nav.Link as={Link} to="/userRequest" className="d-flex align-items-center bubbler-one-regular fs-3 text-black" style={{ fontSize: "24px" }}>
+            <Nav.Link as={Link} to="/userRequestMade" className="d-flex align-items-center bubbler-one-regular fs-3 text-black" style={{ fontSize: "24px" }}>
               Richieste
             </Nav.Link>
 

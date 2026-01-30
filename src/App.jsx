@@ -9,6 +9,7 @@ import { Route, Routes } from "react-router-dom";
 import AdminPage from "./pages/Admin/AdminPage.jsx";
 import UserWineLabel from "./pages/Client/UserWineLabel.jsx";
 import UserRequest from "./pages/Client/UserRequest.jsx";
+import UserRequestMade from "./pages/Client/UserRequestMade.jsx";
 //path home: /,
 //path i nostri lavori: work,
 //path login: login
@@ -16,6 +17,7 @@ import UserRequest from "./pages/Client/UserRequest.jsx";
 //path adminPage: message
 //path userWineLabel: wineLabel
 //path userRequest: userRequest
+//path UserRequestMade: userRequestMade
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
           <Route path="/message" element={<AdminPage />} />
           <Route path="/wineLabel" element={<UserWineLabel />} />
           <Route path="/userRequest" element={<UserRequest />} />
+          <Route path="/userRequestMade" element={<UserRequestMade />} />
         </Routes>
       </main>
       <MyFooter />

@@ -1,11 +1,21 @@
 import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import NavbarUser from "../../components/NavbarUser";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function UserRequest() {
   const [description, setDescription] = useState("");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
+  //
+  const handleClick = () => {
+    setTimeout(() => {
+      navigate("/userRequestMade");
+    }, 2000);
+  };
 
   const handleCreate = async (e) => {
     e.preventDefault();
@@ -59,7 +69,8 @@ function UserRequest() {
           <Col xs={12} md={8} lg={6}>
             <h1 className="text-center bubbler-one-regular fw-bold fs-1">Benvenuto nella pagina Richieste</h1>
 
-            <Form onSubmit={handleCreate}>
+            {/* FORM RICHIESTA */}
+            <Form onSubmit={handleCreate} className="mt-4">
               <Form.Group className="mb-3" controlId="formDescription">
                 <Form.Label className="bubbler-one-regular fs-5">Descrizione prodotto</Form.Label>
                 <Form.Control
@@ -93,7 +104,7 @@ function UserRequest() {
               ) : null}
 
               <div className="d-flex justify-content-center mt-5">
-                <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-5 fw-bold w-100">
+                <Button onClick={handleClick} variant="white" type="submit" className="border border-dark bubbler-one-regular fs-5 fw-bold w-100">
                   Invia descrizione
                 </Button>
               </div>
