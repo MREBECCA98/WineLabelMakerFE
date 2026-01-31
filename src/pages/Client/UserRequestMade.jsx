@@ -1,12 +1,44 @@
-import { Alert, Col, Container, Row, Table } from "react-bootstrap";
+import { Alert, Button, Col, Container, Row, Table } from "react-bootstrap";
 import NavbarUser from "../../components/NavbarUser";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { PencilSquare, Trash3 } from "react-bootstrap-icons";
 
 function UserRequestMade() {
   const [requests, setRequests] = useState([]);
+  const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
+  // DELETE
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`https://localhost:7046/api/Request/deleteRequest/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Errore durante l'eliminazione!");
+      }
+      setRequests((deleteRequest) => deleteRequest.filter((r) => r.idRequest !== id));
+      setSuccess("Descrizione del prodotto eliminata con successo!");
+      setTimeout(() => {
+        setSuccess("");
+      }, 2000);
+    } catch (error) {
+      setError(error.message);
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+    }
+  };
+
+  // TUTTE LE RICHIESTE PER UTENETE
   useEffect(() => {
     const allRequests = async () => {
       const token = localStorage.getItem("token");
@@ -48,17 +80,31 @@ function UserRequestMade() {
           <Col xs={12} md={12} lg={12}>
             {/* RICHIESTE EFFETTUATE */}
 
+            {/* ALERT SUCCESS */}
+            {success ? (
+              <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
+                {success}
+              </Alert>
+            ) : null}
+
+            {/* ALERT ERROR */}
+            {error ? (
+              <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
+                {error}
+              </Alert>
+            ) : null}
+
             {/* SE CI SONO RICHIESTE */}
             {requests.length > 0 ? (
               <>
                 <h1 className="text-center bubbler-one-regular fw-bold fs-1"> Richieste Effettuate</h1>
 
-                <Table bordered hover className="mt-4">
+                <Table bordered hover className="mt-4 bubbler-one-regular fs-4">
                   <thead className="text-center">
                     <tr>
-                      <th>Data di creazione</th>
-                      <th>Descrizione prodotto</th>
-                      <th>Stato della richiesta</th>
+                      <th>DATA DI CREAZIONE</th>
+                      <th>DESCRIZIONE PRODOTTO</th>
+                      <th>STATO DELLA RIHIESTA</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -74,13 +120,31 @@ function UserRequestMade() {
                               color: r.status === "Completed" ? "green" : r.status === "Pending" ? "blue" : r.status === "InProgress" ? "orange" : "red",
                             }}
                           >
-                            {r.status === "Completed"
-                              ? "COMPLETATA"
-                              : r.status === "Pending"
-                                ? "IN ATTESA"
-                                : r.status === "InProgress"
-                                  ? "IN LAVORAZIONE"
-                                  : "RIFIUTATA"}
+                            {r.status === "Completed" ? (
+                              "COMPLETATA"
+                            ) : r.status === "Pending" ? (
+                              <div className="d-flex align-items-center flex-column">
+                                <span>IN ATTESA</span>
+                                <div className="d-flex gap-1">
+                                  <Button size="lg" variant="light">
+                                    <PencilSquare />
+                                  </Button>
+                                  <Button
+                                    onClick={() => {
+                                      handleDelete(r.idRequest);
+                                    }}
+                                    size="lg"
+                                    variant="light"
+                                  >
+                                    <Trash3 />
+                                  </Button>
+                                </div>
+                              </div>
+                            ) : r.status === "InProgress" ? (
+                              "IN LAVORAZIONE"
+                            ) : (
+                              "RIFIUTATA"
+                            )}
                           </td>
                         </tr>
                       ))}

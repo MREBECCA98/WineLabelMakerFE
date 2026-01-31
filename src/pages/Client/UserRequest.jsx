@@ -10,13 +10,14 @@ function UserRequest() {
 
   const navigate = useNavigate();
 
-  //
+  //BUTTON-CLICK
   const handleClick = () => {
     setTimeout(() => {
       navigate("/userRequestMade");
     }, 2000);
   };
 
+  //CREATE
   const handleCreate = async (e) => {
     e.preventDefault();
 
@@ -30,6 +31,7 @@ function UserRequest() {
     }
 
     const token = localStorage.getItem("token");
+
     //FETCH CREATE DESCRIPTION
     try {
       const response = await fetch("https://localhost:7046/api/Request/CreateRequest", {
