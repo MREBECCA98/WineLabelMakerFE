@@ -46,3 +46,14 @@
 .content {
   flex: 1;
 }
+
+/* RICHIESTE UTENTE */
+.description {
+  max-height: 150px;
+  overflow-y: auto;
+}
+@media (max-width: 576px) {
+  .description {
+    max-height: 120px;
+  }
+}

@@ -78,7 +78,9 @@ function UserRequestMade() {
         <Row className="justify-content-center">
           <Col xs={12} md={12} lg={12}>
             {/* RICHIESTE EFFETTUATE */}
-            <h1 className="text-center bubbler-one-regular fw-bold fs-1">Richieste Effettuate</h1>
+            <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">LE STORIE DEI TUOI VINI...</h2>
+            <p className="mt-3 mb-0 text-center bubbler-one-regular fs-sm-5 fs-3 ">Racconta i tuoi vini e segui le loro storie</p>
+            <p className="text-center bubbler-one-regular fs-sm-5 fs-3 ">In questa pagina troverai tutte le descrizioni inviate e il loro progresso</p>
             {/* ALERT SUCCESS */}
             {success ? (
               <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
@@ -96,7 +98,11 @@ function UserRequestMade() {
             {/* PAGINA SENZA RICHIESTE */}
             {requests.length === 0 && (
               <>
-                <Alert variant="light" className="bubbler-one-regular fs-4 p-5 text-center mt-5 fw-bold border border-dark">
+                <Alert
+                  style={{ height: "300px" }}
+                  variant="light"
+                  className="d-flex justify-content-center flex-column bubbler-one-regular fs-4 p-5 text-center mt-5 fw-bold border border-gray"
+                >
                   IL TUO VINO ASPETTA DI ESSERE RACCONTATO...
                   <div>
                     <Link to="/userRequest" className="bubbler-one-regular fs-5 fw-bold text-decoration-none">
@@ -110,7 +116,7 @@ function UserRequestMade() {
             {/* SE CI SONO RICHIESTE */}
             {requests.length > 0 && (
               <>
-                <Table bordered hover className="mt-4 bubbler-one-regular fs-4">
+                <Table responsive hover className="mt-4 bubbler-one-regular fs-4">
                   <thead className="text-center">
                     <tr>
                       <th>DATA DI CREAZIONE</th>
@@ -123,8 +129,10 @@ function UserRequestMade() {
                       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                       .map((r) => (
                         <tr key={r.idRequest}>
-                          <td className="text-center">{new Date(r.createdAt).toLocaleDateString()}</td>
-                          <td>{r.description}</td>
+                          <td className="text-center fs-5">{new Date(r.createdAt).toLocaleDateString()}</td>
+                          <div className="description">
+                            <td>{r.description} AGGIUNGERE MODALE!</td>
+                          </div>
                           <td
                             className="text-center"
                             style={{
