@@ -10,6 +10,7 @@ import AdminPage from "./pages/Admin/AdminPage.jsx";
 import UserWineLabel from "./pages/Client/UserWineLabel.jsx";
 import UserRequest from "./pages/Client/UserRequest.jsx";
 import UserRequestMade from "./pages/Client/UserRequestMade.jsx";
+import UpdateRequest from "./pages/Client/UpdateRequest.jsx";
 //path home: /,
 //path i nostri lavori: work,
 //path login: login
@@ -18,6 +19,7 @@ import UserRequestMade from "./pages/Client/UserRequestMade.jsx";
 //path userWineLabel: wineLabel
 //path userRequest: userRequest
 //path UserRequestMade: userRequestMade
+//path UpdateRequest: updateRequest
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
           <Route path="/wineLabel" element={<UserWineLabel />} />
           <Route path="/userRequest" element={<UserRequest />} />
           <Route path="/userRequestMade" element={<UserRequestMade />} />
+          <Route path="/updateRequest/:id" element={<UpdateRequest />} />
         </Routes>
       </main>
       <MyFooter />

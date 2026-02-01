@@ -1,6 +1,6 @@
 import { Alert, Button, Col, Container, Row, Table } from "react-bootstrap";
 import NavbarUser from "../../components/NavbarUser";
-import { Link } from "react-router-dom";
+import { Link, Links } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { PencilSquare, Trash3 } from "react-bootstrap-icons";
 
@@ -8,6 +8,8 @@ function UserRequestMade() {
   const [requests, setRequests] = useState([]);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+
+  //UPDATE
 
   // DELETE
   const handleDelete = async (id) => {
@@ -58,14 +60,11 @@ function UserRequestMade() {
 
         const data = await response.json();
         setRequests(data);
-
-        if (data.length === 0) {
-          setError("IL TUO VINO ASPETTA DI ESSERE RACCONTATO...");
-        } else {
-          setError("");
-        }
       } catch (error) {
         setError(error.message);
+        setTimeout(() => {
+          setError("");
+        }, 2000);
       }
     };
 
@@ -79,7 +78,7 @@ function UserRequestMade() {
         <Row className="justify-content-center">
           <Col xs={12} md={12} lg={12}>
             {/* RICHIESTE EFFETTUATE */}
-
+            <h1 className="text-center bubbler-one-regular fw-bold fs-1">Richieste Effettuate</h1>
             {/* ALERT SUCCESS */}
             {success ? (
               <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
@@ -94,17 +93,29 @@ function UserRequestMade() {
               </Alert>
             ) : null}
 
-            {/* SE CI SONO RICHIESTE */}
-            {requests.length > 0 ? (
+            {/* PAGINA SENZA RICHIESTE */}
+            {requests.length === 0 && (
               <>
-                <h1 className="text-center bubbler-one-regular fw-bold fs-1"> Richieste Effettuate</h1>
+                <Alert variant="light" className="bubbler-one-regular fs-4 p-5 text-center mt-5 fw-bold border border-dark">
+                  IL TUO VINO ASPETTA DI ESSERE RACCONTATO...
+                  <div>
+                    <Link to="/userRequest" className="bubbler-one-regular fs-5 fw-bold text-decoration-none">
+                      Clicca qui per dare vita alla sua storia !
+                    </Link>
+                  </div>
+                </Alert>
+              </>
+            )}
 
+            {/* SE CI SONO RICHIESTE */}
+            {requests.length > 0 && (
+              <>
                 <Table bordered hover className="mt-4 bubbler-one-regular fs-4">
                   <thead className="text-center">
                     <tr>
                       <th>DATA DI CREAZIONE</th>
                       <th>DESCRIZIONE PRODOTTO</th>
-                      <th>STATO DELLA RIHIESTA</th>
+                      <th>STATO DELLA RICHIESTA</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -126,7 +137,7 @@ function UserRequestMade() {
                               <div className="d-flex align-items-center flex-column">
                                 <span>IN ATTESA</span>
                                 <div className="d-flex gap-1">
-                                  <Button size="lg" variant="light">
+                                  <Button as={Link} to={`/updateRequest/${r.idRequest}`} size="lg" variant="light">
                                     <PencilSquare />
                                   </Button>
                                   <Button
@@ -150,25 +161,13 @@ function UserRequestMade() {
                       ))}
                   </tbody>
                 </Table>
+
                 <div className="text-center mt-5 bubbler-one-regular fs-5 fw-bold">
                   <p className="fs-4">VUOI CONDIVIDERE LA STORIA DI UN NUOVO VINO?</p>
-                  <Link to="/userRequest" className="text-decoration-none ">
+                  <Link to="/userRequest" className="text-decoration-none">
                     Clicca qui per procedere con la tua richiesta
                   </Link>
                 </div>
-              </>
-            ) : (
-              <>
-                <h1 className="text-center bubbler-one-regular fw-bold fs-1"> Effettua una richiesta</h1>
-
-                <Alert variant="light" className="bubbler-one-regular fs-4 p-5 text-center mt-5 fw-bold border border-dark">
-                  {error}
-                  <div>
-                    <Link to="/userRequest" className="bubbler-one-regular fs-5 fw-bold text-decoration-none">
-                      Clicca qui per dare vita alla sua storia !
-                    </Link>
-                  </div>
-                </Alert>
               </>
             )}
           </Col>
