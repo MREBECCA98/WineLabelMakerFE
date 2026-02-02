@@ -1,15 +1,17 @@
-import { Alert, Button, Col, Container, Row, Table } from "react-bootstrap";
+import { Alert, Button, Col, Container, Modal, Row, Table } from "react-bootstrap";
 import NavbarUser from "../../components/NavbarUser";
 import { Link, Links } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { PencilSquare, Trash3 } from "react-bootstrap-icons";
+import { JournalText, PencilSquare, Trash3 } from "react-bootstrap-icons";
 
 function UserRequestMade() {
   const [requests, setRequests] = useState([]);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
-  //UPDATE
+  // MODALE
+  const [modal, setModal] = useState(false);
+  const [modalRequest, setmodalRequest] = useState(null);
 
   // DELETE
   const handleDelete = async (id) => {
@@ -27,7 +29,7 @@ function UserRequestMade() {
       if (!response.ok) {
         throw new Error("Errore durante l'eliminazione!");
       }
-      setRequests((deleteRequest) => deleteRequest.filter((r) => r.idRequest !== id));
+      setRequests((allRequest) => allRequest.filter((deleteRequest) => deleteRequest.idRequest !== id));
       setSuccess("Descrizione del prodotto eliminata con successo!");
       setTimeout(() => {
         setSuccess("");
@@ -127,30 +129,48 @@ function UserRequestMade() {
                   <tbody>
                     {requests
                       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                      .map((r) => (
-                        <tr key={r.idRequest}>
-                          <td className="text-center fs-5">{new Date(r.createdAt).toLocaleDateString()}</td>
-                          <div className="description">
-                            <td>{r.description} AGGIUNGERE MODALE!</td>
-                          </div>
+                      .map((request) => (
+                        <tr key={request.idRequest}>
+                          <td className="text-center fs-5">{new Date(request.createdAt).toLocaleDateString()}</td>
+
+                          {/* BOTTONE MODALE DESCRIZIONE */}
+                          <td className="text-center">
+                            <Button
+                              onClick={() => {
+                                setmodalRequest(request);
+                                setModal(true);
+                              }}
+                              className="text-black bg-white border border-white"
+                            >
+                              <JournalText className="fs-1" />
+                            </Button>
+                          </td>
+
                           <td
                             className="text-center"
                             style={{
-                              color: r.status === "Completed" ? "green" : r.status === "Pending" ? "blue" : r.status === "InProgress" ? "orange" : "red",
+                              color:
+                                request.status === "Completed"
+                                  ? "green"
+                                  : request.status === "Pending"
+                                    ? "blue"
+                                    : request.status === "InProgress"
+                                      ? "orange"
+                                      : "red",
                             }}
                           >
-                            {r.status === "Completed" ? (
+                            {request.status === "Completed" ? (
                               "COMPLETATA"
-                            ) : r.status === "Pending" ? (
+                            ) : request.status === "Pending" ? (
                               <div className="d-flex align-items-center flex-column">
                                 <span>IN ATTESA</span>
                                 <div className="d-flex gap-1">
-                                  <Button as={Link} to={`/updateRequest/${r.idRequest}`} size="lg" variant="light">
+                                  <Button as={Link} to={`/updateRequest/${request.idRequest}`} size="lg" variant="light">
                                     <PencilSquare />
                                   </Button>
                                   <Button
                                     onClick={() => {
-                                      handleDelete(r.idRequest);
+                                      handleDelete(request.idRequest);
                                     }}
                                     size="lg"
                                     variant="light"
@@ -159,7 +179,7 @@ function UserRequestMade() {
                                   </Button>
                                 </div>
                               </div>
-                            ) : r.status === "InProgress" ? (
+                            ) : request.status === "InProgress" ? (
                               "IN LAVORAZIONE"
                             ) : (
                               "RIFIUTATA"
@@ -169,6 +189,17 @@ function UserRequestMade() {
                       ))}
                   </tbody>
                 </Table>
+
+                {/* MODALE DESCRIZIONE*/}
+                <Modal show={modal} onHide={() => setModal(false)} centered>
+                  <Modal.Header closeButton>
+                    <Modal.Title className="bubbler-one-regular text-black fw-bold">Descrizione prodotto</Modal.Title>
+                  </Modal.Header>
+
+                  <Modal.Body>
+                    <p className="fs-5 bubbler-one-regular text-black">{modalRequest?.description}</p>
+                  </Modal.Body>
+                </Modal>
 
                 <div className="text-center mt-5 bubbler-one-regular fs-5 fw-bold">
                   <p className="fs-4">VUOI CONDIVIDERE LA STORIA DI UN NUOVO VINO?</p>

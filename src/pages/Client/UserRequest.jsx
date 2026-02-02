@@ -95,18 +95,7 @@ function UserRequest() {
                 dipinto per ore..
               </p>
             </div>
-            {/* ALERT SUCCESS */}
-            {success ? (
-              <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
-                {success}
-              </Alert>
-            ) : null}
-            {/* ALERT ERROR */}
-            {error ? (
-              <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
-                {error}
-              </Alert>
-            ) : null}
+
             {/* FORM RICHIESTA */}
             <Form onSubmit={handleCreate} className="mt-4">
               <Form.Group className="mb-3" controlId="formDescription">
@@ -126,6 +115,19 @@ function UserRequest() {
                   <li style={{ color: description.length >= 5000 ? "red" : "green" }}>Raccontaci tutto sul tuo prodotto, in massimo 5000 caratteri</li>
                 </ul>
               </Form.Group>
+
+              {/* ALERT SUCCESS */}
+              {success ? (
+                <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
+                  {success}
+                </Alert>
+              ) : null}
+              {/* ALERT ERROR */}
+              {error ? (
+                <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
+                  {error}
+                </Alert>
+              ) : null}
 
               <div className="d-flex justify-content-center mt-5">
                 <Button onClick={handleClick} variant="white" type="submit" className="border border-dark bubbler-one-regular fs-5 fw-bold w-100">

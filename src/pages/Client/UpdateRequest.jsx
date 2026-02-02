@@ -81,20 +81,6 @@ function UpdateRequest() {
           <Col xs={12} md={8} lg={6}>
             <h1 className="text-center bubbler-one-regular fw-bold fs-1">Modifica descrizione </h1>
 
-            {/* ALERT SUCCESS */}
-            {success ? (
-              <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
-                {success}
-              </Alert>
-            ) : null}
-
-            {/* ALERT ERROR */}
-            {error ? (
-              <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
-                {error}
-              </Alert>
-            ) : null}
-
             {/* FORM MODIFICA */}
             <Form onSubmit={handleUpdate} className="mt-4">
               <Form.Group className="mb-3" controlId="formDescription">
@@ -114,6 +100,20 @@ function UpdateRequest() {
                   <li style={{ color: description.length >= 5000 ? "red" : "green" }}>Raccontaci tutto sul tuo prodotto, in massimo 5000 caratteri</li>
                 </ul>
               </Form.Group>
+
+              {/* ALERT SUCCESS */}
+              {success ? (
+                <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
+                  {success}
+                </Alert>
+              ) : null}
+
+              {/* ALERT ERROR */}
+              {error ? (
+                <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
+                  {error}
+                </Alert>
+              ) : null}
 
               <div className="d-flex justify-content-center mt-5">
                 <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-5 fw-bold w-100">
