@@ -11,7 +11,7 @@ function UserRequestMade() {
 
   // MODALE
   const [modal, setModal] = useState(false);
-  const [modalRequest, setmodalRequest] = useState(null);
+  const [modalRequest, setModalRequest] = useState(null);
 
   // DELETE
   const handleDelete = async (id) => {
@@ -137,7 +137,7 @@ function UserRequestMade() {
                           <td className="text-center">
                             <Button
                               onClick={() => {
-                                setmodalRequest(request);
+                                setModalRequest(request);
                                 setModal(true);
                               }}
                               className="text-black bg-white border border-white"
