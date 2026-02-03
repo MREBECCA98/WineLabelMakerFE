@@ -1,45 +1,112 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import NavbarAdmin from "../../components/NavbarAdmin";
-import { Alert, Button, Col, Container, Modal, Row, Table } from "react-bootstrap";
-import { JournalText } from "react-bootstrap-icons";
+import { Alert, Button, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
+import { JournalText, PencilSquare, Trash3 } from "react-bootstrap-icons";
 
 function AdminRequestUser() {
   const { email } = useParams();
-  const [request, setRequest] = useState([]);
+  const [requests, setRequests] = useState([]);
+  const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
-  // MODALE
-  const [modal, setModal] = useState(false);
-  const [modalRequest, setModalRequest] = useState(null);
+  //MODALE DESCRIZIONE
+  const [modalDescription, setModalDescription] = useState(false);
+  const [modalDescriptionRequest, setModalDescriptionRequest] = useState(null);
+
+  //MODALE STATO
+  const [modalStatus, setModalStatus] = useState(false);
+  const [modalStatusRequest, setModalStatusRequest] = useState("");
+  const [newStatus, setNewStatus] = useState("");
+
+  const status = {
+    Pending: 0,
+    InProgress: 1,
+    Completed: 2,
+    Rejected: 3,
+  };
+
+  const handleUpdateStatus = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`https://localhost:7046/api/Request/updateAdmin/${modalStatusRequest.idRequest}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Errore nell'aggiornamento dello stato!");
+      }
+
+      userRequest();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // DELETE
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch(`https://localhost:7046/api/Request/deleteRequest/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Errore durante l'eliminazione!");
+      }
+      setRequests((allRequest) => allRequest.filter((deleteRequest) => deleteRequest.idRequest !== id));
+      setSuccess("Descrizione del prodotto eliminata con successo!");
+      setTimeout(() => {
+        setSuccess("");
+      }, 2000);
+    } catch (error) {
+      setError(error.message);
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+    }
+  };
+
+  //FETCH RICHIESTE IN BASE ALL'UTENTE
+  const userRequest = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch("https://localhost:7046/api/Request/allRequest", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Errore nel recupero delle richieste!");
+      }
+
+      const data = await response.json();
+
+      const filtered = data.filter((request) => request.userEmail === email);
+      setRequests(filtered);
+      console.log("filtered", filtered);
+    } catch (error) {
+      setError(error.message);
+      setTimeout(() => {
+        setError("");
+      }, 2000);
+    }
+  };
 
   useEffect(() => {
-    const userRequest = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const response = await fetch("https://localhost:7046/api/Request/allRequest", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Errore nel recupero delle richieste!");
-        }
-
-        const data = await response.json();
-
-        const filtered = data.filter((request) => request.userEmail === email);
-        setRequest(filtered);
-        console.log("filtered", filtered);
-      } catch (error) {
-        setError(error.message);
-        setTimeout(() => {
-          setError("");
-        }, 2000);
-      }
-    };
     userRequest();
   }, [email]);
 
@@ -50,7 +117,23 @@ function AdminRequestUser() {
         <Row>
           <Col xs={12} md={12} lg={12}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RICHIESTE SINGOLO UTENTE</h2>
-            {request.length === 0 && (
+
+            {/* ALERT SUCCESS FOR DELETE, eliminata con successo*/}
+            {success ? (
+              <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
+                {success}
+              </Alert>
+            ) : null}
+
+            {/* ALERT ERROR FOR DELETE, error 404 */}
+            {error ? (
+              <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
+                {error}
+              </Alert>
+            ) : null}
+
+            {/* ALERT ERROR SE NON CI SONO UTENTI */}
+            {requests.length === 0 && (
               <>
                 <Alert
                   style={{ height: "300px" }}
@@ -61,8 +144,7 @@ function AdminRequestUser() {
                 </Alert>
               </>
             )}
-
-            {request.length > 0 && (
+            {requests.length > 0 && (
               <Table responsive hover className="mt-4 bubbler-one-regular fs-4">
                 <thead className="text-center">
                   <tr>
@@ -72,7 +154,7 @@ function AdminRequestUser() {
                   </tr>
                 </thead>
                 <tbody>
-                  {request
+                  {requests
                     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                     .map((request) => (
                       <tr key={request.idRequest}>
@@ -82,8 +164,8 @@ function AdminRequestUser() {
                         <td className="text-center">
                           <Button
                             onClick={() => {
-                              setModalRequest(request);
-                              setModal(true);
+                              setModalDescriptionRequest(request);
+                              setModalDescription(true);
                             }}
                             className="text-black bg-white border border-white"
                           >
@@ -109,12 +191,54 @@ function AdminRequestUser() {
                           ) : request.status === "Pending" ? (
                             <div className="d-flex align-items-center flex-column">
                               <span>IN ATTESA</span>
-                              <div className="d-flex gap-1">{/* AGGIUNGERE IL BOTTONE PER POTER CAMBIARE LO STATO */}</div>
+                              <div className="d-flex gap-1">
+                                {/* BOTTONE MODALE STATO */}
+                                <Button
+                                  size="lg"
+                                  variant="light"
+                                  onClick={() => {
+                                    setModalStatusRequest(request);
+                                    setModalStatus(true);
+                                    setNewStatus(status[request.status]);
+                                  }}
+                                >
+                                  <PencilSquare />
+                                </Button>
+                              </div>
                             </div>
                           ) : request.status === "InProgress" ? (
-                            "IN LAVORAZIONE"
+                            <div className="d-flex align-items-center flex-column">
+                              <span>IN LAVORAZIONE</span>
+                              <div className="d-flex gap-1">
+                                {/* BOTTONE MODALE STATO */}
+                                <Button
+                                  size="lg"
+                                  variant="light"
+                                  onClick={() => {
+                                    setModalStatusRequest(request);
+                                    setModalStatus(true);
+                                    setNewStatus(status[request.status]);
+                                  }}
+                                >
+                                  <PencilSquare />
+                                </Button>
+                              </div>
+                            </div>
                           ) : (
-                            "RIFIUTATA"
+                            <div className="d-flex align-items-center flex-column">
+                              <span>RIFIUTATA</span>
+                              <div className="d-flex gap-1">
+                                <Button
+                                  size="lg"
+                                  variant="light"
+                                  onClick={() => {
+                                    handleDelete(request.idRequest);
+                                  }}
+                                >
+                                  <Trash3 />
+                                </Button>
+                              </div>
+                            </div>
                           )}
                         </td>
                       </tr>
@@ -124,14 +248,40 @@ function AdminRequestUser() {
             )}
 
             {/* MODALE DESCRIZIONE*/}
-            <Modal show={modal} onHide={() => setModal(false)} centered>
+            <Modal show={modalDescription} onHide={() => setModalDescription(false)} centered>
               <Modal.Header closeButton>
                 <Modal.Title className="bubbler-one-regular text-black fw-bold">Descrizione prodotto</Modal.Title>
               </Modal.Header>
 
               <Modal.Body>
-                <p className="fs-5 bubbler-one-regular text-black">{modalRequest?.description}</p>
+                <p className="fs-5 bubbler-one-regular text-black">{modalDescriptionRequest?.description}</p>
               </Modal.Body>
+            </Modal>
+
+            {/* const [modalStatus, setModalStatus] = useState(false);
+  const [modalStatusRequest, setModalStatusRequest] = useState("");
+  const [newStatus, setNewStatus] = useState(""); */}
+
+            {/* MODALE STATO*/}
+            <Modal show={modalStatus} onHide={() => setModalStatus(false)} centered>
+              <Modal.Header closeButton>
+                <Modal.Title className="bubbler-one-regular text-black fw-bold">Stato della richiesta</Modal.Title>
+              </Modal.Header>
+
+              <Modal.Body>
+                <Form.Select value={newStatus} onChange={(e) => setNewStatus(Number(e.target.value))}>
+                  <option value={0}>In attesa</option>
+                  <option value={1}>In lavorazione</option>
+                  <option value={2}>Completata</option>
+                  <option value={3}>Rifiutata</option>
+                </Form.Select>
+              </Modal.Body>
+
+              <Modal.Footer>
+                <Button onClick={handleUpdateStatus} className="bubbler-one-regular bg-white border text-black fs-5 fw-bold">
+                  Salva
+                </Button>
+              </Modal.Footer>
             </Modal>
           </Col>
         </Row>
