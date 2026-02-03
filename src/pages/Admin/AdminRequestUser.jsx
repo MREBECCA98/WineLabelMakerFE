@@ -49,35 +49,6 @@ function AdminRequestUser() {
     }
   };
 
-  // DELETE
-  const handleDelete = async (id) => {
-    const token = localStorage.getItem("token");
-
-    try {
-      const response = await fetch(`https://localhost:7046/api/Request/deleteRequest/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Errore durante l'eliminazione!");
-      }
-      setRequests((allRequest) => allRequest.filter((deleteRequest) => deleteRequest.idRequest !== id));
-      setSuccess("Descrizione del prodotto eliminata con successo!");
-      setTimeout(() => {
-        setSuccess("");
-      }, 2000);
-    } catch (error) {
-      setError(error.message);
-      setTimeout(() => {
-        setError("");
-      }, 2000);
-    }
-  };
-
   //FETCH RICHIESTE IN BASE ALL'UTENTE
   const userRequest = async () => {
     const token = localStorage.getItem("token");
@@ -97,7 +68,6 @@ function AdminRequestUser() {
 
       const filtered = data.filter((request) => request.userEmail === email);
       setRequests(filtered);
-      console.log("filtered", filtered);
     } catch (error) {
       setError(error.message);
       setTimeout(() => {
@@ -116,7 +86,7 @@ function AdminRequestUser() {
       <Container className="mt-5">
         <Row>
           <Col xs={12} md={12} lg={12}>
-            <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RICHIESTE SINGOLO UTENTE</h2>
+            <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RICHIESTE</h2>
 
             {/* ALERT SUCCESS FOR DELETE, eliminata con successo*/}
             {success ? (
@@ -225,20 +195,7 @@ function AdminRequestUser() {
                               </div>
                             </div>
                           ) : (
-                            <div className="d-flex align-items-center flex-column">
-                              <span>RIFIUTATA</span>
-                              <div className="d-flex gap-1">
-                                <Button
-                                  size="lg"
-                                  variant="light"
-                                  onClick={() => {
-                                    handleDelete(request.idRequest);
-                                  }}
-                                >
-                                  <Trash3 />
-                                </Button>
-                              </div>
-                            </div>
+                            "RIFIUTATA"
                           )}
                         </td>
                       </tr>

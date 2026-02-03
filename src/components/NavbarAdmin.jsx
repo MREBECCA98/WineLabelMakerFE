@@ -25,7 +25,7 @@ function NavbarAdmin() {
           {/*MESSAGGI */}
           <Nav className="ms-auto">
             <Nav.Link as={Link} to="/message" className="d-flex align-items-center bubbler-one-regular fs-3 text-black" style={{ fontSize: "24px" }}>
-              Messaggi
+              Richieste
             </Nav.Link>
 
             {/*LOGOUT*/}

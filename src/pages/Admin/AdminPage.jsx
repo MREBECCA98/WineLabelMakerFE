@@ -45,6 +45,8 @@ function AdminPage() {
     if (!user) {
       users.push({
         email: request.userEmail,
+        name: request.userName,
+        surname: request.userSurname,
         status: request.status === "Pending",
       });
     } else {
@@ -84,17 +86,24 @@ function AdminPage() {
 
             {/* SE CI SONO RICHIESTE */}
             {requests.length > 0 && (
-              <Table responsive hover className="mt-4 bubbler-one-regular fs-4">
+              <Table responsive hover className="mt-4 bubbler-one-regular fs-4  ">
                 <thead>
                   <tr>
-                    <th>Email</th>
-                    <th className="text-center">Messaggi</th>
+                    <th>Nome e Cognome</th>
+
+                    <th className="text-center">Richieste</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users.map((user) => (
                     <tr key={user.email}>
-                      <td>{user.email}</td>
+                      <td>
+                        <div>
+                          {user.name} {user.surname}
+                        </div>
+                        <div className="text-muted">{user.email}</div>
+                      </td>
+
                       <td className="text-center">
                         <Link to={`/adminRequestUser/${user.email}`}>{user.status ? <EnvelopeFill color="green" size={30} /> : <Envelope size={30} />}</Link>
                       </td>
