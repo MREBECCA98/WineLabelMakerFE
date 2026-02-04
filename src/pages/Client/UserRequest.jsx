@@ -71,27 +71,27 @@ function UserRequest() {
           <Col xs={12} md={8} lg={6}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RACCONTACI LA MAGIA DEL TUO VINO</h2>
             <p className="mt-3 mb-0 text-center bubbler-one-regular fs-sm-5 fs-3 ">Compila la descrizione del tuo vino includendo tutti gli elementi chiave:</p>
-            <div className="mt-4 bubbler-one-regular fs-5">
-              <p>
-                <strong>Identità -</strong> Personalità profonde del vino : nome, linea, filosofia del produttore
+            <div className="mt-4 bubbler-one-regular ">
+              <p className="fs-3">
+                <strong>IDENTITA' -</strong> Personalità profonde del vino : nome, linea, filosofia del produttore
               </p>
-              <p>
-                <strong>Origine -</strong> Contesto in cui viene prodotto: territorio, denominazione e vitigno, storia del luogo e della cantina
+              <p className="fs-3">
+                <strong>ORIGINE -</strong> Contesto in cui viene prodotto: territorio, denominazione e vitigno, storia del luogo e della cantina
               </p>
-              <p>
-                <strong>Carattere -</strong> Che tipo di "persona" sarebbe il suo vino?
+              <p className="fs-3">
+                <strong>CARATTERE -</strong> Che tipo di "persona" sarebbe il suo vino?
               </p>
-              <p>
-                <strong>Destinatario -</strong> Per quale clientela ha prodotto questo vino? (fascia di prezzo e occasione di consumo)
+              <p className="fs-3">
+                <strong>DESTINATARIO -</strong> Per quale clientela ha prodotto questo vino? (fascia di prezzo e occasione di consumo)
               </p>
-              <p>
-                <strong>Priorità visive -</strong> Cosa deve risalire per primo nell'etichetta?
+              <p className="fs-3">
+                <strong>PRIORITA' VISIVE -</strong> Cosa deve risalire per primo nell'etichetta?
               </p>
-              <p>
-                <strong>Vincoli -</strong> Cosa non si può fare? (obblighi legali, limiti di stampa, budget)
+              <p className="fs-3">
+                <strong>VINCOLI -</strong> Cosa non si può fare? (obblighi legali, limiti di stampa, budget)
               </p>
-              <p>
-                <strong>Emozione finale -</strong> Il cliente dovrà provare un emozione quando guarda la sua bottiglia, esattamente come quando si osserva un
+              <p className="fs-3">
+                <strong>EMOZIONE FINALE -</strong> Il cliente dovrà provare un emozione quando guarda la sua bottiglia, esattamente come quando si osserva un
                 dipinto per ore..
               </p>
             </div>
@@ -130,7 +130,7 @@ function UserRequest() {
               ) : null}
 
               <div className="d-flex justify-content-center mt-5">
-                <Button onClick={handleClick} variant="white" type="submit" className="border border-dark bubbler-one-regular fs-5 fw-bold w-100">
+                <Button onClick={handleClick} variant="white" type="submit" className="border border-dark bubbler-one-regular fs-4 fw-bold w-100">
                   Invia descrizione
                 </Button>
               </div>

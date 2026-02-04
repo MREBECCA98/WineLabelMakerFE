@@ -10,7 +10,7 @@ function Register() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +22,7 @@ function Register() {
     e.preventDefault();
 
     //CONTROLLO CAMPPI VUOTI
-    if (!name || !surname || !email || !birthday || !phoneNumber || !password || !confirmPassword) {
+    if (!name || !surname || !email || !companyName || !phoneNumber || !password || !confirmPassword) {
       setError("Compila tutti i campi!");
       setTimeout(() => {
         setError("");
@@ -45,8 +45,8 @@ function Register() {
       Password: password,
       Name: name,
       Surname: surname,
+      CompanyName: companyName,
       PhoneNumber: phoneNumber,
-      Birthday: birthday ? `${birthday}T00:00:00` : null,
     };
 
     //FETCH REGISTER
@@ -71,7 +71,7 @@ function Register() {
         setName("");
         setSurname("");
         setEmail("");
-        setBirthday("");
+        setCompanyName("");
         setPhoneNumber("");
         setPassword("");
         setConfirmPassword("");
@@ -96,12 +96,12 @@ function Register() {
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">OGNI VINO HA UN RACCONTO..</h2>
             <p className="text-center bubbler-one-regular  fs-3"> Registrati per dare vita a un percorso esclusivo, dove il tuo vino diventa protagonista</p>
 
-            <Form onSubmit={handleSubmit}>
+            <Form className=" " onSubmit={handleSubmit}>
               {/* NAME */}
               <Form.Group className="mb-3" controlId="formName">
-                <Form.Label className="bubbler-one-regular fs-5">Nome</Form.Label>
+                <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Nome</Form.Label>
                 <Form.Control
-                  className="bubbler-one-regular fs-6 mb-3"
+                  className="bubbler-one-regular fs-4 mb-3 fw-bold"
                   type="text"
                   placeholder="Inserisci il tuo nome"
                   value={name}
@@ -111,9 +111,9 @@ function Register() {
 
               {/* SURNAME */}
               <Form.Group className="mb-3" controlId="formSurname">
-                <Form.Label className="bubbler-one-regular fs-5">Cognome</Form.Label>
+                <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Cognome</Form.Label>
                 <Form.Control
-                  className="bubbler-one-regular fs-6 mb-3"
+                  className="bubbler-one-regular fs-4 mb-3 fw-bold"
                   type="text"
                   placeholder="Inserisci il tuo cognome"
                   value={surname}
@@ -123,9 +123,9 @@ function Register() {
 
               {/* EMAIL */}
               <Form.Group className="mb-3" controlId="formEmail">
-                <Form.Label className="bubbler-one-regular fs-5">Email</Form.Label>
+                <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Email aziendale</Form.Label>
                 <Form.Control
-                  className="bubbler-one-regular fs-6 mb-3"
+                  className="bubbler-one-regular fs-4 mb-3 fw-bold"
                   type="email"
                   placeholder="Inserisci la tua email"
                   value={email}
@@ -133,23 +133,23 @@ function Register() {
                 />
               </Form.Group>
 
-              {/* BIRTHDAY */}
-              <Form.Group className="mb-3" controlId="formBirthday">
-                <Form.Label className="bubbler-one-regular fs-5">Data di nascita</Form.Label>
+              {/* COMPANY NAME */}
+              <Form.Group className="mb-3" controlId="formCompanyName">
+                <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Nome dell'azienda</Form.Label>
                 <Form.Control
-                  className="bubbler-one-regular fs-6 mb-3"
-                  type="date"
-                  placeholder="Inserisci la tua data di nascita"
-                  value={birthday}
-                  onChange={(e) => setBirthday(e.target.value)}
+                  className="bubbler-one-regular fs-4 mb-3 fw-bold"
+                  type="text"
+                  placeholder="Inserisci il nome della tua azienda"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
                 />
               </Form.Group>
 
               {/* PHONE NUMBER */}
               <Form.Group className="mb-3" controlId="formPhoneNumber">
-                <Form.Label className="bubbler-one-regular fs-5">Numero di telefono</Form.Label>
+                <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Numero di telefono</Form.Label>
                 <Form.Control
-                  className="bubbler-one-regular fs-6 mb-3"
+                  className="bubbler-one-regular fs-4 mb-3 fw-bold"
                   type="tel"
                   placeholder="Inserisci il tuo numero di telefono"
                   value={phoneNumber}
@@ -159,10 +159,10 @@ function Register() {
 
               {/* PASSWORD */}
               <Form.Group className="mb-3" controlId="formPassword">
-                <Form.Label className="bubbler-one-regular fs-5">Password</Form.Label>
+                <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Password</Form.Label>
                 <InputGroup>
                   <Form.Control
-                    className="bubbler-one-regular fs-6"
+                    className="bubbler-one-regular fs-4 mb-3 fw-bold"
                     type={showPassword ? "text" : "password"}
                     placeholder="Inserisci password"
                     value={password}
@@ -188,10 +188,10 @@ function Register() {
 
               {/* CONFERMA PASSWORD */}
               <Form.Group className="mb-3" controlId="formConfirmPassword">
-                <Form.Label className="bubbler-one-regular fs-5">Conferma Password</Form.Label>
+                <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Conferma Password</Form.Label>
                 <InputGroup>
                   <Form.Control
-                    className="bubbler-one-regular fs-6"
+                    className="bubbler-one-regular fs-4 mb-3 fw-bold"
                     type={showPassword ? "text" : "password"}
                     placeholder="Inserisci password"
                     value={confirmPassword}
@@ -209,20 +209,20 @@ function Register() {
 
               {/* ALERT SUCCESS */}
               {success ? (
-                <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
+                <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                   {success}
                 </Alert>
               ) : null}
 
               {/* ALERT ERROR */}
               {error ? (
-                <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
+                <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                   {error}
                 </Alert>
               ) : null}
 
-              <div className="d-flex justify-content-center mt-5">
-                <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-5 fw-bold w-100">
+              <div className="d-flex justify-content-center my-5">
+                <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-4 fw-bold w-100">
                   Registrati
                 </Button>
               </div>

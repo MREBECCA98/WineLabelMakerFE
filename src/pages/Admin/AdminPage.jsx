@@ -45,6 +45,7 @@ function AdminPage() {
     if (!user) {
       users.push({
         email: request.userEmail,
+        companyName: request.companyName,
         name: request.userName,
         surname: request.userSurname,
         status: request.status === "Pending",
@@ -66,7 +67,7 @@ function AdminPage() {
 
             {/* ALERT ERROR */}
             {error ? (
-              <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
+              <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                 {error}
               </Alert>
             ) : null}
@@ -89,15 +90,16 @@ function AdminPage() {
               <Table responsive hover className="mt-4 bubbler-one-regular fs-4  ">
                 <thead>
                   <tr>
-                    <th>Nome e Cognome</th>
+                    <th>AZIENDA</th>
 
-                    <th className="text-center">Richieste</th>
+                    <th className="text-center">RICHIESTE</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users.map((user) => (
                     <tr key={user.email}>
                       <td>
+                        <div className="fw-bold ">{user.companyName}</div>
                         <div>
                           {user.name} {user.surname}
                         </div>

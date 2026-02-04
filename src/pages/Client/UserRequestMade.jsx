@@ -131,7 +131,7 @@ function UserRequestMade() {
                       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                       .map((request) => (
                         <tr key={request.idRequest}>
-                          <td className="text-center fs-5">{new Date(request.createdAt).toLocaleDateString()}</td>
+                          <td className="text-center fs-4">{new Date(request.createdAt).toLocaleDateString()}</td>
 
                           {/* BOTTONE MODALE DESCRIZIONE */}
                           <td className="text-center">
@@ -147,7 +147,7 @@ function UserRequestMade() {
                           </td>
 
                           <td
-                            className="text-center"
+                            className="text-center "
                             style={{
                               color:
                                 request.status === "Completed"
@@ -197,13 +197,13 @@ function UserRequestMade() {
                   </Modal.Header>
 
                   <Modal.Body>
-                    <p className="fs-5 bubbler-one-regular text-black">{modalRequest?.description}</p>
+                    <p className="fs-3 bubbler-one-regular text-black ">{modalRequest?.description}</p>
                   </Modal.Body>
                 </Modal>
 
-                <div className="text-center mt-5 bubbler-one-regular fs-5 fw-bold">
-                  <p className="fs-4">VUOI CONDIVIDERE LA STORIA DI UN NUOVO VINO?</p>
-                  <Link to="/userRequest" className="text-decoration-none">
+                <div className="text-center mt-5 bubbler-one-regular fw-bold">
+                  <p className="fs-3 m-0">VUOI CONDIVIDERE LA STORIA DI UN NUOVO VINO?</p>
+                  <Link to="/userRequest" className="text-decoration-none fs-3 ">
                     Clicca qui per procedere con la tua richiesta
                   </Link>
                 </div>

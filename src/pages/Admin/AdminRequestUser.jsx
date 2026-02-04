@@ -7,7 +7,6 @@ import { JournalText, PencilSquare, Trash3 } from "react-bootstrap-icons";
 function AdminRequestUser() {
   const { email } = useParams();
   const [requests, setRequests] = useState([]);
-  const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
   //MODALE DESCRIZIONE
@@ -88,20 +87,6 @@ function AdminRequestUser() {
           <Col xs={12} md={12} lg={12}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RICHIESTE</h2>
 
-            {/* ALERT SUCCESS FOR DELETE, eliminata con successo*/}
-            {success ? (
-              <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
-                {success}
-              </Alert>
-            ) : null}
-
-            {/* ALERT ERROR FOR DELETE, error 404 */}
-            {error ? (
-              <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
-                {error}
-              </Alert>
-            ) : null}
-
             {/* ALERT ERROR SE NON CI SONO UTENTI */}
             {requests.length === 0 && (
               <>
@@ -128,7 +113,7 @@ function AdminRequestUser() {
                     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                     .map((request) => (
                       <tr key={request.idRequest}>
-                        <td className="text-center fs-5">{new Date(request.createdAt).toLocaleDateString()}</td>
+                        <td className="text-center fs-4">{new Date(request.createdAt).toLocaleDateString()}</td>
 
                         {/* BOTTONE MODALE DESCRIZIONE */}
                         <td className="text-center">
@@ -211,7 +196,7 @@ function AdminRequestUser() {
               </Modal.Header>
 
               <Modal.Body>
-                <p className="fs-5 bubbler-one-regular text-black">{modalDescriptionRequest?.description}</p>
+                <p className="fs-3 bubbler-one-regular text-black">{modalDescriptionRequest?.description}</p>
               </Modal.Body>
             </Modal>
 
@@ -226,7 +211,7 @@ function AdminRequestUser() {
               </Modal.Header>
 
               <Modal.Body>
-                <Form.Select value={newStatus} onChange={(e) => setNewStatus(Number(e.target.value))}>
+                <Form.Select className="fs-3" value={newStatus} onChange={(e) => setNewStatus(Number(e.target.value))}>
                   <option value={0}>In attesa</option>
                   <option value={1}>In lavorazione</option>
                   <option value={2}>Completata</option>
@@ -235,7 +220,7 @@ function AdminRequestUser() {
               </Modal.Body>
 
               <Modal.Footer>
-                <Button onClick={handleUpdateStatus} className="bubbler-one-regular bg-white border text-black fs-5 fw-bold">
+                <Button onClick={handleUpdateStatus} className="bubbler-one-regular bg-white border text-black fs-4 fw-bold">
                   Salva
                 </Button>
               </Modal.Footer>

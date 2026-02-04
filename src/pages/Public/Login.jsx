@@ -101,14 +101,14 @@ function Login() {
 
             {/*ALERT SUCCESS */}
             {success ? (
-              <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
+              <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                 {success}
               </Alert>
             ) : null}
 
             {/*ALERT ERROR */}
             {error ? (
-              <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
+              <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                 {error}
               </Alert>
             ) : null}
@@ -116,9 +116,9 @@ function Login() {
             <Form onSubmit={handleSubmit}>
               {/* USERNAME */}
               <Form.Group className="mb-3" controlId="formUsername">
-                <Form.Label className="bubbler-one-regular fs-5">Username</Form.Label>
+                <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Email</Form.Label>
                 <Form.Control
-                  className="bubbler-one-regular fs-6"
+                  className="bubbler-one-regular fs-4 mb-3 fw-bold"
                   type="email"
                   placeholder="Inserisci username"
                   value={username}
@@ -128,10 +128,10 @@ function Login() {
 
               {/* PASSWORD */}
               <Form.Group className="mb-3" controlId="formPassword">
-                <Form.Label className="bubbler-one-regular fs-5">Password</Form.Label>
+                <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Password</Form.Label>
                 <InputGroup>
                   <Form.Control
-                    className="bubbler-one-regular fs-6"
+                    className="bubbler-one-regular fs-4 mb-3 fw-bold"
                     type={showPassword ? "text" : "password"}
                     placeholder="Inserisci password"
                     value={password}
@@ -148,7 +148,7 @@ function Login() {
               </Form.Group>
 
               <div className="d-flex justify-content-center mt-5">
-                <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-5 fw-bold w-100">
+                <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-4 fw-bold w-100">
                   Accedi
                 </Button>
               </div>
@@ -156,8 +156,8 @@ function Login() {
 
             {/* //REGISTER LINK */}
             <div className="text-center mt-5">
-              <span className="bubbler-one-regular fs-5">Non hai un account? </span>
-              <Link to="/register" className="bubbler-one-regular fs-5 fw-bold text-decoration-none">
+              <span className="bubbler-one-regular fs-3">Non hai un account? </span>
+              <Link to="/register" className="bubbler-one-regular fs-3 fw-bold text-decoration-none">
                 Registrati !
               </Link>
             </div>
