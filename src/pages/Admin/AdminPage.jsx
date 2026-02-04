@@ -1,4 +1,4 @@
-import { Alert, Col, Container, Row, Table } from "react-bootstrap";
+import { Alert, Col, Container, Form, Row, Table } from "react-bootstrap";
 import NavbarAdmin from "../../components/NavbarAdmin";
 import { useEffect, useState } from "react";
 import { Envelope, EnvelopeFill } from "react-bootstrap-icons";
@@ -7,8 +7,10 @@ import { Link } from "react-router-dom";
 function AdminPage() {
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState("");
+  //SEARCH BAR
+  const [search, setSearch] = useState("");
 
-  // FETCH RICHIESTE
+  //FETCH RICHIESTE
   useEffect(() => {
     const allRequest = async () => {
       const token = localStorage.getItem("token");
@@ -36,26 +38,38 @@ function AdminPage() {
     allRequest();
   }, []);
 
-  // LISTA UTENTI
+  //LISTA UTENTI
   const users = [];
 
   requests.forEach((request) => {
+    const newUser = {
+      email: request.userEmail,
+      companyName: request.companyName,
+      name: request.userName,
+      surname: request.userSurname,
+      status: request.status === "Pending",
+    };
     let user = users.find((user) => user.email === request.userEmail);
 
     if (!user) {
-      users.push({
-        email: request.userEmail,
-        companyName: request.companyName,
-        name: request.userName,
-        surname: request.userSurname,
-        status: request.status === "Pending",
-      });
+      users.push(newUser);
     } else {
       if (request.status === "Pending") {
         user.status = true;
       }
     }
   });
+
+  //SEARCH
+  const searchLower = search.toLowerCase();
+
+  const filteredUsers = users.filter(
+    (u) =>
+      u.companyName.toLowerCase().includes(searchLower) ||
+      u.name.toLowerCase().includes(searchLower) ||
+      u.surname.toLowerCase().includes(searchLower) ||
+      u.email.toLowerCase().includes(searchLower),
+  );
 
   return (
     <>
@@ -64,7 +78,16 @@ function AdminPage() {
         <Row>
           <Col xs={12} md={12} lg={12}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RICHIESTE UTENTI</h2>
-
+            {/* SEARCH */}
+            <Form.Control
+              type="text"
+              placeholder="Cerca azienda..."
+              className="my-3"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
             {/* ALERT ERROR */}
             {error ? (
               <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
@@ -96,7 +119,7 @@ function AdminPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => (
+                  {filteredUsers.map((user) => (
                     <tr key={user.email}>
                       <td>
                         <div className="fw-bold ">{user.companyName}</div>

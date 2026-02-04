@@ -62,6 +62,7 @@ function UserRequestMade() {
 
         const data = await response.json();
         setRequests(data);
+        console.log(data);
       } catch (error) {
         setError(error.message);
         setTimeout(() => {
@@ -80,7 +81,7 @@ function UserRequestMade() {
         <Row className="justify-content-center">
           <Col xs={12} md={12} lg={12}>
             {/* RICHIESTE EFFETTUATE */}
-            <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">LE STORIE DEI TUOI VINI...</h2>
+            <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">LE STORIE DEI TUOI VINI... </h2>
             <p className="mt-3 mb-0 text-center bubbler-one-regular fs-sm-5 fs-3 ">Racconta i tuoi vini e segui le loro storie</p>
             <p className="text-center bubbler-one-regular fs-sm-5 fs-3 ">In questa pagina troverai tutte le descrizioni inviate e il loro progresso</p>
             {/* ALERT SUCCESS */}
