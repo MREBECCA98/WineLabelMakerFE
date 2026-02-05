@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import NavbarAdmin from "../../components/NavbarAdmin";
 import { Alert, Button, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
-import { JournalText, PencilSquare, Trash3 } from "react-bootstrap-icons";
+import { JournalText, Pen, PencilSquare } from "react-bootstrap-icons";
 
 function AdminRequestUser() {
   const { email } = useParams();
