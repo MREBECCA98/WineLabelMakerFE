@@ -12,7 +12,6 @@ import UserRequest from "./pages/Client/UserRequest.jsx";
 import UserRequestMade from "./pages/Client/UserRequestMade.jsx";
 import UpdateRequest from "./pages/Client/UpdateRequest.jsx";
 import AdminRequestUser from "./pages/Admin/AdminRequestUser.jsx";
-import AdminMessagePage from "./pages/Admin/AdminMessagePage.jsx";
 //path home: /,
 //path i nostri lavori: work,
 //path login: login

@@ -18,6 +18,12 @@ function AdminRequestUser() {
   const [modalStatusRequest, setModalStatusRequest] = useState("");
   const [newStatus, setNewStatus] = useState("");
 
+  //EMAIL COMPLETED
+  const [imgCompleted, setImgCompleted] = useState(null);
+  const [bodyCompleted, setBodyCompleted] = useState("");
+  const [successEmail, setSuccessEmail] = useState("");
+  const [errorImg, setErrorImg] = useState("");
+
   const status = {
     Pending: 0,
     InProgress: 1,
@@ -25,11 +31,13 @@ function AdminRequestUser() {
     Rejected: 3,
   };
 
-  const handleUpdateStatus = async () => {
+  //MODIFICA STATO, SE COMPLETED INVIA EMAIL CON ALLEGATO IMMAGINE ETICHETTA
+  const handleActionStatus = async () => {
     const token = localStorage.getItem("token");
-
+    //STATO
+    //------------------------------------------------------------------------------------------------------------------
     try {
-      const response = await fetch(`https://localhost:7046/api/Request/updateAdmin/${modalStatusRequest.idRequest}`, {
+      const updateStatus = await fetch(`https://localhost:7046/api/Request/updateAdmin/${modalStatusRequest.idRequest}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -38,13 +46,69 @@ function AdminRequestUser() {
         body: JSON.stringify({ status: newStatus }),
       });
 
-      if (!response.ok) {
-        throw new Error("Errore nell'aggiornamento dello stato!");
+      if (!updateStatus.ok) {
+        throw new Error("Errore aggiornamento stato");
+      }
+
+      //SE LO STATO E' COMPLETED(2) L'IMMAGINE DELL'ETICHETTA E' OBBLIGATORIA
+      if (newStatus === 2) {
+        if (!imgCompleted) {
+          setErrorImg("L'immagine dell'etichetta è obbligatoria");
+          setTimeout(() => {
+            setErrorImg("");
+          }, 2000);
+          return;
+        }
+
+        //IMMAGINE ETICHETTA
+        //------------------------------------------------------------------------------------------------------------------
+
+        //UPLOAD IMMAGINE
+        const formData = new FormData();
+        formData.append("labelImage", imgCompleted);
+
+        const uploadResponse = await fetch("https://localhost:7046/api/Email/uploadLabel", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+          body: formData,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error("Errore upload immagine");
+        }
+
+        //EMAIL
+        //------------------------------------------------------------------------------------------------------------------
+
+        // INVIO EMAIL
+        const emailResponse = await fetch("https://localhost:7046/api/Email/completed", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({
+            requestId: modalStatusRequest.idRequest,
+            imageName: imgCompleted.name,
+            customBody: bodyCompleted,
+          }),
+        });
+
+        if (!emailResponse.ok) throw new Error("Errore invio email");
+
+        setSuccessEmail("Email inviata con successo!");
       }
 
       userRequest();
+      setModalStatus(false);
     } catch (error) {
       console.error(error);
+      setError(error.message);
+      setTimeout(() => {
+        setErrorImg("");
+      }, 2000);
     }
   };
 
@@ -217,10 +281,36 @@ function AdminRequestUser() {
                   <option value={2}>Completata</option>
                   <option value={3}>Rifiutata</option>
                 </Form.Select>
+
+                {/* SOLO SE COMPLETED */}
+                {newStatus === 2 && (
+                  <>
+                    <Form.Group className="mt-3">
+                      <Form.Label className="fs-4 fw-bold">Messaggio email (opzionale)</Form.Label>
+                      <Form.Control as="textarea" rows={5} value={bodyCompleted} onChange={(e) => setBodyCompleted(e.target.value)} />
+                    </Form.Group>
+
+                    <Form.Group className="mt-3">
+                      <Form.Label className="fs-4 fw-bold">Immagine etichetta *</Form.Label>
+                      <Form.Control type="file" accept="image/*" onChange={(e) => setImgCompleted(e.target.files[0])} />
+                    </Form.Group>
+
+                    {errorImg && (
+                      <Alert variant="danger" className="mt-2">
+                        {errorImg}
+                      </Alert>
+                    )}
+                    {successEmail && (
+                      <Alert variant="success" className="mt-2">
+                        {successEmail}
+                      </Alert>
+                    )}
+                  </>
+                )}
               </Modal.Body>
 
               <Modal.Footer>
-                <Button onClick={handleUpdateStatus} className="bubbler-one-regular bg-white border text-black fs-4 fw-bold">
+                <Button onClick={handleActionStatus} className="bubbler-one-regular bg-white border text-black fs-4 fw-bold">
                   Salva
                 </Button>
               </Modal.Footer>
