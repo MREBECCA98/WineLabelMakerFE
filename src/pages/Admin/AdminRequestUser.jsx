@@ -24,11 +24,18 @@ function AdminRequestUser() {
   const [successEmail, setSuccessEmail] = useState("");
   const [errorImg, setErrorImg] = useState("");
 
+  //EMAIL PREVENTIVO
+  const [bodyQuote, setBodyQuote] = useState("");
+  const [successEmailQuote, setSuccessEmailQuote] = useState("");
+  const [errorEmailQuote, setErrorEmailQuote] = useState("");
+
   const status = {
     Pending: 0,
     InProgress: 1,
-    Completed: 2,
-    Rejected: 3,
+    QuoteSent: 2,
+    PaymentConfirmed: 3,
+    Completed: 4,
+    Rejected: 5,
   };
 
   //MODIFICA STATO, SE COMPLETED INVIA EMAIL CON ALLEGATO IMMAGINE ETICHETTA
@@ -50,8 +57,8 @@ function AdminRequestUser() {
         throw new Error("Errore aggiornamento stato");
       }
 
-      //SE LO STATO E' COMPLETED(2) L'IMMAGINE DELL'ETICHETTA E' OBBLIGATORIA
-      if (newStatus === 2) {
+      //SE LO STATO E' COMPLETED(4) L'IMMAGINE DELL'ETICHETTA E' OBBLIGATORIA
+      if (newStatus === 4) {
         if (!imgCompleted) {
           setErrorImg("L'immagine dell'etichetta è obbligatoria");
           setTimeout(() => {
@@ -99,6 +106,30 @@ function AdminRequestUser() {
         if (!emailResponse.ok) throw new Error("Errore invio email");
 
         setSuccessEmail("Email inviata con successo!");
+      }
+
+      //SE LO STATO E' QUOTE-SENT(2)
+      if (newStatus === 2) {
+        const emailQuoteStatus = await fetch("https://localhost:7046/api/Email/sendQuote", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify({
+            requestId: modalStatusRequest.idRequest,
+            customBody: bodyQuote,
+          }),
+        });
+
+        if (!emailQuoteStatus.ok) {
+          setErrorEmailQuote("Errore invio email preventivo");
+          setTimeout(() => {
+            setErrorEmailQuote("");
+          }, 2000);
+        }
+
+        setSuccessEmailQuote("Email preventivo inviata con successo!");
       }
 
       userRequest();
@@ -177,10 +208,13 @@ function AdminRequestUser() {
                     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                     .map((request) => (
                       <tr key={request.idRequest}>
-                        <td className="text-center fs-4">{new Date(request.createdAt).toLocaleDateString()}</td>
+                        <td>
+                          <div className="text-center fs-4">{new Date(request.createdAt).toLocaleDateString()}</div>
+                        </td>
 
                         {/* BOTTONE MODALE DESCRIZIONE */}
                         <td className="text-center">
+                          <div className="text-center fs-5">{request.idRequest}</div>
                           <Button
                             onClick={() => {
                               setModalDescriptionRequest(request);
@@ -202,7 +236,9 @@ function AdminRequestUser() {
                                   ? "blue"
                                   : request.status === "InProgress"
                                     ? "orange"
-                                    : "red",
+                                    : request.status === "QuoteSent"
+                                      ? "purple"
+                                      : "red",
                           }}
                         >
                           {request.status === "Completed" ? (
@@ -228,6 +264,42 @@ function AdminRequestUser() {
                           ) : request.status === "InProgress" ? (
                             <div className="d-flex align-items-center flex-column">
                               <span>IN LAVORAZIONE</span>
+                              <div className="d-flex gap-1">
+                                {/* BOTTONE MODALE STATO */}
+                                <Button
+                                  size="lg"
+                                  variant="light"
+                                  onClick={() => {
+                                    setModalStatusRequest(request);
+                                    setModalStatus(true);
+                                    setNewStatus(status[request.status]);
+                                  }}
+                                >
+                                  <PencilSquare />
+                                </Button>
+                              </div>
+                            </div>
+                          ) : request.status === "QuoteSent" ? (
+                            <div className="d-flex align-items-center flex-column">
+                              <span>PREVENTIVO INVIATO</span>
+                              <div className="d-flex gap-1">
+                                {/* BOTTONE MODALE STATO */}
+                                <Button
+                                  size="lg"
+                                  variant="light"
+                                  onClick={() => {
+                                    setModalStatusRequest(request);
+                                    setModalStatus(true);
+                                    setNewStatus(status[request.status]);
+                                  }}
+                                >
+                                  <PencilSquare />
+                                </Button>
+                              </div>
+                            </div>
+                          ) : request.status === "PaymentConfirmed" ? (
+                            <div className="d-flex align-items-center flex-column">
+                              <span>PAGAMENTO COMPLETATO</span>
                               <div className="d-flex gap-1">
                                 {/* BOTTONE MODALE STATO */}
                                 <Button
@@ -278,12 +350,14 @@ function AdminRequestUser() {
                 <Form.Select className="fs-3" value={newStatus} onChange={(e) => setNewStatus(Number(e.target.value))}>
                   <option value={0}>In attesa</option>
                   <option value={1}>In lavorazione</option>
-                  <option value={2}>Completata</option>
-                  <option value={3}>Rifiutata</option>
+                  <option value={2}>Preventivo inviato</option>
+                  <option value={3}>Pagamento confermato</option>
+                  <option value={4}>Completata</option>
+                  <option value={5}>Rifiutata</option>
                 </Form.Select>
 
                 {/* SOLO SE COMPLETED */}
-                {newStatus === 2 && (
+                {newStatus === 4 && (
                   <>
                     <Form.Group className="mt-3">
                       <Form.Label className="fs-4 fw-bold">Messaggio email (opzionale)</Form.Label>
@@ -303,6 +377,27 @@ function AdminRequestUser() {
                     {successEmail && (
                       <Alert variant="success" className="mt-2">
                         {successEmail}
+                      </Alert>
+                    )}
+                  </>
+                )}
+
+                {/* SOLO SE QUOTE-SENT */}
+                {newStatus === 2 && (
+                  <>
+                    <Form.Group className="mt-3">
+                      <Form.Label className="fs-4 fw-bold">Messaggio email preventivo</Form.Label>
+                      <Form.Control as="textarea" rows={5} value={bodyQuote} onChange={(e) => setBodyQuote(e.target.value)} />
+                    </Form.Group>
+
+                    {errorEmailQuote && (
+                      <Alert variant="danger" className="mt-2">
+                        {errorEmailQuote}
+                      </Alert>
+                    )}
+                    {successEmailQuote && (
+                      <Alert variant="success" className="mt-2">
+                        {successEmailQuote}
                       </Alert>
                     )}
                   </>

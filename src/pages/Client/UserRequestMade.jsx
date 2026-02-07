@@ -148,7 +148,7 @@ function UserRequestMade() {
                           </td>
 
                           <td
-                            className="text-center "
+                            className="text-center"
                             style={{
                               color:
                                 request.status === "Completed"
@@ -157,7 +157,9 @@ function UserRequestMade() {
                                     ? "blue"
                                     : request.status === "InProgress"
                                       ? "orange"
-                                      : "red",
+                                      : request.status === "QuoteSent"
+                                        ? "purple"
+                                        : "red",
                             }}
                           >
                             {request.status === "Completed" ? (
@@ -182,6 +184,10 @@ function UserRequestMade() {
                               </div>
                             ) : request.status === "InProgress" ? (
                               "IN LAVORAZIONE"
+                            ) : request.status === "QuoteSent" ? (
+                              "PREVENTIVO INVIATO"
+                            ) : request.status === "PaymentConfirmed" ? (
+                              "PAGAMENTO CONFERMATO"
                             ) : (
                               "RIFIUTATA"
                             )}
