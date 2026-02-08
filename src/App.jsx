@@ -7,7 +7,6 @@ import MyFooter from "./components/MyFooter.jsx";
 import {} from "react-bootstrap-icons";
 import { Route, Routes } from "react-router-dom";
 import AdminPage from "./pages/Admin/AdminPage.jsx";
-import UserWineLabel from "./pages/Client/UserWineLabel.jsx";
 import UserRequest from "./pages/Client/UserRequest.jsx";
 import UserRequestMade from "./pages/Client/UserRequestMade.jsx";
 import UpdateRequest from "./pages/Client/UpdateRequest.jsx";
@@ -17,7 +16,6 @@ import AdminRequestUser from "./pages/Admin/AdminRequestUser.jsx";
 //path login: login
 //path register: register
 //path adminPage: message
-//path userWineLabel: wineLabel
 //path userRequest: userRequest
 //path UserRequestMade: userRequestMade
 //path UpdateRequest: updateRequest
@@ -31,7 +29,6 @@ function App() {
           <Route path="/work" element={<MyWork />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/wineLabel" element={<UserWineLabel />} />
           <Route path="/userRequest" element={<UserRequest />} />
           <Route path="/userRequestMade" element={<UserRequestMade />} />
           <Route path="/updateRequest/:id" element={<UpdateRequest />} />

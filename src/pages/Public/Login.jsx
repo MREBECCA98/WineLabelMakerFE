@@ -16,7 +16,7 @@ function Login() {
 
     if (token && role) {
       if (role === "Admin") navigate("/message");
-      else navigate("/wineLabel");
+      else navigate("/userRequestMade");
     }
   }, []);
 
@@ -73,7 +73,7 @@ function Login() {
         if (data.role === "Admin") {
           navigate("/message");
         } else {
-          navigate("/wineLabel");
+          navigate("/userRequestMade");
         }
       }, 2000);
     } catch (error) {

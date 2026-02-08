@@ -88,7 +88,7 @@ function UserRequest() {
                 <strong>PRIORITA' VISIVE -</strong> Cosa deve risalire per primo nell'etichetta?
               </p>
               <p className="fs-3">
-                <strong>VINCOLI -</strong> Cosa non si può fare? (obblighi legali, limiti di stampa, budget)
+                <strong>VINCOLI -</strong> Cosa non si può fare? (obblighi legali, limiti di stampa, formato etichetta, budget)
               </p>
               <p className="fs-3">
                 <strong>EMOZIONE FINALE -</strong> Il cliente dovrà provare un emozione quando guarda la sua bottiglia, esattamente come quando si osserva un
@@ -101,7 +101,7 @@ function UserRequest() {
               <Form.Group className="mb-3" controlId="formDescription">
                 {/* <Form.Label className="bubbler-one-regular fs-5">Descrizione prodotto</Form.Label> */}
                 <Form.Control
-                  className="bubbler-one-regular fs-6"
+                  className="bubbler-one-regular fs-3"
                   as="textarea" //TYPE
                   rows={9}
                   maxLength={5000}

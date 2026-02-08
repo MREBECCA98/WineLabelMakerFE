@@ -16,7 +16,7 @@ function NavbarUser() {
     <Navbar expand="lg" className="bg-navbar sticky-top">
       <Container>
         {/* LOGO & ETICHETTE PERSONALIZZATE */}
-        <Navbar.Brand as={Link} to="/wineLabel" className="d-flex align-items-center">
+        <Navbar.Brand className="d-flex align-items-center">
           <img src={Logo} alt="LogoWLM" width={270} />
           <span className="bubbler-one-regular d-none d-md-inline fs-1 ">Custom Wine Label</span>
         </Navbar.Brand>

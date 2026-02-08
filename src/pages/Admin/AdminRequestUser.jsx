@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import NavbarAdmin from "../../components/NavbarAdmin";
 import { Alert, Button, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
 import { JournalText, Pen, PencilSquare } from "react-bootstrap-icons";
@@ -154,6 +154,7 @@ function AdminRequestUser() {
           Authorization: "Bearer " + token,
         },
       });
+
       if (!response.ok) {
         throw new Error("Errore nel recupero delle richieste!");
       }
@@ -365,7 +366,7 @@ function AdminRequestUser() {
                     </Form.Group>
 
                     <Form.Group className="mt-3">
-                      <Form.Label className="fs-4 fw-bold">Immagine etichetta *</Form.Label>
+                      <Form.Label className="fs-4 fw-bold">Immagine etichetta</Form.Label>
                       <Form.Control type="file" accept="image/*" onChange={(e) => setImgCompleted(e.target.files[0])} />
                     </Form.Group>
 
