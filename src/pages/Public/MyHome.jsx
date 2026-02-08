@@ -100,7 +100,7 @@ function MyHome() {
             </section>
 
             {/* INIZIA IL VIAGGIO */}
-            <section id="come iniziare" className="pb-5 bubbler-one-regular text-center mt-4 text-black ">
+            <section id="come-iniziare" className="pb-5 bubbler-one-regular text-center mt-4 text-black ">
               <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">INIZIA IL VIAGGIO</h2>
               <h4 className="fw-bold">OGNI STORIA HA BISOGNO DEL SUO TEMPO... E QUESTO E' IL PRIMO PASSO</h4>
 
