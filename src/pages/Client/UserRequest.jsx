@@ -9,33 +9,64 @@ import { useNavigate } from "react-router-dom";
 //DOVE POTRA' VEDERE TUTTE LE RICHIESTE EFFETTUATE E IL LORO STATO
 
 function UserRequest() {
-  const [description, setDescription] = useState("");
+  const [clientData, setClientData] = useState("");
+  const [productionParams, setProductionParams] = useState("");
+  const [identity, setIdentity] = useState("");
+  const [origin, setOrigin] = useState("");
+  const [character, setCharacter] = useState("");
+  const [target, setTarget] = useState("");
+  const [visuals, setVisuals] = useState("");
+  const [constraints, setConstraints] = useState("");
+  const [emotion, setEmotion] = useState("");
+
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-
-  //BUTTON-CLICK
-  //NAVIGATE VERSO USER REQUEST MADE
-  const handleClick = () => {
-    setTimeout(() => {
-      navigate("/userRequestMade");
-    }, 2000);
-  };
 
   //CREATE
   const handleCreate = async (e) => {
     e.preventDefault();
 
     //SE MANCA LA DESCRIZIONE MOSTRA ERRORE
-    if (!description) {
-      setError("Inserisci la descrizione del tuo prodotto!");
+    if (!clientData || !productionParams || !identity || !origin || !character || !target || !visuals || !constraints || !emotion) {
+      setError("I campi sono obbligatorio!");
       setTimeout(() => {
         setError("");
       }, 2000);
       return;
     }
 
+    //VISUALIZZAZIONE DELLA DESCRIZIONE FINALE
+    const finalDescription = `
+    DATI DEL CLIENTE :
+    ${clientData}
+
+    PARAMETRI DI PRODUZIONE :
+    ${productionParams}
+
+    IDENTITÀ :
+    ${identity}
+
+    ORIGINE :
+    ${origin}
+
+    CARATTERE :
+    ${character}
+
+    DESTINATARIO :
+    ${target}
+
+    PRIORITÀ VISIVE :
+    ${visuals}
+
+    VINCOLI :
+    ${constraints}
+
+    EMOZIONE FINALE :
+    ${emotion}`;
+
+    //TOKEN
     const token = localStorage.getItem("token");
 
     //FETCH CREATE DESCRIPTION
@@ -46,7 +77,7 @@ function UserRequest() {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
         },
-        body: JSON.stringify({ description }),
+        body: JSON.stringify({ description: finalDescription }),
       });
       if (!response.ok) {
         throw new Error("Errore nella creazione della richiest!");
@@ -58,13 +89,22 @@ function UserRequest() {
       setSuccess("La creazione della richiesta è andata a buon fine!");
       setTimeout(() => {
         setSuccess("");
-        setDescription("");
+        setClientData("");
+        setProductionParams("");
+        setIdentity("");
+        setOrigin("");
+        setCharacter("");
+        setTarget("");
+        setVisuals("");
+        setConstraints("");
+        setEmotion("");
+
+        navigate("/userRequestMade");
       }, 2000);
     } catch (error) {
       setError(error.message);
       setTimeout(() => {
         setError("");
-        setDescription("");
       }, 2000);
     }
   };
@@ -80,49 +120,91 @@ function UserRequest() {
             <p className="mt-3 mb-0 text-center bubbler-one-regular fs-sm-5 fs-3 ">Compila la descrizione del tuo vino includendo tutti gli elementi chiave:</p>
 
             {/* REQUISITI OBBLIGATORI PER LA LAVORAZIONE DELL'ETICHETTA */}
-            <div className="mt-4 bubbler-one-regular ">
-              <p className="fs-3">
-                <strong>IDENTITA' -</strong> Personalità profonde del vino : nome, linea, filosofia del produttore
-              </p>
-              <p className="fs-3">
-                <strong>ORIGINE -</strong> Contesto in cui viene prodotto: territorio, denominazione e vitigno, storia del luogo e della cantina
-              </p>
-              <p className="fs-3">
-                <strong>CARATTERE -</strong> Che tipo di "persona" sarebbe il suo vino?
-              </p>
-              <p className="fs-3">
-                <strong>DESTINATARIO -</strong> Per quale clientela ha prodotto questo vino? (fascia di prezzo e occasione di consumo)
-              </p>
-              <p className="fs-3">
-                <strong>PRIORITA' VISIVE -</strong> Cosa deve risalire per primo nell'etichetta?
-              </p>
-              <p className="fs-3">
-                <strong>VINCOLI -</strong> Cosa non si può fare? (obblighi legali, limiti di stampa, formato etichetta, budget)
-              </p>
-              <p className="fs-3">
-                <strong>EMOZIONE FINALE -</strong> Il cliente dovrà provare un emozione quando guarda la sua bottiglia, esattamente come quando si osserva un
-                dipinto per ore..
-              </p>
-            </div>
-
             {/* FORM RICHIESTA */}
-            <Form onSubmit={handleCreate} className="mt-4">
-              <Form.Group className="mb-3" controlId="formDescription">
-                {/* <Form.Label className="bubbler-one-regular fs-5">Descrizione prodotto</Form.Label> */}
+            <Form onSubmit={handleCreate} className="mt-4 bubbler-one-regular fs-3">
+              {/* DATI CLIENTE */}
+              <Form.Group className="mb-3">
+                <Form.Label>
+                  <strong>DATI DEL CLIENTE -</strong> Cantina di produzione, indirizzo di spedizione, referente, email
+                </Form.Label>
+                <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={clientData} onChange={(e) => setClientData(e.target.value)} />
+              </Form.Group>
+
+              {/* PARAMETRI PRODUZIONE */}
+              <Form.Group className="mb-3">
+                <Form.Label>
+                  <strong>PARAMETRI DI PRODUZIONE -</strong> Numero di etichette e budjet indicativo
+                </Form.Label>
                 <Form.Control
                   className="bubbler-one-regular fs-3"
-                  as="textarea" //TYPE
-                  rows={9}
-                  maxLength={5000}
-                  placeholder="Inserisci la descrizione del tuo prodotto"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  as="textarea"
+                  rows={3}
+                  value={productionParams}
+                  onChange={(e) => setProductionParams(e.target.value)}
                 />
+              </Form.Group>
 
-                {/* REQUISITI DESCRIZIONE */}
-                <ul className="fs-5" style={{ marginTop: "10px" }}>
-                  <li style={{ color: description.length >= 5000 ? "red" : "green" }}>Raccontaci tutto sul tuo prodotto, in massimo 5000 caratteri</li>
-                </ul>
+              {/* IDENTITA' */}
+              <Form.Group className="mb-3">
+                <Form.Label>
+                  <strong>IDENTITA' -</strong> Personalità profonde del vino : nome, linea, filosofia del produttore
+                </Form.Label>
+                <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={identity} onChange={(e) => setIdentity(e.target.value)} />
+              </Form.Group>
+
+              {/* ORIGINE */}
+              <Form.Group className="mb-3">
+                <Form.Label>
+                  <strong>ORIGINE -</strong> Contesto in cui viene prodotto: territorio, denominazione e vitigno, storia del luogo e della cantina
+                </Form.Label>
+                <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={origin} onChange={(e) => setOrigin(e.target.value)} />
+              </Form.Group>
+
+              {/* CARATTERE */}
+              <Form.Group className="mb-3">
+                <Form.Label>
+                  <strong>CARATTERE -</strong> Che tipo di "persona" sarebbe il suo vino?
+                </Form.Label>
+                <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={character} onChange={(e) => setCharacter(e.target.value)} />
+              </Form.Group>
+
+              {/* DESTINATARIO */}
+              <Form.Group className="mb-3">
+                <Form.Label>
+                  <strong>DESTINATARIO -</strong> Per quale clientela ha prodotto questo vino? (fascia di prezzo e occasione di consumo)
+                </Form.Label>
+                <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={target} onChange={(e) => setTarget(e.target.value)} />
+              </Form.Group>
+
+              {/* PRIORITA' VISIVE */}
+              <Form.Group className="mb-3">
+                <Form.Label>
+                  <strong>PRIORITA' VISIVE -</strong> Cosa deve risalire per primo nell'etichetta?
+                </Form.Label>
+                <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={visuals} onChange={(e) => setVisuals(e.target.value)} />
+              </Form.Group>
+
+              {/* VINCOLI */}
+              <Form.Group className="mb-3">
+                <Form.Label>
+                  <strong>VINCOLI -</strong> Cosa non si può fare? (obblighi legali, limiti di stampa, formato etichetta, budget)
+                </Form.Label>
+                <Form.Control
+                  className="bubbler-one-regular fs-3"
+                  as="textarea"
+                  rows={3}
+                  value={constraints}
+                  onChange={(e) => setConstraints(e.target.value)}
+                />
+              </Form.Group>
+
+              {/* EMOZIONE FINALE */}
+              <Form.Group className="mb-3">
+                <Form.Label>
+                  <strong>EMOZIONE FINALE -</strong> Il cliente dovrà provare un emozione quando guarda la sua bottiglia, esattamente come quando si osserva un
+                  dipinto per ore..
+                </Form.Label>
+                <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={emotion} onChange={(e) => setEmotion(e.target.value)} />
               </Form.Group>
 
               {/* ALERT SUCCESS */}
@@ -141,7 +223,7 @@ function UserRequest() {
 
               {/* BUTTON */}
               <div className="d-flex justify-content-center mt-5">
-                <Button onClick={handleClick} variant="white" type="submit" className="border border-dark bubbler-one-regular fs-4 fw-bold w-100">
+                <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-4 fw-bold w-100">
                   Invia descrizione
                 </Button>
               </div>
