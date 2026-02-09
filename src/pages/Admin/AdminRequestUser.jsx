@@ -2,7 +2,23 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import NavbarAdmin from "../../components/NavbarAdmin";
 import { Alert, Button, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
-import { JournalText, Pen, PencilSquare } from "react-bootstrap-icons";
+import { JournalText, PencilSquare } from "react-bootstrap-icons";
+
+//ADMIN REQUEST USER E' LA PAGINA DOVE L'ADMIN PUO' VEDERE TUTTE LE RICHIESTE DI UN SINGOLO UTENTE
+//E' COMPOSTA DA UNA TABELLA SUDDIVISA IN:
+//-DATA DI CREAZIONE DELLA RICHIESTA
+//-DESCRIZIONE PRODOTTO: MODALE PER VISUALIZZARE LA DESCRIZIONE E ID RICHIESTA
+//-STATO DELLA RICHIESTA
+
+//L'ADMIN PUO' MODIFICARE LO STATO DELLA RICHIESTA SOLO QUANDO E':
+//- "IN ATTESA"
+//-"IN LAVORAZIONE" --> AL SALVATAGGIO DELLO STATO VIENE INVIATA ALL'UTENTE UN'EMAIL DI DEFAULT
+//-"PREVENTIVO INVIATO" --> AL CAMBIO DI STATO L'ADMIN INVIA UN'EMAIL PERSONALIZZATA IN BASE AL BUDGET DEL CLIENTE PER IL PREVENTIVO
+//-"PAGAMENTO CONFERMATO" --> AL SALVATAGGIO DELLO STATO VIENE INVIATA ALL'UTENTE UN'EMAIL DI DEFAULT
+
+//QUANDO SONO "COMPLETATE" O "RIFIUTATE" L'ADMIN NON HA PIU' LA POSSIBILITA' DI CAMBIARE LO STATO
+//-"COMPLETATA" --> AL CAMBIO DI STATO L'ADMIN INVIA UN'EMAIL CON L'IMMAGINE DELL ETICHETTA ALLEGATA (REQUIRED)
+// E PUO' SCEGLIERE SE UTILIZZARE IL BODY DI DEFAULT O SE PERSONALIZZARLO IN BASE ALLA RISPOSTA DELL'UTENTE
 
 function AdminRequestUser() {
   const { email } = useParams();
@@ -161,6 +177,7 @@ function AdminRequestUser() {
 
       const data = await response.json();
 
+      // FILTRO PER POTER VISUALIZZARE TUTTE LE RICHIESTE DI UN SINGOLO UTENTE
       const filtered = data.filter((request) => request.userEmail === email);
       setRequests(filtered);
     } catch (error) {
@@ -177,6 +194,7 @@ function AdminRequestUser() {
 
   return (
     <>
+      {/* NAVBAR PER LE PAGINE DELL'ADMIN */}
       <NavbarAdmin />
       <Container className="mt-5">
         <Row>
@@ -227,6 +245,7 @@ function AdminRequestUser() {
                           </Button>
                         </td>
 
+                        {/* COLORE DEL TESTO IN BASE AL CAMBIO DELLO STATO */}
                         <td
                           className="text-center"
                           style={{
@@ -242,9 +261,11 @@ function AdminRequestUser() {
                                       : "red",
                           }}
                         >
+                          {/* SE LO STATO E' COMPLETED --> TRADUZIONE IN ITALIANO  */}
                           {request.status === "Completed" ? (
                             "COMPLETATA"
-                          ) : request.status === "Pending" ? (
+                          ) : // SE LO STAO E' IN PENDING --> TRADUZIONE IN ITALIANO, BOTTONE MODIFICA
+                          request.status === "Pending" ? (
                             <div className="d-flex align-items-center flex-column">
                               <span>IN ATTESA</span>
                               <div className="d-flex gap-1">
@@ -262,7 +283,8 @@ function AdminRequestUser() {
                                 </Button>
                               </div>
                             </div>
-                          ) : request.status === "InProgress" ? (
+                          ) : // SE LO STAO E' IN PROGRESS --> TRADUZIONE IN ITALIANO, BOTTONE MODIFICA
+                          request.status === "InProgress" ? (
                             <div className="d-flex align-items-center flex-column">
                               <span>IN LAVORAZIONE</span>
                               <div className="d-flex gap-1">
@@ -280,7 +302,8 @@ function AdminRequestUser() {
                                 </Button>
                               </div>
                             </div>
-                          ) : request.status === "QuoteSent" ? (
+                          ) : // SE LO STAO E' QUOT SENT --> TRADUZIONE IN ITALIANO, BOTTONE MODIFICA
+                          request.status === "QuoteSent" ? (
                             <div className="d-flex align-items-center flex-column">
                               <span>PREVENTIVO INVIATO</span>
                               <div className="d-flex gap-1">
@@ -298,7 +321,8 @@ function AdminRequestUser() {
                                 </Button>
                               </div>
                             </div>
-                          ) : request.status === "PaymentConfirmed" ? (
+                          ) : // SE LO STAO E' PAYMENT CONFIRMED --> TRADUZIONE IN ITALIANO, BOTTONE MODIFICA
+                          request.status === "PaymentConfirmed" ? (
                             <div className="d-flex align-items-center flex-column">
                               <span>PAGAMENTO COMPLETATO</span>
                               <div className="d-flex gap-1">
@@ -317,6 +341,7 @@ function AdminRequestUser() {
                               </div>
                             </div>
                           ) : (
+                            // SE LO STAO E' REJECTED --> TRADUZIONE IN ITALIANO
                             "RIFIUTATA"
                           )}
                         </td>
@@ -326,7 +351,7 @@ function AdminRequestUser() {
               </Table>
             )}
 
-            {/* MODALE DESCRIZIONE*/}
+            {/* MODALE DESCRIZIONE --> PER VISUALIZZARE LA DESCRIZIONE DELL'UTENTE*/}
             <Modal show={modalDescription} onHide={() => setModalDescription(false)} centered>
               <Modal.Header closeButton>
                 <Modal.Title className="bubbler-one-regular text-black fw-bold">Descrizione prodotto</Modal.Title>
@@ -337,11 +362,7 @@ function AdminRequestUser() {
               </Modal.Body>
             </Modal>
 
-            {/* const [modalStatus, setModalStatus] = useState(false);
-  const [modalStatusRequest, setModalStatusRequest] = useState("");
-  const [newStatus, setNewStatus] = useState(""); */}
-
-            {/* MODALE STATO*/}
+            {/* MODALE STATO --> PER POTER CAMBIARE LO STATO DELLA RICHIESTA ED INVIARE L'EMAIL IN BASE ALLO STATO*/}
             <Modal show={modalStatus} onHide={() => setModalStatus(false)} centered>
               <Modal.Header closeButton>
                 <Modal.Title className="bubbler-one-regular text-black fw-bold">Stato della richiesta</Modal.Title>
@@ -405,6 +426,7 @@ function AdminRequestUser() {
                 )}
               </Modal.Body>
 
+              {/* BUTTON */}
               <Modal.Footer>
                 <Button onClick={handleActionStatus} className="bubbler-one-regular bg-white border text-black fs-4 fw-bold">
                   Salva

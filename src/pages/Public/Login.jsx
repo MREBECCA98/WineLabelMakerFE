@@ -4,30 +4,32 @@ import { Eye, EyeSlash } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router-dom";
 import MyNavbar from "../../components/MyNavbar";
 
-//localStorage.setItem("chiave", "valore") - salva un dato.
-//localStorage.getItem("chiave") - recupera un dato.
-//localStorage.removeItem("chiave") - elimina un dato specifico.
-//localStorage.clear() - elimina tutti i dati salvati.
+//PAGINA LOGIN
+//VIENE UTILIZZATA SIA DALL'UTENTE CHE DALL ADMIN
+//EFFETTUATO L'ACCESSO, IN BASE ALL'AUTORIZZAZIONE ENTRAMBI VERRANNO INDIRIZZATI NELLE PAGINE APPROPRIATE
 
 function Login() {
+  const navigate = useNavigate();
+
+  //SE L'UTENTE O L'ADMIN SONO GIA' LOGGATI, NON DEVONO ACCEDERE DI NUOVO
   useEffect(() => {
+    //TOKEN - ROLE (getItem recupera il valore salvato nel localStorage)
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 
+    //VERIFICA DEI RUOLI
+    //NAVIGAZIONE VERO LE PAGINE APPROPRIATE
     if (token && role) {
       if (role === "Admin") navigate("/message");
       else navigate("/userRequestMade");
     }
   }, []);
 
-  const navigate = useNavigate();
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -57,7 +59,7 @@ function Login() {
       const data = await response.json();
       console.log("Login riuscito:", data);
 
-      //TOKEN - ROLE
+      //TOKEN - ROLE (setItem salva il token e il ruolo nel localStorage)
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
 
@@ -90,6 +92,7 @@ function Login() {
 
   return (
     <>
+      {/* NAVBAR HOME-WORK-REGISTER-LOGIN */}
       <MyNavbar />
       <Container className="mt-5">
         <Row className="justify-content-center">
@@ -99,14 +102,14 @@ function Login() {
               Accedi per raccontarci l'esprit del tuo prodotto, lasciaci trasformare il tuo vino in un’opera d’arte!
             </p>
 
-            {/*ALERT SUCCESS */}
+            {/*ALERT SUCCESS --> LOGIN EFFETTUATO CON SUCCESSO */}
             {success ? (
               <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                 {success}
               </Alert>
             ) : null}
 
-            {/*ALERT ERROR */}
+            {/*ALERT ERROR --> ERRORE DURANTE IL LOGIN - USERNAME O PASSWORD ERRATE */}
             {error ? (
               <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                 {error}
@@ -137,6 +140,8 @@ function Login() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
+
+                  {/* INPUT PER POTER VISUALIZZARE O NASCONDERE LA PASSWORD */}
                   <InputGroup.Text
                     style={{ cursor: "pointer" }}
                     onClick={() => setShowPassword(!showPassword)}
@@ -147,6 +152,7 @@ function Login() {
                 </InputGroup>
               </Form.Group>
 
+              {/* BUTTON */}
               <div className="d-flex justify-content-center mt-5">
                 <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-4 fw-bold w-100">
                   Accedi
@@ -154,7 +160,7 @@ function Login() {
               </div>
             </Form>
 
-            {/* //REGISTER LINK */}
+            {/* REGISTER LINK */}
             <div className="text-center mt-5">
               <span className="bubbler-one-regular fs-3">Non hai un account? </span>
               <Link to="/register" className="bubbler-one-regular fs-3 fw-bold text-decoration-none">

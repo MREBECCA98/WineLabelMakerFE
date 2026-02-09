@@ -7,16 +7,27 @@ import LUNAROSSA from "../../assets/LUNA-ROSSA.png";
 import NOCTIS from "../../assets/NOCTIS-RUBRUM.png";
 import THLEIA from "../../assets/THLEIA.png";
 
+//PAGINA I NOSTRI LAVORI --> PAGINA STATICA
+//DOVE L'UTENTE POTRA' VEDERE DIRETTAMENTE LE ETICHETTE CHE SONO STATE CREATE
+//E UNA BREVE DESCRIZIONE IN BASE ALLA RICHIESTA EFFETTUATA
+
 function Work() {
   return (
     <>
+      {/* NAVBAR HOME-WORK-REGISTER-LOGIN */}
       <MyNavbar />
-      <Container className="py-4  bubbler-one-regular">
-        <h1 className="text-center mt-4  bubbler-one-regular fw-bold fs-1 ">I NOSTRI LAVORI</h1>
-        <h4 className="fw-bold text-center bubbler-one-regular fs-4">STORIE CHE HANNO PRESO FORMA, PARTENDO DALLE PAROLE DI CHI IL VINO LO VIVE OGNI GIORNO</h4>
+      <Container className="py-4  bubbler-one-regular mt-4">
+        <h4 className="fw-bold text-start bubbler-one-regular fs-2">
+          " STORIE CHE HANNO PRESO FORMA, PARTENDO DALLE PAROLE DI CHI IL VINO LO VIVE OGNI GIORNO "
+        </h4>
+        <h1 className="text-end mt-4 bubbler-one-regular fw-bold fs-1">I NOSTRI LAVORI</h1>
 
-        {/* ETICHETTA 1 */}
-        <Row className="mt-5">
+        {/* ETICHETTE:
+        --> A SCHERMO SM E MD L'IMMAGINE DELL'ETICHETTA E IL TESO PRENDERANNO LO SCHERMO INTERO (IMMAGINE SOPRA, TESTO SOTTO)
+        --> A SCHERMO LG L'IMMAGINE SARA' AFFIANCATA AL TESTO (6-6) */}
+
+        {/* ETICHETTA 1 - AEQUUS*/}
+        <Row className="mt-5 border-section">
           <Col xs={12} md={12} lg={6}>
             <img src={AEQUUS} alt="aequus" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
           </Col>
@@ -33,10 +44,10 @@ function Work() {
           </Col>
         </Row>
 
-        {/* ETICHETTA 2 */}
-        <Row className="mt-5">
+        {/* ETICHETTA 2 - EQUILIBRIUM */}
+        <Row className="mt-5 border-section">
           <Col xs={12} md={12} lg={6}>
-            <img src={EQUILIBRIUM} alt="aequus" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
+            <img src={EQUILIBRIUM} alt="equilibrium" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
           </Col>
           <Col xs={12} md={12} lg={6}>
             <p className="fw-bold ">MANO FERMA - Equilibrium Rosè (Toscana IGT Rosè 2023) </p>
@@ -51,10 +62,10 @@ function Work() {
           </Col>
         </Row>
 
-        {/* ETICHETTA 5 */}
-        <Row className="mt-5">
+        {/* ETICHETTA 3 - THLEIA */}
+        <Row className="mt-5 border-section">
           <Col xs={12} md={12} lg={6}>
-            <img src={THLEIA} alt="aequus" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
+            <img src={THLEIA} alt="thleia" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
           </Col>
           <Col xs={12} md={12} lg={6}>
             <p className="fw-bold "> MAISON FUORIMISURA - Θάλεια – THALEIA (Champagne AOC 2018) </p>
@@ -69,10 +80,10 @@ function Work() {
           </Col>
         </Row>
 
-        {/* ETICHETTA 3 */}
-        <Row className="mt-5">
+        {/* ETICHETTA 4 - ESSENZA*/}
+        <Row className="mt-5 border-section">
           <Col xs={12} md={12} lg={6}>
-            <img src={ESSENZA} alt="aequus" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
+            <img src={ESSENZA} alt="essenza" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
           </Col>
           <Col xs={12} md={12} lg={6}>
             <p className="fw-bold "> TENUTA SAN LORENZO - Essenza ( IGT Toscana 2022) </p>
@@ -87,10 +98,10 @@ function Work() {
           </Col>
         </Row>
 
-        {/* ETICHETTA 4 */}
-        <Row className="mt-5">
+        {/* ETICHETTA 5 - NOCTIS */}
+        <Row className="mt-5 border-section">
           <Col xs={12} md={12} lg={6}>
-            <img src={NOCTIS} alt="aequus" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
+            <img src={NOCTIS} alt="noctis" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
           </Col>
           <Col xs={12} md={12} lg={6}>
             <p className="fw-bold "> CANTINA SAN MICHELE - Noctis Rubrum (DOC Barbera d'Alba 2021) </p>
@@ -105,10 +116,10 @@ function Work() {
           </Col>
         </Row>
 
-        {/* ETICHETTA 5 */}
-        <Row className="mt-5">
+        {/* ETICHETTA 6 - LUNA ROSSA*/}
+        <Row className="mt-5 border-section">
           <Col xs={12} md={12} lg={6}>
-            <img src={LUNAROSSA} alt="aequus" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
+            <img src={LUNAROSSA} alt="luna-rossa" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
           </Col>
           <Col xs={12} md={12} lg={6}>
             <p className="fw-bold "> CANTINA DELLE VIGNE DORATE - Luna Rossa (DOC Valpolicella Classico 2023) </p>

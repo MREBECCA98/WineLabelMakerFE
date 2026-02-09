@@ -4,21 +4,16 @@ import MyWork from "./pages/Public/MyWork.jsx";
 import Login from "./pages/Public/Login.jsx";
 import Register from "./pages/Public/Register.jsx";
 import MyFooter from "./components/MyFooter.jsx";
-import {} from "react-bootstrap-icons";
 import { Route, Routes } from "react-router-dom";
 import AdminPage from "./pages/Admin/AdminPage.jsx";
 import UserRequest from "./pages/Client/UserRequest.jsx";
 import UserRequestMade from "./pages/Client/UserRequestMade.jsx";
 import UpdateRequest from "./pages/Client/UpdateRequest.jsx";
 import AdminRequestUser from "./pages/Admin/AdminRequestUser.jsx";
-//path home: /,
-//path i nostri lavori: work,
-//path login: login
-//path register: register
-//path adminPage: message
-//path userRequest: userRequest
-//path UserRequestMade: userRequestMade
-//path UpdateRequest: updateRequest
+
+//Componente principale dell’applicazione
+//Gestisce il routing delle pagine tramite React Router
+//Il Footer è fisso e viene mostrato su tutte le rotte
 
 function App() {
   return (

@@ -3,13 +3,22 @@ import SideNavbar from "../../components/SideNavbar";
 import MyNavbar from "../../components/MyNavbar";
 import { Link } from "react-router-dom";
 
+//MY HOME --> PAGINA STATICA
+//DOVE L'UTENTE POTRA' SCOPRIRE COME E' NATO WINE LABEL MAKER (LA NOSTRA STORIA),
+//PER CHI E' STATO CREATO E COSA FACCIAMO (IL VINO, LA TUA IDENTITA')
+//COME INIZIARE IL PERCORSO (INIZIA IL VIAGGIO)
+
 function MyHome() {
   return (
     <>
+      {/* NAVBAR HOME-WORK-REGISTER-LOGIN */}
       <MyNavbar />
       <Container className="py-4">
         <Row>
-          {/* SIDEBAR LATERALE */}
+          {/* SIDEBAR LATERALE 
+          --> VERRA' VISUALIZZATA DA SCHERMI MD IN SU
+          --> AIUTA NELLA NAVIGAZIONE DELLA PAGINA SUDDIVISA IN SEZIONI
+          */}
           <Col md={3}>
             <SideNavbar />
           </Col>
@@ -18,9 +27,12 @@ function MyHome() {
           <Col xs={12} md={9}>
             <section>
               <div className="text-center">
+                {/* IL TITOLO "WINE LABEL MAKER" COMPARIRA' SOLO IN SCHERMI SM,
+                 POICHE' NON SARA' PIU' VISUALIZZATA NELLA NAVBAR */}
                 <h1 className="bubbler-one-regular d-md-none ">Wine Label Maker</h1>
               </div>
             </section>
+
             {/* LA NOSTRA STORIA */}
             <section id="chi-siamo" className="border-section pb-4 bubbler-one-regular text-center mt-4 text-black">
               <h4 className="fw-bold text-start fs-2">" DA PERCORSI DIVERSI NASCE LA STESSA PASSIONE "</h4>
@@ -118,6 +130,8 @@ function MyHome() {
                 Inizia a diventare un racconto.
               </p>
             </section>
+
+            {/* REGISTRAZIONE  */}
             <p className="fs-2 mt-5 text-center bubbler-one-regular">
               Non hai ancora un account? <br />
               <Link to="/register" className="text-black text-decoration-none fw-bold">

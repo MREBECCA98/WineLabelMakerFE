@@ -3,6 +3,11 @@ import NavbarUser from "../../components/NavbarUser";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+//USER REQUEST E' LA PAGINA PER L'UTENTE CHE PERMETTE DI EFFETTUARE L'INVIO DELLA RICHIESTA
+//IN BASE A DEGLI ELEMENTI CHIAVE, OBBLIGATORI PER LA CREAZIONE DELL'ETICHETTA
+//UNA VOLTA INVIATA LA RICHIESTA, L'UTENTE VERRA' INDIRIZZATO ALLA PAGINA "USER REQUEST MADE"
+//DOVE POTRA' VEDERE TUTTE LE RICHIESTE EFFETTUATE E IL LORO STATO
+
 function UserRequest() {
   const [description, setDescription] = useState("");
   const [success, setSuccess] = useState("");
@@ -11,6 +16,7 @@ function UserRequest() {
   const navigate = useNavigate();
 
   //BUTTON-CLICK
+  //NAVIGATE VERSO USER REQUEST MADE
   const handleClick = () => {
     setTimeout(() => {
       navigate("/userRequestMade");
@@ -65,12 +71,15 @@ function UserRequest() {
 
   return (
     <>
+      {/* NAVBAR PER LE PAGINE DELL'UTENTE */}
       <NavbarUser />
       <Container className="mt-5">
         <Row className="justify-content-center">
           <Col xs={12} md={8} lg={6}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RACCONTACI LA MAGIA DEL TUO VINO</h2>
             <p className="mt-3 mb-0 text-center bubbler-one-regular fs-sm-5 fs-3 ">Compila la descrizione del tuo vino includendo tutti gli elementi chiave:</p>
+
+            {/* REQUISITI OBBLIGATORI PER LA LAVORAZIONE DELL'ETICHETTA */}
             <div className="mt-4 bubbler-one-regular ">
               <p className="fs-3">
                 <strong>IDENTITA' -</strong> Personalità profonde del vino : nome, linea, filosofia del produttore
@@ -122,6 +131,7 @@ function UserRequest() {
                   {success}
                 </Alert>
               ) : null}
+
               {/* ALERT ERROR */}
               {error ? (
                 <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
@@ -129,6 +139,7 @@ function UserRequest() {
                 </Alert>
               ) : null}
 
+              {/* BUTTON */}
               <div className="d-flex justify-content-center mt-5">
                 <Button onClick={handleClick} variant="white" type="submit" className="border border-dark bubbler-one-regular fs-4 fw-bold w-100">
                   Invia descrizione

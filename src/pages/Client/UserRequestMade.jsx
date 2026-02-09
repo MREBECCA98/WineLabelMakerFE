@@ -1,19 +1,54 @@
 import { Alert, Button, Col, Container, Modal, Row, Table } from "react-bootstrap";
 import NavbarUser from "../../components/NavbarUser";
-import { Link, Links } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { JournalText, PencilSquare, Trash3 } from "react-bootstrap-icons";
+
+//USER REQUEST MADE E' LA PAGINA PER L'UTENTE DOVE POTRA' VEDERE LO STORICO E LO STATO DELLE SUE RICHIESTE
+//E' LA PRIMA PAGINA DOPO IL LOGIN CHE L'UTENTE VISUALIZZA
+//SE NON SONO ANCORA STATE CREATE RICHIESTE LA PAGINA MOSTRA UN LINK CHE PORTERA' ALLA PAGINA PER CREARE LA DESCRIZIONE DELL'ETICHETTA
+//SE CI SONO RICHIESTE SI VISUALIZZA LA TABELLA CON :
+//- DATA DI CREAZIONE
+//- DESCRIZIONE PRODOTTO (MODALE)
+//- STATO DELLA RICHIESTA:
+// --> SE LO STATO E' IN ATTESA, QUINDI L'ADMIN NON HA ANCORA VISUALIZZATO LA DESCRIZIONE,
+//L'UTENTE POTRA' MODIFICARNE IL TESTO O ELIMINARE LA RICHIESTA,
+//ALTRIMENTI POTRA' VISUALIZZARE LO STATO DELLA SUA RICHIESTA SENZA POTER APPORTARE CAMBIAMENTI
+
+//AD OGNI STATO SUCCESSIVO A "IN ATTESA" VERRA' INVIATA UNA MAIL ALL'UTENTE:
+//-IN LAVORAZIONE (EMAIL DI DEFAULT) --> TESTO EMAIL: $"Gentile {request.User.Name} {request.User.Surname},\n\n"
+//$"La sua richiesta con id: {request.IdRequest} per la nuova etichetta di vino è stata presa in carico. " +
+//"La nostra illustratrice ha iniziato a lavorare sulla creazione dell’etichetta, seguendo le indicazioni da lei fornite.\n\n" +
+//"A breve riceverà una seconda email con il preventivo per la realizzazione dell’etichetta.\n\n" +
+//"Grazie per aver scelto Wine Label Maker."
+
+//-PREVENTIVO INVIATO --> VERRA' INVIATA UN'EMAIL DALL'ADMIN CHE CONTERRA' IL PREVENTIVO IN BASE AL BUDGET DEFINITO DALL'UTENTE IN FASE DI RICHIESTA
+//PAGAMENTO CONFERMATO (EMAIL DI DEFAULT) --> TESTO EMAIL: $"Gentile {request.User.Name} {request.User.Surname},\n\n" +
+//$"Abbiamo ricevuto il pagamento relativo alla sua richiesta con id: {request.IdRequest} per la nuova etichetta di vino. " +
+//"Il nostro team ha iniziato la lavorazione e procederà con la creazione dell’etichetta secondo le sue indicazioni.\n\n" +
+//"A breve riceverà l’email con l’etichetta completata in allegato.\n\n" +
+//"Grazie per aver scelto Wine Label Maker."
+
+//-COMPLETATA --> VERRA' INVIATA UN'EMAIL DALL'ADMIN DOVE POTRA' SCEGLIERE SE INVIARE IL TESTO DI DEFAULT PREIMPOSTATO,
+//O SCRIVERE UN TESTO PERSONALIZZATO IN BASE ALLA RICHIESTA DELL'UTENTE,
+//ALLEGANDO L'IMMAGINE DELL'ETICHETTA PERSONALIZZATA
+
+//-RIFIUTATA (EMAIL DI DEFAULT) --> TESTO EMAIL: $"Gentile {request.User.Name} {request.User.Surname},\n\n" +
+//$"Siamo spiacenti di informarla che la sua richiesta con id: {request.IdRequest} per la nuova etichetta di vino non può essere completata. " +
+//"Se desidera ulteriori dettagli o assistenza, non esiti a contattarci.\n\n" +
+//"Ci auguriamo di poterla aiutare con altre richieste in futuro.\n\n" +
+//"Grazie per aver scelto Wine Label Maker.",
 
 function UserRequestMade() {
   const [requests, setRequests] = useState([]);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
-  // MODALE
+  //MODALE DESCRIZIONE ETICHETTA
   const [modal, setModal] = useState(false);
   const [modalRequest, setModalRequest] = useState(null);
 
-  // DELETE
+  //DELETE SE LO STATO E' IN ATTESA
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
 
@@ -42,7 +77,7 @@ function UserRequestMade() {
     }
   };
 
-  // TUTTE LE RICHIESTE PER UTENETE
+  //TUTTE LE RICHIESTE DELL'UTENETE (L'UTENTE PUO' VISUALIZZARE SOLO LE SUE RICHIESTE)
   useEffect(() => {
     const allRequests = async () => {
       const token = localStorage.getItem("token");
@@ -76,6 +111,7 @@ function UserRequestMade() {
 
   return (
     <>
+      {/* NAVBAR PER LE PAGINE DELL'UTENTE */}
       <NavbarUser />
       <Container className="mt-5">
         <Row className="justify-content-center">
@@ -84,6 +120,7 @@ function UserRequestMade() {
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">LE STORIE DEI TUOI VINI... </h2>
             <p className="mt-3 mb-0 text-center bubbler-one-regular fs-sm-5 fs-3 ">Racconta i tuoi vini e segui le loro storie</p>
             <p className="text-center bubbler-one-regular fs-sm-5 fs-3 ">In questa pagina troverai tutte le descrizioni inviate e il loro progresso</p>
+
             {/* ALERT SUCCESS */}
             {success ? (
               <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
@@ -147,6 +184,7 @@ function UserRequestMade() {
                             </Button>
                           </td>
 
+                          {/* COLORE DEL TESTO IN BASE AL CAMBIO DELLO STATO */}
                           <td
                             className="text-center"
                             style={{
@@ -162,9 +200,11 @@ function UserRequestMade() {
                                         : "red",
                             }}
                           >
+                            {/* SE LO STATO E' COMPLETED --> TRADUZIONE IN ITALIANO  */}
                             {request.status === "Completed" ? (
                               "COMPLETATA"
-                            ) : request.status === "Pending" ? (
+                            ) : // SE LO STAO E' IN PENDING --> TRADUZIONE IN ITALIANO, BOTTONE MODIFICA E DELETE
+                            request.status === "Pending" ? (
                               <div className="d-flex align-items-center flex-column">
                                 <span>IN ATTESA</span>
                                 <div className="d-flex gap-1">
@@ -182,13 +222,17 @@ function UserRequestMade() {
                                   </Button>
                                 </div>
                               </div>
-                            ) : request.status === "InProgress" ? (
+                            ) : // SE LO STATO E' IN PROGRESS --> TRADUZIONE IN ITALIANO
+                            request.status === "InProgress" ? (
                               "IN LAVORAZIONE"
-                            ) : request.status === "QuoteSent" ? (
+                            ) : // SE LO STATO E' QUOT SENT --> TRADUZIONE IN ITALIANO
+                            request.status === "QuoteSent" ? (
                               "PREVENTIVO INVIATO"
-                            ) : request.status === "PaymentConfirmed" ? (
+                            ) : // SE LO STATO E' PAYMENT CONFIRMED --> TRADUZIONE IN ITALIANO
+                            request.status === "PaymentConfirmed" ? (
                               "PAGAMENTO CONFERMATO"
                             ) : (
+                              // SE LO STATO E' REJECTED --> TRADUZIONE IN ITALIANO
                               "RIFIUTATA"
                             )}
                           </td>
@@ -208,6 +252,7 @@ function UserRequestMade() {
                   </Modal.Body>
                 </Modal>
 
+                {/* LINK PER POTER EFFETTUARE UNA NUOVA RICHIESTA */}
                 <div className="text-center mt-5 bubbler-one-regular fw-bold">
                   <p className="fs-3 m-0">VUOI CONDIVIDERE LA STORIA DI UN NUOVO VINO?</p>
                   <Link to="/userRequest" className="text-decoration-none fs-3 ">

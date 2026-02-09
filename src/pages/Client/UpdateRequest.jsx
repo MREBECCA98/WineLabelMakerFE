@@ -3,6 +3,8 @@ import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import NavbarUser from "../../components/NavbarUser";
 import { useEffect, useState } from "react";
 
+//UODATE REQUEST E' LA PAGINE CHE PERMETTE LA MODIFICA DELLA DESCRIZIONE QUANDO LO STATO E' "IN LAVORAZIONE"
+
 function UpdateRequest() {
   const { id } = useParams();
   const [description, setDescription] = useState("");
@@ -11,6 +13,7 @@ function UpdateRequest() {
   const navigate = useNavigate();
 
   //GET PER RECUPERARE LA DESCRIZIONE
+  //viene chiamato al caricamento della pagina per mostrare la descrizione corrente dell'utente
   useEffect(() => {
     const getRequest = async () => {
       const token = localStorage.getItem("token");
@@ -41,6 +44,7 @@ function UpdateRequest() {
   }, [id]);
 
   //MODIFICA DELLA DESCRIZIONE
+  //invia la nuova descrizione al backend
   const handleUpdate = async (e) => {
     e.preventDefault();
 
@@ -62,6 +66,7 @@ function UpdateRequest() {
       const data = await response.json();
       setSuccess("La descrizione è stata modificata!", data);
 
+      //NAVIGATE VERSO USER REQUEST MADE
       setTimeout(() => {
         setSuccess("");
         navigate("/userRequestMade");
@@ -75,6 +80,7 @@ function UpdateRequest() {
   };
   return (
     <>
+      {/* NAVBAR PER LE PAGINE DELL'UTENTE */}
       <NavbarUser />
       <Container className="mt-5">
         <Row className="justify-content-center">
@@ -115,6 +121,7 @@ function UpdateRequest() {
                 </Alert>
               ) : null}
 
+              {/* BUTTON */}
               <div className="d-flex justify-content-center mt-5">
                 <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-5 fw-bold w-100">
                   Modifica descrizione

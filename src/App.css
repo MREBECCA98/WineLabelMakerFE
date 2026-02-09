@@ -47,24 +47,14 @@
   flex: 1;
 }
 
-/* RICHIESTE UTENTE */
-.description {
-  max-height: 150px;
-  overflow-y: auto;
-}
-@media (max-width: 576px) {
-  .description {
-    max-height: 120px;
-  }
-}
-
 /* MY HOME */
 .border-section {
   border-bottom: 3px solid #790c0a;
+  padding-bottom: 2rem;
 }
-
 @media (max-width: 768px) {
   .border-section {
     border-bottom: 2px solid #790c0a;
+    padding-bottom: 2rem;
   }
 }

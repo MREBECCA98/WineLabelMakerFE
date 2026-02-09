@@ -4,13 +4,21 @@ import { useEffect, useState } from "react";
 import { Envelope, EnvelopeFill } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 
+//ADMIN PAGE E' LA PAGINA UTILIZZATA DALL'ADMIN PER POTER VEDERE LE RICHIESTE SUDDIVISE PER UTENTE
+//E' COMPOSTA DA UNA TABELLA SUDDIVISA IN:
+//-AZIENDA: NOME AZIENDA, NOME E COGNOME DELL' UTENTE, EMAIL
+//-RICHIESTA: QUANDO CI SONO NUOVE RICHIESTE (STATO IN ATTESA) LA POSTA DIVENTA VERDE
+//AL CLICK DELLA POSTA SI VERRA' INDIRIZZATI ALLA PAGINA ADMIN REQUEST PAGE,
+//PER POTER VEDERE TUTTE LE RICHIESTE DI UN SINGOLO UTENTE
+
 function AdminPage() {
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState("");
-  //SEARCH BAR
+
+  //SEARCH BAR PER LA RICERCA DI UN SINGOLO UTENTE
   const [search, setSearch] = useState("");
 
-  //FETCH RICHIESTE
+  //FETCH RICHIESTE PER POTER VISUALIZZARE TUTTE LE RICHIESTE SUDDIVISE PER UTENTI
   useEffect(() => {
     const allRequest = async () => {
       const token = localStorage.getItem("token");
@@ -38,7 +46,7 @@ function AdminPage() {
     allRequest();
   }, []);
 
-  //LISTA UTENTI
+  //LISTA UTENTI PER VISUALIZZARE UNA VOLTA SOLA L'UTENTE ANCHE SE HA TANTE RICHIESTE
   const users = [];
 
   requests.forEach((request) => {
@@ -51,6 +59,8 @@ function AdminPage() {
     };
     let user = users.find((user) => user.email === request.userEmail);
 
+    //SE L'UTENTE NON ESISTE VERRA' AGGIUNTO
+    //E SE L'UTENTE ESISTE MA LO STATO E' "IN ATTESA" SIGNIFICA CHE C'E' UNA NUOVA RICHIEST
     if (!user) {
       users.push(newUser);
     } else {
@@ -60,7 +70,7 @@ function AdminPage() {
     }
   });
 
-  //SEARCH
+  //SEARCH --> RICERCA PER NOME AZIENDA, NOME, COGNOME ED EMAIL
   const searchLower = search.toLowerCase();
 
   const filteredUsers = users.filter(
@@ -73,11 +83,13 @@ function AdminPage() {
 
   return (
     <>
+      {/* NAVBAR PER LE PAGINE DELL'ADMIN */}
       <NavbarAdmin />
       <Container className="mt-5">
         <Row>
           <Col xs={12} md={12} lg={12}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RICHIESTE UTENTI</h2>
+
             {/* SEARCH */}
             <Form.Control
               type="text"
@@ -88,6 +100,7 @@ function AdminPage() {
                 setSearch(e.target.value);
               }}
             />
+
             {/* ALERT ERROR */}
             {error ? (
               <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
@@ -114,13 +127,13 @@ function AdminPage() {
                 <thead>
                   <tr>
                     <th>AZIENDA</th>
-
                     <th className="text-center">RICHIESTE</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredUsers.map((user) => (
                     <tr key={user.email}>
+                      {/* AZIENDA */}
                       <td>
                         <div className="fw-bold ">{user.companyName}</div>
                         <div>
@@ -129,6 +142,7 @@ function AdminPage() {
                         <div className="text-muted">{user.email}</div>
                       </td>
 
+                      {/* RICHIESTE CON COLLEGAMENTO ALLA PAGINA "ADMIN REQUEST USER", DOVE SI POTRANNO VEDERE TUTTE LE RICHIESTE PER SINGOLO UTENTE*/}
                       <td className="text-center">
                         <Link to={`/adminRequestUser/${user.email}`}>{user.status ? <EnvelopeFill color="green" size={30} /> : <Envelope size={30} />}</Link>
                       </td>
