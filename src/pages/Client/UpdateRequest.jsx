@@ -109,14 +109,14 @@ function UpdateRequest() {
 
               {/* ALERT SUCCESS */}
               {success ? (
-                <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
+                <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                   {success}
                 </Alert>
               ) : null}
 
               {/* ALERT ERROR */}
               {error ? (
-                <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
+                <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                   {error}
                 </Alert>
               ) : null}

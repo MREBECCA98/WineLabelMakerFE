@@ -398,12 +398,12 @@ function AdminRequestUser() {
                     </Form.Group>
 
                     {errorImg && (
-                      <Alert variant="danger" className="mt-2">
+                      <Alert variant="danger" className="mt-2 fs-5">
                         {errorImg}
                       </Alert>
                     )}
                     {successEmail && (
-                      <Alert variant="success" className="mt-2">
+                      <Alert variant="success" className="mt-2 fs-5">
                         {successEmail}
                       </Alert>
                     )}
@@ -425,12 +425,12 @@ function AdminRequestUser() {
                     </Form.Group>
 
                     {errorEmailQuote && (
-                      <Alert variant="danger" className="mt-2">
+                      <Alert variant="danger" className="mt-2 fs-5">
                         {errorEmailQuote}
                       </Alert>
                     )}
                     {successEmailQuote && (
-                      <Alert variant="success" className="mt-2">
+                      <Alert variant="success" className="mt-2 fs-5">
                         {successEmailQuote}
                       </Alert>
                     )}

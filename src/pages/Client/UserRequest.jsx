@@ -39,31 +39,31 @@ function UserRequest() {
 
     //VISUALIZZAZIONE DELLA DESCRIZIONE FINALE
     const finalDescription = `
-    DATI DEL CLIENTE :
+    /DATI DEL CLIENTE :
     ${clientData}
 
-    PARAMETRI DI PRODUZIONE :
+    /PARAMETRI DI PRODUZIONE :
     ${productionParams}
 
-    IDENTITÀ :
+    /IDENTITÀ :
     ${identity}
 
-    ORIGINE :
+    /ORIGINE :
     ${origin}
 
-    CARATTERE :
+    /CARATTERE :
     ${character}
 
-    DESTINATARIO :
+    /DESTINATARIO :
     ${target}
 
-    PRIORITÀ VISIVE :
+    /PRIORITÀ VISIVE :
     ${visuals}
 
-    VINCOLI :
+    /VINCOLI :
     ${constraints}
 
-    EMOZIONE FINALE :
+    /EMOZIONE FINALE :
     ${emotion}`;
 
     //TOKEN
@@ -209,14 +209,14 @@ function UserRequest() {
 
               {/* ALERT SUCCESS */}
               {success ? (
-                <Alert variant="success" className="bubbler-one-regular fs-6 fw-bold">
+                <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                   {success}
                 </Alert>
               ) : null}
 
               {/* ALERT ERROR */}
               {error ? (
-                <Alert variant="danger" className="bubbler-one-regular fs-6 fw-bold">
+                <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                   {error}
                 </Alert>
               ) : null}
