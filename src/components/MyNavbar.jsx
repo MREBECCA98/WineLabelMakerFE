@@ -1,6 +1,6 @@
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import Logo from "../assets/logoRed4.png";
-import { People, BoxArrowLeft } from "react-bootstrap-icons";
+import { People } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 
 function MyNavbar() {

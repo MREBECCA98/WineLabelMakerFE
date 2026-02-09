@@ -24,12 +24,11 @@ function MyHome() {
             </section>
             {/* LA NOSTRA STORIA */}
             <section id="chi-siamo" className="pb-5 bubbler-one-regular text-center mt-4 text-black">
+              <h2 className="text-center mt-4  bubbler-one-regular fw-bold fs-1 ">LA NOSTRA STORIA</h2>
+              <h4 className="fw-bold">DA PERCORSI DIVERSI NASCE LA STESSA PASSIONE</h4>
               <div>
                 <img src={Donna} alt="" style={{ width: "70%" }} />
               </div>
-
-              <h2 className="text-center mt-4  bubbler-one-regular fw-bold fs-1 ">LA NOSTRA STORIA</h2>
-              <h4 className="fw-bold">DA PERCORSI DIVERSI NASCE LA STESSA PASSIONE</h4>
 
               <p className="fs-4 mt-5 ">
                 Wine Label Maker nasce dall’incontro di due vite che, per un periodo, non sembravano più appartenersi.
@@ -121,7 +120,7 @@ function MyHome() {
                 <br />
                 Inizia a diventare un racconto.
               </p>
-              <p className="fs-4 mt-5 text-center">
+              <p className="fs-3 mt-5 text-center">
                 Non hai ancora un account? <br />
                 <Link to="/register" className="text-black text-decoration-none fw-bold">
                   Inizia il tuo viaggio
