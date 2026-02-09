@@ -120,7 +120,7 @@ function UserRequest() {
                 />
 
                 {/* REQUISITI DESCRIZIONE */}
-                <ul className="fs-6" style={{ marginTop: "10px" }}>
+                <ul className="fs-5" style={{ marginTop: "10px" }}>
                   <li style={{ color: description.length >= 5000 ? "red" : "green" }}>Raccontaci tutto sul tuo prodotto, in massimo 5000 caratteri</li>
                 </ul>
               </Form.Group>

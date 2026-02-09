@@ -184,7 +184,7 @@ function Register() {
                 </InputGroup>
 
                 {/* REQUISITI PASSWORD --> OBBLIGO PER CREAZIONE PASSWORD */}
-                <ul className="fs-6" style={{ marginTop: "10px" }}>
+                <ul className="fs-5" style={{ marginTop: "10px" }}>
                   <li style={{ color: password.length >= 8 ? "green" : "red" }}>Minimo 8 caratteri</li>
                   <li style={{ color: /[A-Z]/.test(password) ? "green" : "red" }}>Almeno una lettera maiuscola</li>
                   <li style={{ color: /[0-9]/.test(password) ? "green" : "red" }}>Almeno un numero</li>

@@ -92,7 +92,7 @@ function UpdateRequest() {
               <Form.Group className="mb-3" controlId="formDescription">
                 <Form.Label className="bubbler-one-regular fs-5">Modifica la descrizione del tuo prodotto</Form.Label>
                 <Form.Control
-                  className="bubbler-one-regular fs-6"
+                  className="bubbler-one-regular fs-3"
                   as="textarea" //TYPE
                   rows={9}
                   maxLength={5000}

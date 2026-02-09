@@ -382,8 +382,14 @@ function AdminRequestUser() {
                 {newStatus === 4 && (
                   <>
                     <Form.Group className="mt-3">
-                      <Form.Label className="fs-4 fw-bold">Messaggio email (opzionale)</Form.Label>
-                      <Form.Control as="textarea" rows={5} value={bodyCompleted} onChange={(e) => setBodyCompleted(e.target.value)} />
+                      <Form.Label className="fs-4 fw-bold">Messaggio email</Form.Label>
+                      <Form.Control
+                        className="bubbler-one-regular fs-3"
+                        as="textarea"
+                        rows={5}
+                        value={bodyCompleted}
+                        onChange={(e) => setBodyCompleted(e.target.value)}
+                      />
                     </Form.Group>
 
                     <Form.Group className="mt-3">
@@ -409,7 +415,13 @@ function AdminRequestUser() {
                   <>
                     <Form.Group className="mt-3">
                       <Form.Label className="fs-4 fw-bold">Messaggio email preventivo</Form.Label>
-                      <Form.Control as="textarea" rows={5} value={bodyQuote} onChange={(e) => setBodyQuote(e.target.value)} />
+                      <Form.Control
+                        className="bubbler-one-regular fs-3"
+                        as="textarea"
+                        rows={5}
+                        value={bodyQuote}
+                        onChange={(e) => setBodyQuote(e.target.value)}
+                      />
                     </Form.Group>
 
                     {errorEmailQuote && (
