@@ -1,7 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
 import SideNavbar from "../../components/SideNavbar";
 import MyNavbar from "../../components/MyNavbar";
-import Donna from "../../assets/donna.png";
 import { Link } from "react-router-dom";
 
 function MyHome() {
@@ -23,12 +22,10 @@ function MyHome() {
               </div>
             </section>
             {/* LA NOSTRA STORIA */}
-            <section id="chi-siamo" className="pb-5 bubbler-one-regular text-center mt-4 text-black">
-              <h2 className="text-center mt-4  bubbler-one-regular fw-bold fs-1 ">LA NOSTRA STORIA</h2>
-              <h4 className="fw-bold">DA PERCORSI DIVERSI NASCE LA STESSA PASSIONE</h4>
-              <div>
-                <img src={Donna} alt="" style={{ width: "70%" }} />
-              </div>
+            <section id="chi-siamo" className="border-section pb-4 bubbler-one-regular text-center mt-4 text-black">
+              <h4 className="fw-bold text-start fs-2">" DA PERCORSI DIVERSI NASCE LA STESSA PASSIONE "</h4>
+
+              <h2 className=" mt-4  bubbler-one-regular fw-bold fs-1 text-end ">LA NOSTRA STORIA</h2>
 
               <p className="fs-4 mt-5 ">
                 Wine Label Maker nasce dall’incontro di due vite che, per un periodo, non sembravano più appartenersi.
@@ -69,9 +66,9 @@ function MyHome() {
             </section>
 
             {/* IL TUO VINO, LA TUA IDENTITA' */}
-            <section id="per-chi-è" className="pb-5 bubbler-one-regular text-center mt-4 text-black ">
-              <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">IL VINO, LA TUA IDENTITA'</h2>
-              <h4 className="fw-bold">PER CHI CREDE CHE OGNI BOTTIGLIA POSSA TRASMETTERE UNA STORIA</h4>
+            <section id="per-chi-è" className="border-section pb-4 bubbler-one-regular text-center mt-4 text-black ">
+              <h4 className="fw-bold text-start fs-2">" PER CHI CREDE CHE OGNI BOTTIGLIA POSSA TRASMETTERE UNA STORIA "</h4>
+              <h2 className="text-end mt-4 bubbler-one-regular fw-bold fs-1 ">IL VINO, LA TUA IDENTITA'</h2>
 
               <p className="fs-4 mt-5 ">
                 Wine Label Maker è per chi al proprio vino tiene davvero.
@@ -99,9 +96,9 @@ function MyHome() {
             </section>
 
             {/* INIZIA IL VIAGGIO */}
-            <section id="come-iniziare" className="pb-5 bubbler-one-regular text-center mt-4 text-black ">
-              <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">INIZIA IL VIAGGIO</h2>
-              <h4 className="fw-bold">OGNI STORIA HA BISOGNO DEL SUO TEMPO... E QUESTO E' IL PRIMO PASSO</h4>
+            <section id="come-iniziare" className="border-section pb-4 bubbler-one-regular text-center mt-4 text-black ">
+              <h4 className="fw-bold text-start fs-2 ">" OGNI STORIA HA BISOGNO DEL SUO TEMPO... E QUESTO E' IL PRIMO PASSO" </h4>
+              <h2 className="text-end mt-4 bubbler-one-regular fw-bold fs-1 ">INIZIA IL VIAGGIO</h2>
 
               <p className="fs-4 mt-5 ">
                 Registrati e accedi alla tua area personale: da lì potrai inviarci la descrizione dettagliata del tuo vino.
@@ -115,18 +112,18 @@ function MyHome() {
                 stato della tua etichetta direttamente dalla tua pagina personale, in modo semplice e trasparente.
               </p>
 
-              <p className="fs-4 fw-bold">
+              <p className=" fs-4 fw-bold">
                 Da quel momento in poi, il tuo vino smette di essere solo un prodotto.
                 <br />
                 Inizia a diventare un racconto.
               </p>
-              <p className="fs-3 mt-5 text-center">
-                Non hai ancora un account? <br />
-                <Link to="/register" className="text-black text-decoration-none fw-bold">
-                  Inizia il tuo viaggio
-                </Link>
-              </p>
             </section>
+            <p className="fs-2 mt-5 text-center bubbler-one-regular">
+              Non hai ancora un account? <br />
+              <Link to="/register" className="text-black text-decoration-none fw-bold">
+                Inizia il tuo viaggio
+              </Link>
+            </p>
           </Col>
         </Row>
       </Container>

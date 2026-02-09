@@ -95,7 +95,7 @@ function Work() {
           <Col xs={12} md={12} lg={6}>
             <p className="fw-bold "> CANTINA SAN MICHELE - Noctis Rubrum (DOC Barbera d'Alba 2021) </p>
             <p>
-              UN Barbera elegante e avvolgente, dal carattere deciso e raffinato.
+              Un Barbera elegante e avvolgente, dal carattere deciso e raffinato.
               <br />
               Profondo e seducente, evoca il mistero della notte con note di ciliegia matura e spezie dolci.
               <br />
