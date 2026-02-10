@@ -125,6 +125,9 @@ function AdminRequestUser() {
         if (!emailResponse.ok) throw new Error("Errore invio email");
 
         setSuccessEmail("Email inviata con successo!");
+        setTimeout(() => {
+          setSuccessEmail("");
+        }, 2000);
       }
 
       //SE LO STATO E' QUOTE-SENT(2)
@@ -149,10 +152,16 @@ function AdminRequestUser() {
         }
 
         setSuccessEmailQuote("Email preventivo inviata con successo!");
+        setTimeout(() => {
+          setSuccessEmailQuote("");
+        }, 2000);
       }
 
       userRequest();
-      setModalStatus(false);
+
+      setTimeout(() => {
+        setModalStatus(false);
+      }, 3000);
     } catch (error) {
       console.error(error);
       setError(error.message);
@@ -188,6 +197,37 @@ function AdminRequestUser() {
       setTimeout(() => {
         setError("");
       }, 2000);
+    }
+  };
+
+  //GESTIONE PER LA VISIBILITA' DEL PROCESSO DEGLI STATI
+  const isStatusDisabled = (disabledStatus) => {
+    const currentStatus = modalStatusRequest.status;
+    console.log("stato corrente", currentStatus);
+
+    switch (currentStatus) {
+      //IN ATTESA --> si può modificare lo stato solo in "IN LAVORAZIONE" e "RIFIUTATA"
+      case "Pending":
+        return !(disabledStatus === "InProgress" || disabledStatus === "Rejected");
+
+      //IN LAVORAZIONE --> si può modificare lo stato in "PREVENTIVO INVIATO"
+      case "InProgress":
+        return disabledStatus !== "QuoteSent";
+
+      //PREVENTIVO INVIATO --> si può modificare lo stato solo in "PAGAMENTO CONFERMATO"
+      case "QuoteSent":
+        return disabledStatus !== "PaymentConfirmed";
+
+      //PAGAMENTO CONFERMATO --> si può cambiare lo stato solo in "COMPLETATA"
+      case "PaymentConfirmed":
+        return disabledStatus !== "Completed";
+
+      case "Completed":
+      case "Rejected":
+        return true;
+
+      default:
+        return true;
     }
   };
 
@@ -385,14 +425,27 @@ function AdminRequestUser() {
                 <Modal.Title className="bubbler-one-regular text-black fw-bold">Stato della richiesta</Modal.Title>
               </Modal.Header>
 
+              {/* GESTIONE PER LA VISIBILITA' DEL PROCESSO DEGLI STATI */}
               <Modal.Body>
                 <Form.Select className="fs-3" value={newStatus} onChange={(e) => setNewStatus(Number(e.target.value))}>
-                  <option value={0}>In attesa</option>
-                  <option value={1}>In lavorazione</option>
-                  <option value={2}>Preventivo inviato</option>
-                  <option value={3}>Pagamento confermato</option>
-                  <option value={4}>Completata</option>
-                  <option value={5}>Rifiutata</option>
+                  <option value={0} disabled={isStatusDisabled("Pending")}>
+                    In attesa
+                  </option>
+                  <option value={1} disabled={isStatusDisabled("InProgress")}>
+                    In lavorazione
+                  </option>
+                  <option value={2} disabled={isStatusDisabled("QuoteSent")}>
+                    Preventivo inviato
+                  </option>
+                  <option value={3} disabled={isStatusDisabled("PaymentConfirmed")}>
+                    Pagamento confermato
+                  </option>
+                  <option value={4} disabled={isStatusDisabled("Completed")}>
+                    Completata
+                  </option>
+                  <option value={5} disabled={isStatusDisabled("Rejected")}>
+                    Rifiutata
+                  </option>
                 </Form.Select>
 
                 {/* SOLO SE COMPLETED */}
@@ -440,7 +493,6 @@ function AdminRequestUser() {
                         onChange={(e) => setBodyQuote(e.target.value)}
                       />
                     </Form.Group>
-
                     {errorEmailQuote && (
                       <Alert variant="danger" className="mt-2 fs-5">
                         {errorEmailQuote}
@@ -454,7 +506,6 @@ function AdminRequestUser() {
                   </>
                 )}
               </Modal.Body>
-
               {/* BUTTON */}
               <Modal.Footer>
                 <Button onClick={handleActionStatus} className="bubbler-one-regular bg-white border text-black fs-4 fw-bold">
