@@ -60,12 +60,14 @@ function AdminRequestUser() {
     Rejected: 5,
   };
 
-  //MODIFICA STATO, SE COMPLETED INVIA EMAIL CON ALLEGATO IMMAGINE ETICHETTA
+  //MODIFICA STATO
+  //------------------------------------------------------------------------------------------------------------------
   const handleActionStatus = async () => {
     const token = localStorage.getItem("token");
-    //STATO
-    //------------------------------------------------------------------------------------------------------------------
+
     try {
+      //STATO
+      //------------------------------------------------------------------------------------------------------------------
       const updateStatus = await fetch(`https://localhost:7046/api/Request/updateAdmin/${modalStatusRequest.idRequest}`, {
         method: "PUT",
         headers: {
@@ -79,6 +81,8 @@ function AdminRequestUser() {
         throw new Error("Errore aggiornamento stato");
       }
 
+      //EMAIL DEFAULT "IN PROGRESS", "PAYMENT CONFIRMED", "JEGECTED"
+      //------------------------------------------------------------------------------------------------------------------
       if (newStatus === 1 || newStatus === 3 || newStatus === 5) {
         setSuccessEmailDefault("Email inviata con successo!");
         setTimeout(() => {
@@ -86,7 +90,9 @@ function AdminRequestUser() {
         }, 2000);
       }
 
-      //SE LO STATO E' COMPLETED(4) L'IMMAGINE DELL'ETICHETTA E' OBBLIGATORIA
+      //EMAIL COMPLETED(4)
+      //------------------------------------------------------------------------------------------------------------------
+      // L'IMMAGINE DELL'ETICHETTA E' OBBLIGATORIA
       if (newStatus === 4) {
         if (!imgCompleted) {
           setErrorImg("L'allegato è obbligatorio");
@@ -96,10 +102,8 @@ function AdminRequestUser() {
           return;
         }
 
-        //IMMAGINE ETICHETTA
-        //------------------------------------------------------------------------------------------------------------------
-
         //UPLOAD IMMAGINE
+        //------------------------------------------------------------------------------------------------------------------
         const formData = new FormData();
         formData.append("labelImage", imgCompleted);
 
@@ -115,10 +119,7 @@ function AdminRequestUser() {
           throw new Error("Errore upload immagine");
         }
 
-        //EMAIL
-        //------------------------------------------------------------------------------------------------------------------
-
-        // INVIO EMAIL
+        //INVIO EMAIL COMPLETED
         const emailResponse = await fetch("https://localhost:7046/api/Email/completed", {
           method: "POST",
           headers: {
@@ -139,8 +140,10 @@ function AdminRequestUser() {
           setSuccessEmail("");
         }, 2000);
       }
+      //------------------------------------------------------------------------------------------------------------------
 
-      //SE LO STATO E' QUOTE-SENT(2)
+      //EMAIL PREVENTIVO (2)
+      //------------------------------------------------------------------------------------------------------------------
       if (newStatus === 2) {
         if (!bodyQuote || bodyQuote.trim() === "") {
           setErrorEmailQuote("Il testo della mail è obbligatorio");
@@ -170,6 +173,7 @@ function AdminRequestUser() {
           setSuccessEmailQuote("");
         }, 2000);
       }
+      //------------------------------------------------------------------------------------------------------------------
 
       userRequest();
 
@@ -186,6 +190,7 @@ function AdminRequestUser() {
   };
 
   //FETCH RICHIESTE IN BASE ALL'UTENTE
+  //------------------------------------------------------------------------------------------------------------------
   const userRequest = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -215,9 +220,10 @@ function AdminRequestUser() {
   };
 
   //GESTIONE PER LA VISIBILITA' DEL PROCESSO DEGLI STATI
+  //------------------------------------------------------------------------------------------------------------------
   const isStatusDisabled = (disabledStatus) => {
     const currentStatus = modalStatusRequest.status;
-    console.log("stato corrente", currentStatus);
+    // console.log("stato corrente", currentStatus);
 
     switch (currentStatus) {
       //IN ATTESA --> si può modificare lo stato solo in "IN LAVORAZIONE" e "RIFIUTATA"
