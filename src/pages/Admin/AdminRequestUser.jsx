@@ -25,6 +25,9 @@ function AdminRequestUser() {
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState("");
 
+  //SEARCH BAR PER LA RICERCA DI UN SINGOLO UTENTE
+  const [search, setSearch] = useState("");
+
   //MODALE DESCRIZIONE
   const [modalDescription, setModalDescription] = useState(false);
   const [modalDescriptionRequest, setModalDescriptionRequest] = useState(null);
@@ -192,6 +195,9 @@ function AdminRequestUser() {
     userRequest();
   }, [email]);
 
+  //SEARCH --> RICERCA PER ID RICHIESTA
+  const filteredRequest = requests.filter((r) => r.idRequest.toString().includes(search));
+
   return (
     <>
       {/* NAVBAR PER LE PAGINE DELL'ADMIN */}
@@ -200,6 +206,17 @@ function AdminRequestUser() {
         <Row>
           <Col xs={12} md={12} lg={12}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RICHIESTE</h2>
+
+            {/* SEARCH */}
+            <Form.Control
+              type="text"
+              placeholder="Cerca richiesta per ID"
+              className="my-3 fs-3 bubbler-one-regular fw-bold text-black"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
 
             {/* ALERT ERROR SE NON CI SONO UTENTI */}
             {requests.length === 0 && (
@@ -223,7 +240,7 @@ function AdminRequestUser() {
                   </tr>
                 </thead>
                 <tbody>
-                  {requests
+                  {filteredRequest
                     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                     .map((request) => (
                       <tr key={request.idRequest}>

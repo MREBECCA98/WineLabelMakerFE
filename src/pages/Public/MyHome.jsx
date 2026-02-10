@@ -13,7 +13,7 @@ function MyHome() {
     <>
       {/* NAVBAR HOME-WORK-REGISTER-LOGIN */}
       <MyNavbar />
-      <Container className="py-4">
+      <Container className=" py-4">
         <Row>
           {/* SIDEBAR LATERALE 
           --> VERRA' VISUALIZZATA DA SCHERMI MD IN SU
@@ -36,7 +36,6 @@ function MyHome() {
             {/* LA NOSTRA STORIA */}
             <section id="chi-siamo" className="border-section pb-4 bubbler-one-regular text-center mt-4 text-black">
               <h4 className="fw-bold text-start fs-2">" DA PERCORSI DIVERSI NASCE LA STESSA PASSIONE "</h4>
-
               <h2 className=" mt-4  bubbler-one-regular fw-bold fs-1 text-end ">LA NOSTRA STORIA</h2>
 
               <p className="fs-4 mt-5 ">

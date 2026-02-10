@@ -94,7 +94,7 @@ function AdminPage() {
             <Form.Control
               type="text"
               placeholder="Cerca azienda..."
-              className="my-3"
+              className="my-3 fs-3 bubbler-one-regular fw-bold text-black"
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
