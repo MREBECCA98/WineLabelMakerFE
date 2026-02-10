@@ -48,6 +48,9 @@ function AdminRequestUser() {
   const [successEmailQuote, setSuccessEmailQuote] = useState("");
   const [errorEmailQuote, setErrorEmailQuote] = useState("");
 
+  //EMAIL DEFAULT
+  const [successEmailDefault, setSuccessEmailDefault] = useState("");
+
   const status = {
     Pending: 0,
     InProgress: 1,
@@ -76,10 +79,17 @@ function AdminRequestUser() {
         throw new Error("Errore aggiornamento stato");
       }
 
+      if (newStatus === 1 || newStatus === 3 || newStatus === 5) {
+        setSuccessEmailDefault("Email inviata con successo!");
+        setTimeout(() => {
+          setSuccessEmailDefault("");
+        }, 2000);
+      }
+
       //SE LO STATO E' COMPLETED(4) L'IMMAGINE DELL'ETICHETTA E' OBBLIGATORIA
       if (newStatus === 4) {
         if (!imgCompleted) {
-          setErrorImg("L'immagine dell'etichetta è obbligatoria");
+          setErrorImg("L'allegato è obbligatorio");
           setTimeout(() => {
             setErrorImg("");
           }, 2000);
@@ -132,6 +142,13 @@ function AdminRequestUser() {
 
       //SE LO STATO E' QUOTE-SENT(2)
       if (newStatus === 2) {
+        if (!bodyQuote || bodyQuote.trim() === "") {
+          setErrorEmailQuote("Il testo della mail è obbligatorio");
+          setTimeout(() => {
+            setErrorEmailQuote("");
+          }, 2000);
+          return;
+        }
         const emailQuoteStatus = await fetch("https://localhost:7046/api/Email/sendQuote", {
           method: "POST",
           headers: {
@@ -145,10 +162,7 @@ function AdminRequestUser() {
         });
 
         if (!emailQuoteStatus.ok) {
-          setErrorEmailQuote("Errore invio email preventivo");
-          setTimeout(() => {
-            setErrorEmailQuote("");
-          }, 2000);
+          throw new Error("Errore invio email preventivo");
         }
 
         setSuccessEmailQuote("Email preventivo inviata con successo!");
@@ -166,7 +180,7 @@ function AdminRequestUser() {
       console.error(error);
       setError(error.message);
       setTimeout(() => {
-        setErrorImg("");
+        setError("");
       }, 2000);
     }
   };
@@ -466,17 +480,6 @@ function AdminRequestUser() {
                       <Form.Label className="fs-4 fw-bold">Immagine etichetta</Form.Label>
                       <Form.Control type="file" accept="image/*" onChange={(e) => setImgCompleted(e.target.files[0])} />
                     </Form.Group>
-
-                    {errorImg && (
-                      <Alert variant="danger" className="mt-2 fs-5">
-                        {errorImg}
-                      </Alert>
-                    )}
-                    {successEmail && (
-                      <Alert variant="success" className="mt-2 fs-5">
-                        {successEmail}
-                      </Alert>
-                    )}
                   </>
                 )}
 
@@ -493,21 +496,43 @@ function AdminRequestUser() {
                         onChange={(e) => setBodyQuote(e.target.value)}
                       />
                     </Form.Group>
-                    {errorEmailQuote && (
-                      <Alert variant="danger" className="mt-2 fs-5">
-                        {errorEmailQuote}
-                      </Alert>
-                    )}
-                    {successEmailQuote && (
-                      <Alert variant="success" className="mt-2 fs-5">
-                        {successEmailQuote}
-                      </Alert>
-                    )}
                   </>
                 )}
               </Modal.Body>
-              {/* BUTTON */}
+
               <Modal.Footer>
+                {/* SUCCESS EMAIL DEFAULT */}
+                {successEmailDefault && (
+                  <Alert variant="success" className="mt-2 fs-5">
+                    {successEmailDefault}
+                  </Alert>
+                )}
+
+                {/* SUCCESS AND ERROR EMAIL COMPLETED */}
+                {successEmail && (
+                  <Alert variant="success" className="mt-2 fs-5">
+                    {successEmail}
+                  </Alert>
+                )}
+                {errorImg && (
+                  <Alert variant="danger" className="mt-2 fs-5">
+                    {errorImg}
+                  </Alert>
+                )}
+
+                {/* SUCCESS AND ERROR EMAIL QUOTE */}
+                {successEmailQuote && (
+                  <Alert variant="success" className="mt-2 fs-5">
+                    {successEmailQuote}
+                  </Alert>
+                )}
+                {errorEmailQuote && (
+                  <Alert variant="danger" className="mt-2 fs-5">
+                    {errorEmailQuote}
+                  </Alert>
+                )}
+
+                {/* BUTTON */}
                 <Button onClick={handleActionStatus} className="bubbler-one-regular bg-white border text-black fs-4 fw-bold">
                   Salva
                 </Button>
