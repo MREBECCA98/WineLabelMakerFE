@@ -26,7 +26,7 @@ function Register() {
 
     //CONTROLLO CAMPPI VUOTI
     if (!name || !surname || !email || !companyName || !phoneNumber || !password || !confirmPassword) {
-      setError("Compila tutti i campi!");
+      setError("I campi sono obbligatori!");
       setTimeout(() => {
         setError("");
       }, 2000);
@@ -63,7 +63,7 @@ function Register() {
       });
 
       if (!response.ok) {
-        throw new Error("Errore nella registrazione!");
+        throw new Error("L'email inserita è già esistente!");
       }
 
       setSuccess("Registrazione effettuata con successo!");

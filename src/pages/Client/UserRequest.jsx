@@ -198,7 +198,7 @@ function UserRequest() {
               {/* PRIORITA' VISIVE */}
               <Form.Group className="mb-3">
                 <Form.Label>
-                  <strong>PRIORITA' VISIVE -</strong> Cosa deve risalire per primo nell'etichetta?
+                  <strong>PRIORITA' VISIVE -</strong> Quale elemento desideri valorizzare sull’etichetta?
                 </Form.Label>
                 <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={visuals} onChange={(e) => setVisuals(e.target.value)} />
               </Form.Group>
@@ -206,7 +206,7 @@ function UserRequest() {
               {/* VINCOLI */}
               <Form.Group className="mb-3">
                 <Form.Label>
-                  <strong>VINCOLI -</strong> Cosa non si può fare? (obblighi legali, limiti di stampa, formato etichetta, budget)
+                  <strong>VINCOLI -</strong> Cosa non si può fare? (obblighi legali, limiti di stampa, formato etichetta)
                 </Form.Label>
                 <Form.Control
                   className="bubbler-one-regular fs-3"
