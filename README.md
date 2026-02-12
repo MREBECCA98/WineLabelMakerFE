@@ -21,7 +21,7 @@ These requests are then handled by our illustrator and managed through a dedicat
 -**New Request Indicator:** a new request is marked with a green envelope  
 -**User Requests Page:** by clicking on a specific user's envelope, the administrator can view all their requests  
 -**Change Request Status:** the administrator can update the status of each request  
--**Email Notifications:** whenever a request's status changes, a predefined notification email is sent to the user, except for QuotSent and Confirmation emails   
+-**Email Notifications:** whenever a request's status changes, a predefined notification email is sent to the user, except for QuotSent and Confirmation emails.   
 For confirmed requests, the email includes the image of the final label  
 -**Responsive Interface:** the administrator pages work smoothly on both desktop and mobile devices  
 
@@ -37,6 +37,7 @@ For confirmed requests, the email includes the image of the final label
 ## GETTING STARTED - VISUAL STUDIO CODE  
 1 - **Clone the repository**  
 Oper your terminal/ Git Bash and run:  
+cd DESKTOP (before cloning if you want to put it on your desktop)  
 git clone https://github.com/MREBECCA98/WineLabelMakerFE.git  
 2 - **Navigate to the project folder**  
 cd WineLabelMakerFE  
