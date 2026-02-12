@@ -32,6 +32,24 @@ For confirmed requests, the email includes the image of the final label.
 -**React Icons** – icons library
 -**JavaScript (ES6+)** – programming language
 -**CSS / Bootstrap** – styling and layout
--**Responsive Interface:** - the administrator pages work smoothly on both desktop and mobile devices.
 -**JWT (JSON Web Tokens)** – secure authentication and session management
+
+## GETTING STARTED - VISUAL STUDIO CODE
+1 - **Clone the repository** 
+Oper your terminal/ Git Bash and run: 
+git clone https://github.com/MREBECCA98/WineLabelMakerFE.git
+2 - **Navigate to the project folder**
+cd WineLabelMakerFE
+3 - **Install dependencies**
+npm install
+4 - **Start the development server**
+npm run dev
+5 - **Open the application**
+Local:   http://localhost:5173/
+
+git clone https://github.com/MREBECCA98/WineLabelMakerFE.git
+cd WineLabelMakerFE
+npm install
+npm run dev
+
 
