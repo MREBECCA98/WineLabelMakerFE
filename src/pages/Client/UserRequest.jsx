@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 //DOVE POTRA' VEDERE TUTTE LE RICHIESTE EFFETTUATE E IL LORO STATO
 
 function UserRequest() {
+  //FORM DESCRIZIONE ETICHETTA
   const [clientData, setClientData] = useState("");
   const [productionParams, setProductionParams] = useState("");
   const [identity, setIdentity] = useState("");
@@ -22,7 +23,9 @@ function UserRequest() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
+  //SCADENZA TOKEN
   const navigate = useNavigate();
+  const [messageToken, setMessageToken] = useState();
 
   //CREATE
   const handleCreate = async (e) => {
@@ -30,7 +33,7 @@ function UserRequest() {
 
     //SE MANCA LA DESCRIZIONE MOSTRA ERRORE
     if (!clientData || !productionParams || !identity || !origin || !character || !target || !visuals || !constraints || !emotion) {
-      setError("I campi sono obbligatorio!");
+      setError("I campi sono obbligatori!");
       setTimeout(() => {
         setError("");
       }, 2000);
@@ -80,11 +83,20 @@ function UserRequest() {
         body: JSON.stringify({ description: finalDescription }),
       });
       if (!response.ok) {
+        //SCADENZA TOKEN
+        if (response.status == 401) {
+          localStorage.removeItem("token");
+          setMessageToken("Sessione scaduta. Effettua di nuovo il login");
+          setTimeout(() => {
+            setMessageToken("");
+            navigate("/login");
+          }, 4000);
+          return;
+        }
         throw new Error("Errore nella creazione della richiest!");
       }
 
-      const data = await response.json();
-      console.log("La creazione della richiesta è andata a buon fine!", data);
+      await response.json();
 
       setSuccess("La creazione della richiesta è andata a buon fine!");
       setTimeout(() => {
@@ -118,6 +130,13 @@ function UserRequest() {
           <Col xs={12} md={8} lg={6}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RACCONTACI LA MAGIA DEL TUO VINO</h2>
             <p className="mt-3 mb-0 text-center bubbler-one-regular fs-sm-5 fs-3 ">Compila la descrizione del tuo vino includendo tutti gli elementi chiave:</p>
+
+            {/* SCADENZA TOKEN */}
+            {messageToken && (
+              <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
+                {messageToken}
+              </Alert>
+            )}
 
             {/* REQUISITI OBBLIGATORI PER LA LAVORAZIONE DELL'ETICHETTA */}
             {/* FORM RICHIESTA */}
@@ -208,18 +227,18 @@ function UserRequest() {
               </Form.Group>
 
               {/* ALERT SUCCESS */}
-              {success ? (
+              {success && (
                 <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                   {success}
                 </Alert>
-              ) : null}
+              )}
 
               {/* ALERT ERROR */}
-              {error ? (
+              {error && (
                 <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                   {error}
                 </Alert>
-              ) : null}
+              )}
 
               {/* BUTTON */}
               <div className="d-flex justify-content-center mt-5">

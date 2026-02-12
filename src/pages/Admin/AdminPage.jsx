@@ -2,7 +2,7 @@ import { Alert, Col, Container, Form, Row, Table } from "react-bootstrap";
 import NavbarAdmin from "../../components/NavbarAdmin";
 import { useEffect, useState } from "react";
 import { Envelope, EnvelopeFill } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //ADMIN PAGE E' LA PAGINA UTILIZZATA DALL'ADMIN PER POTER VEDERE LE RICHIESTE SUDDIVISE PER UTENTE
 //E' COMPOSTA DA UNA TABELLA SUDDIVISA IN:
@@ -18,6 +18,10 @@ function AdminPage() {
   //SEARCH BAR PER LA RICERCA DI UN SINGOLO UTENTE
   const [search, setSearch] = useState("");
 
+  //SCADENZA TOKEN
+  const navigate = useNavigate();
+  const [messageToken, setMessageToken] = useState();
+
   //FETCH RICHIESTE PER POTER VISUALIZZARE TUTTE LE RICHIESTE SUDDIVISE PER UTENTI
   useEffect(() => {
     const allRequest = async () => {
@@ -32,6 +36,16 @@ function AdminPage() {
         });
 
         if (!response.ok) {
+          //SCADENZA TOKEN
+          if (response.status == 401) {
+            localStorage.removeItem("token");
+            setMessageToken("Sessione scaduta. Effettua di nuovo il login");
+            setTimeout(() => {
+              setMessageToken("");
+              navigate("/login");
+            }, 4000);
+            return;
+          }
           throw new Error("Errore nel recupero delle richieste!");
         }
 
@@ -90,6 +104,13 @@ function AdminPage() {
           <Col xs={12} md={12} lg={12}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RICHIESTE UTENTI</h2>
 
+            {/* SCADENZA TOKEN */}
+            {messageToken && (
+              <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
+                {messageToken}
+              </Alert>
+            )}
+
             {/* SEARCH */}
             <Form.Control
               type="text"
@@ -102,11 +123,11 @@ function AdminPage() {
             />
 
             {/* ALERT ERROR */}
-            {error ? (
+            {error && (
               <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                 {error}
               </Alert>
-            ) : null}
+            )}
 
             {/* PAGINA SENZA RICHIESTE */}
             {requests.length === 0 && (

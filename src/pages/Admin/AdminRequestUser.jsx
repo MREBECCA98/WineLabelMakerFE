@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import NavbarAdmin from "../../components/NavbarAdmin";
 import { Alert, Button, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
 import { JournalText, PencilSquare } from "react-bootstrap-icons";
@@ -51,6 +51,10 @@ function AdminRequestUser() {
   //EMAIL DEFAULT
   const [successEmailDefault, setSuccessEmailDefault] = useState("");
 
+  //SCADENZA TOKEN
+  const navigate = useNavigate();
+  const [messageToken, setMessageToken] = useState();
+
   const status = {
     Pending: 0,
     InProgress: 1,
@@ -78,6 +82,16 @@ function AdminRequestUser() {
       });
 
       if (!updateStatus.ok) {
+        //SCADENZA TOKEN
+        if (updateStatus.status == 401) {
+          localStorage.removeItem("token");
+          setMessageToken("Sessione scaduta. Effettua di nuovo il login");
+          setTimeout(() => {
+            setMessageToken("");
+            navigate("/login");
+          }, 4000);
+          return;
+        }
         throw new Error("Errore aggiornamento stato");
       }
 
@@ -116,6 +130,16 @@ function AdminRequestUser() {
         });
 
         if (!uploadResponse.ok) {
+          //SCADENZA TOKEN
+          if (uploadResponse.status == 401) {
+            localStorage.removeItem("token");
+            setMessageToken("Sessione scaduta. Effettua di nuovo il login");
+            setTimeout(() => {
+              setMessageToken("");
+              navigate("/login");
+            }, 4000);
+            return;
+          }
           throw new Error("Errore upload immagine");
         }
 
@@ -133,7 +157,19 @@ function AdminRequestUser() {
           }),
         });
 
-        if (!emailResponse.ok) throw new Error("Errore invio email");
+        if (!emailResponse.ok) {
+          //SCADENZA TOKEN
+          if (emailResponse.status == 401) {
+            localStorage.removeItem("token");
+            setMessageToken("Sessione scaduta. Effettua di nuovo il login");
+            setTimeout(() => {
+              setMessageToken("");
+              navigate("/login");
+            }, 4000);
+            return;
+          }
+          throw new Error("Errore invio email");
+        }
 
         setSuccessEmail("Email inviata con successo!");
         setTimeout(() => {
@@ -165,6 +201,16 @@ function AdminRequestUser() {
         });
 
         if (!emailQuoteStatus.ok) {
+          //SCADENZA TOKEN
+          if (emailQuoteStatus.status == 401) {
+            localStorage.removeItem("token");
+            setMessageToken("Sessione scaduta. Effettua di nuovo il login");
+            setTimeout(() => {
+              setMessageToken("");
+              navigate("/login");
+            }, 4000);
+            return;
+          }
           throw new Error("Errore invio email preventivo");
         }
 
@@ -203,6 +249,16 @@ function AdminRequestUser() {
       });
 
       if (!response.ok) {
+        //SCADENZA TOKEN
+        if (response.status == 401) {
+          localStorage.removeItem("token");
+          setMessageToken("Sessione scaduta. Effettua di nuovo il login");
+          setTimeout(() => {
+            setMessageToken("");
+            navigate("/login");
+          }, 4000);
+          return;
+        }
         throw new Error("Errore nel recupero delle richieste!");
       }
 
@@ -266,6 +322,13 @@ function AdminRequestUser() {
         <Row>
           <Col xs={12} md={12} lg={12}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RICHIESTE</h2>
+
+            {/* SCADENZA TOKEN */}
+            {messageToken && (
+              <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
+                {messageToken}
+              </Alert>
+            )}
 
             {/* SEARCH */}
             <Form.Control

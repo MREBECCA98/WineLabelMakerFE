@@ -215,18 +215,18 @@ function Register() {
               </Form.Group>
 
               {/* ALERT SUCCESS --> REGISTRAZIONE EFFETTUATA CON SUCCESSO */}
-              {success ? (
+              {success && (
                 <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                   {success}
                 </Alert>
-              ) : null}
+              )}
 
               {/* ALERT ERROR --> ERRORE DURANTE LA REGISTRAZIONE - SE LE PASSWORD NON COINCIDONO*/}
-              {error ? (
+              {error && (
                 <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                   {error}
                 </Alert>
-              ) : null}
+              )}
 
               <div className="d-flex justify-content-center my-5">
                 <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-4 fw-bold w-100">

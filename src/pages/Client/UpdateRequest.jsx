@@ -3,14 +3,17 @@ import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import NavbarUser from "../../components/NavbarUser";
 import { useEffect, useState } from "react";
 
-//UODATE REQUEST E' LA PAGINE CHE PERMETTE LA MODIFICA DELLA DESCRIZIONE QUANDO LO STATO E' "IN LAVORAZIONE"
+//UPDATE REQUEST E' LA PAGINE CHE PERMETTE LA MODIFICA DELLA DESCRIZIONE QUANDO LO STATO E' "IN LAVORAZIONE"
 
 function UpdateRequest() {
   const { id } = useParams();
   const [description, setDescription] = useState("");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+
+  //SCADENZA TOKEN
   const navigate = useNavigate();
+  const [messageToken, setMessageToken] = useState();
 
   //GET PER RECUPERARE LA DESCRIZIONE
   //viene chiamato al caricamento della pagina per mostrare la descrizione corrente dell'utente
@@ -27,6 +30,16 @@ function UpdateRequest() {
           },
         });
         if (!response.ok) {
+          //SCADENZA TOKEN
+          if (response.status == 401) {
+            localStorage.removeItem("token");
+            setMessageToken("Sessione scaduta. Effettua di nuovo il login");
+            setTimeout(() => {
+              setMessageToken("");
+              navigate("/login");
+            }, 4000);
+            return;
+          }
           throw new Error("Errore nel recupero della richiesta!");
         }
 
@@ -59,12 +72,23 @@ function UpdateRequest() {
         },
         body: JSON.stringify({ description }),
       });
+
       if (!response.ok) {
+        //SCADENZA TOKEN
+        if (response.status == 401) {
+          localStorage.removeItem("token");
+          setMessageToken("Sessione scaduta. Effettua di nuovo il login");
+          setTimeout(() => {
+            setMessageToken("");
+            navigate("/login");
+          }, 4000);
+          return;
+        }
         throw new Error("Errore durante la modifica della descrizione!");
       }
 
-      const data = await response.json();
-      setSuccess("La descrizione è stata modificata!", data);
+      await response.json();
+      setSuccess("La descrizione è stata modificata!");
 
       //NAVIGATE VERSO USER REQUEST MADE
       setTimeout(() => {
@@ -87,6 +111,13 @@ function UpdateRequest() {
           <Col xs={12} md={8} lg={6}>
             <h1 className="text-center bubbler-one-regular fw-bold fs-1">Modifica descrizione </h1>
 
+            {/* SCADENZA TOKEN */}
+            {messageToken && (
+              <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
+                {messageToken}
+              </Alert>
+            )}
+
             {/* FORM MODIFICA */}
             <Form onSubmit={handleUpdate} className="mt-4">
               <Form.Group className="mb-3" controlId="formDescription">
@@ -108,18 +139,18 @@ function UpdateRequest() {
               </Form.Group>
 
               {/* ALERT SUCCESS */}
-              {success ? (
+              {success && (
                 <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                   {success}
                 </Alert>
-              ) : null}
+              )}
 
               {/* ALERT ERROR */}
-              {error ? (
+              {error && (
                 <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                   {error}
                 </Alert>
-              ) : null}
+              )}
 
               {/* BUTTON */}
               <div className="d-flex justify-content-center mt-5">

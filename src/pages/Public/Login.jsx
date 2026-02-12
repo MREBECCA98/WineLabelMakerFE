@@ -103,18 +103,18 @@ function Login() {
             </p>
 
             {/*ALERT SUCCESS --> LOGIN EFFETTUATO CON SUCCESSO */}
-            {success ? (
+            {success && (
               <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                 {success}
               </Alert>
-            ) : null}
+            )}
 
             {/*ALERT ERROR --> ERRORE DURANTE IL LOGIN - USERNAME O PASSWORD ERRATE */}
-            {error ? (
+            {error && (
               <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                 {error}
               </Alert>
-            ) : null}
+            )}
 
             <Form onSubmit={handleSubmit}>
               {/* USERNAME */}

@@ -1,6 +1,6 @@
 import { Alert, Button, Col, Container, Modal, Row, Table } from "react-bootstrap";
 import NavbarUser from "../../components/NavbarUser";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { JournalText, PencilSquare, Trash3 } from "react-bootstrap-icons";
 
@@ -48,6 +48,10 @@ function UserRequestMade() {
   const [modal, setModal] = useState(false);
   const [modalRequest, setModalRequest] = useState(null);
 
+  //SCADENZA TOKEN
+  const navigate = useNavigate();
+  const [messageToken, setMessageToken] = useState();
+
   //DELETE SE LO STATO E' IN ATTESA
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
@@ -62,6 +66,16 @@ function UserRequestMade() {
       });
 
       if (!response.ok) {
+        //SCADENZA TOKEN
+        if (response.status == 401) {
+          localStorage.removeItem("token");
+          setMessageToken("Sessione scaduta. Effettua di nuovo il login");
+          setTimeout(() => {
+            setMessageToken("");
+            navigate("/login");
+          }, 4000);
+          return;
+        }
         throw new Error("Errore durante l'eliminazione!");
       }
       setRequests((allRequest) => allRequest.filter((deleteRequest) => deleteRequest.idRequest !== id));
@@ -81,7 +95,7 @@ function UserRequestMade() {
   useEffect(() => {
     const allRequests = async () => {
       const token = localStorage.getItem("token");
-      console.log("token", token);
+
       try {
         const response = await fetch("https://localhost:7046/api/Request/allRequest", {
           method: "GET",
@@ -92,12 +106,21 @@ function UserRequestMade() {
         });
 
         if (!response.ok) {
+          //SCADENZA TOKEN
+          if (response.status == 401) {
+            localStorage.removeItem("token");
+            setMessageToken("Sessione scaduta. Effettua di nuovo il login");
+            setTimeout(() => {
+              setMessageToken("");
+              navigate("/login");
+            }, 4000);
+            return;
+          }
           throw new Error("Errore nel recupero delle richieste!");
         }
 
         const data = await response.json();
         setRequests(data);
-        console.log(data);
       } catch (error) {
         setError(error.message);
         setTimeout(() => {
@@ -121,19 +144,26 @@ function UserRequestMade() {
             <p className="mt-3 mb-0 text-center bubbler-one-regular fs-sm-5 fs-3 ">Racconta i tuoi vini e segui le loro storie</p>
             <p className="text-center bubbler-one-regular fs-sm-5 fs-3 ">In questa pagina troverai tutte le descrizioni inviate e il loro progresso</p>
 
+            {/* SCADENZA TOKEN */}
+            {messageToken && (
+              <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
+                {messageToken}
+              </Alert>
+            )}
+
             {/* ALERT SUCCESS */}
-            {success ? (
+            {success && (
               <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                 {success}
               </Alert>
-            ) : null}
+            )}
 
             {/* ALERT ERROR */}
-            {error ? (
+            {error && (
               <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                 {error}
               </Alert>
-            ) : null}
+            )}
 
             {/* PAGINA SENZA RICHIESTE */}
             {requests.length === 0 && (
