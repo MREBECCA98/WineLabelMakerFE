@@ -3,10 +3,10 @@ import SideNavbar from "../../components/SideNavbar";
 import MyNavbar from "../../components/MyNavbar";
 import { Link } from "react-router-dom";
 
-//MY HOME --> PAGINA STATICA
-//DOVE L'UTENTE POTRA' SCOPRIRE COME E' NATO WINE LABEL MAKER (LA NOSTRA STORIA),
-//PER CHI E' STATO CREATO E COSA FACCIAMO (IL VINO, LA TUA IDENTITA')
-//COME INIZIARE IL PERCORSO (INIZIA IL VIAGGIO)
+//MY HOME
+//-Static page
+//-Shows the story of Wine Label Maker
+//-Explains who it's for and how to start the journey
 
 function MyHome() {
   return (
@@ -15,10 +15,7 @@ function MyHome() {
       <MyNavbar />
       <Container className=" py-4">
         <Row>
-          {/* SIDEBAR LATERALE 
-          --> VERRA' VISUALIZZATA DA SCHERMI MD IN SU
-          --> AIUTA NELLA NAVIGAZIONE DELLA PAGINA SUDDIVISA IN SEZIONI
-          */}
+          {/* SIDEBAR */}
           <Col md={3}>
             <SideNavbar />
           </Col>
@@ -27,13 +24,11 @@ function MyHome() {
           <Col xs={12} md={9}>
             <section>
               <div className="text-center">
-                {/* IL TITOLO "WINE LABEL MAKER" COMPARIRA' SOLO IN SCHERMI SM,
-                 POICHE' NON SARA' PIU' VISUALIZZATA NELLA NAVBAR */}
                 <h1 className="bubbler-one-regular d-md-none ">Wine Label Maker</h1>
               </div>
             </section>
 
-            {/* LA NOSTRA STORIA */}
+            {/* OUR HISTORY */}
             <section id="chi-siamo" className="border-section pb-4 bubbler-one-regular text-center mt-4 text-black">
               <h4 className="fw-bold text-start fs-2">" DA PERCORSI DIVERSI NASCE LA STESSA PASSIONE "</h4>
               <h2 className=" mt-4  bubbler-one-regular fw-bold fs-1 text-end ">LA NOSTRA STORIA</h2>
@@ -76,7 +71,7 @@ function MyHome() {
               </p>
             </section>
 
-            {/* IL TUO VINO, LA TUA IDENTITA' */}
+            {/* YOUR WINE, YOUR IDENTITY */}
             <section id="per-chi-è" className="border-section pb-4 bubbler-one-regular text-center mt-4 text-black ">
               <h4 className="fw-bold text-start fs-2">" PER CHI CREDE CHE OGNI BOTTIGLIA POSSA TRASMETTERE UNA STORIA "</h4>
               <h2 className="text-end mt-4 bubbler-one-regular fw-bold fs-1 ">IL VINO, LA TUA IDENTITA'</h2>
@@ -106,7 +101,7 @@ function MyHome() {
               </p>
             </section>
 
-            {/* INIZIA IL VIAGGIO */}
+            {/* START YOUR JOURNEY */}
             <section id="come-iniziare" className="border-section pb-4 bubbler-one-regular text-center mt-4 text-black ">
               <h4 className="fw-bold text-start fs-2 ">" OGNI STORIA HA BISOGNO DEL SUO TEMPO... E QUESTO E' IL PRIMO PASSO" </h4>
               <h2 className="text-end mt-4 bubbler-one-regular fw-bold fs-1 ">INIZIA IL VIAGGIO</h2>
@@ -130,7 +125,7 @@ function MyHome() {
               </p>
             </section>
 
-            {/* REGISTRAZIONE  */}
+            {/* REGISTER PAGE  */}
             <p className="fs-2 mt-5 text-center bubbler-one-regular">
               Non hai ancora un account? <br />
               <Link to="/register" className="text-black text-decoration-none fw-bold">

@@ -4,25 +4,25 @@ import { useEffect, useState } from "react";
 import { Envelope, EnvelopeFill } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router-dom";
 
-//ADMIN PAGE E' LA PAGINA UTILIZZATA DALL'ADMIN PER POTER VEDERE LE RICHIESTE SUDDIVISE PER UTENTE
-//E' COMPOSTA DA UNA TABELLA SUDDIVISA IN:
-//-AZIENDA: NOME AZIENDA, NOME E COGNOME DELL' UTENTE, EMAIL
-//-RICHIESTA: QUANDO CI SONO NUOVE RICHIESTE (STATO IN ATTESA) LA POSTA DIVENTA VERDE
-//AL CLICK DELLA POSTA SI VERRA' INDIRIZZATI ALLA PAGINA ADMIN REQUEST PAGE,
-//PER POTER VEDERE TUTTE LE RICHIESTE DI UN SINGOLO UTENTE
+//THE ADMIN PAGE IS THE PAGE USED BY THE ADMIN TO VIEW REQUESTS BY USER
+//IT CONSISTS OF A TABLE DIVIDED INTO:
+//-COMPANY: COMPANY NAME, USER'S FIRST AND LAST NAME, EMAIL
+//-REQUEST: WHEN THERE ARE NEW REQUESTS (PENDING STATUS), THE INBOX TURNS GREEN
+//WHEN YOU CLICK ON THE INBOX, YOU WILL BE DIRECTED TO THE ADMIN REQUEST PAGE
+//TO VIEW ALL REQUESTS FROM A SINGLE USER.
 
 function AdminPage() {
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState("");
 
-  //SEARCH BAR PER LA RICERCA DI UN SINGOLO UTENTE
+  //SEARCH FOR USER
   const [search, setSearch] = useState("");
 
-  //SCADENZA TOKEN
+  //TOKEN EXPIRY
   const navigate = useNavigate();
   const [messageToken, setMessageToken] = useState();
 
-  //FETCH RICHIESTE PER POTER VISUALIZZARE TUTTE LE RICHIESTE SUDDIVISE PER UTENTI
+  //FETCH REQUESTS TO BE ABLE TO VIEW ALL REQUESTS DIVIDED BY USER
   useEffect(() => {
     const allRequest = async () => {
       const token = localStorage.getItem("token");
@@ -36,7 +36,7 @@ function AdminPage() {
         });
 
         if (!response.ok) {
-          //SCADENZA TOKEN
+          //TOKEN EXPIRY
           if (response.status == 401) {
             localStorage.removeItem("token");
             setMessageToken("Sessione scaduta. Effettua di nuovo il login");
@@ -60,7 +60,7 @@ function AdminPage() {
     allRequest();
   }, []);
 
-  //LISTA UTENTI PER VISUALIZZARE UNA VOLTA SOLA L'UTENTE ANCHE SE HA TANTE RICHIESTE
+  //USER LIST TO VIEW THE USER ONLY ONCE EVEN IF THEY HAVE MANY REQUESTS
   const users = [];
 
   requests.forEach((request) => {
@@ -73,8 +73,8 @@ function AdminPage() {
     };
     let user = users.find((user) => user.email === request.userEmail);
 
-    //SE L'UTENTE NON ESISTE VERRA' AGGIUNTO
-    //E SE L'UTENTE ESISTE MA LO STATO E' "IN ATTESA" SIGNIFICA CHE C'E' UNA NUOVA RICHIEST
+    //IF THE USER DOESN'T EXIST, IT WILL BE ADDED
+    //AND IF THE USER EXISTS BUT THE STATUS IS "PENDING," IT MEANS THERE IS A NEW REQUEST
     if (!user) {
       users.push(newUser);
     } else {
@@ -84,7 +84,7 @@ function AdminPage() {
     }
   });
 
-  //SEARCH --> RICERCA PER NOME AZIENDA, NOME, COGNOME ED EMAIL
+  //SEARCH FOR USER
   const searchLower = search.toLowerCase();
 
   const filteredUsers = users.filter(
@@ -97,14 +97,14 @@ function AdminPage() {
 
   return (
     <>
-      {/* NAVBAR PER LE PAGINE DELL'ADMIN */}
+      {/* NAVBAR ADMIN PAGE */}
       <NavbarAdmin />
       <Container className="mt-5">
         <Row>
           <Col xs={12} md={12} lg={12}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RICHIESTE UTENTI</h2>
 
-            {/* SCADENZA TOKEN */}
+            {/* TOKEN EXPIRY */}
             {messageToken && (
               <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                 {messageToken}
@@ -122,14 +122,12 @@ function AdminPage() {
               }}
             />
 
-            {/* ALERT ERROR */}
             {error && (
               <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                 {error}
               </Alert>
             )}
 
-            {/* PAGINA SENZA RICHIESTE */}
             {requests.length === 0 && (
               <>
                 <Alert
@@ -142,7 +140,6 @@ function AdminPage() {
               </>
             )}
 
-            {/* SE CI SONO RICHIESTE */}
             {requests.length > 0 && (
               <Table responsive hover className="mt-4 bubbler-one-regular fs-4  ">
                 <thead>
@@ -163,7 +160,7 @@ function AdminPage() {
                         <div className="text-muted">{user.email}</div>
                       </td>
 
-                      {/* RICHIESTE CON COLLEGAMENTO ALLA PAGINA "ADMIN REQUEST USER", DOVE SI POTRANNO VEDERE TUTTE LE RICHIESTE PER SINGOLO UTENTE*/}
+                      {/* REQUESTS WITH A LINK TO THE "ADMIN REQUEST USER" PAGE, WHERE YOU CAN SEE ALL REQUESTS FOR EACH USER */}
                       <td className="text-center">
                         <Link to={`/adminRequestUser/${user.email}`}>{user.status ? <EnvelopeFill color="green" size={30} /> : <Envelope size={30} />}</Link>
                       </td>

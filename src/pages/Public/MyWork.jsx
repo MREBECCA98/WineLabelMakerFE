@@ -7,9 +7,9 @@ import LUNAROSSA from "../../assets/LUNA-ROSSA.png";
 import NOCTIS from "../../assets/NOCTIS-RUBRUM.png";
 import THLEIA from "../../assets/THLEIA.png";
 
-//PAGINA I NOSTRI LAVORI --> PAGINA STATICA
-//DOVE L'UTENTE POTRA' VEDERE DIRETTAMENTE LE ETICHETTE CHE SONO STATE CREATE
-//E UNA BREVE DESCRIZIONE IN BASE ALLA RICHIESTA EFFETTUATA
+//WORK PAGE
+//-STATIC PAGE SHOWCASING CREATED WINE LABELS
+//-DISPLAYS IMAGES AND DESCRIPTIONS FOR EACH PRODUCT
 
 function Work() {
   return (
@@ -22,11 +22,7 @@ function Work() {
         </h4>
         <h1 className="text-end mt-4 bubbler-one-regular fw-bold fs-1">I NOSTRI LAVORI</h1>
 
-        {/* ETICHETTE:
-        --> A SCHERMO SM E MD L'IMMAGINE DELL'ETICHETTA E IL TESO PRENDERANNO LO SCHERMO INTERO (IMMAGINE SOPRA, TESTO SOTTO)
-        --> A SCHERMO LG L'IMMAGINE SARA' AFFIANCATA AL TESTO (6-6) */}
-
-        {/* ETICHETTA 1 - AEQUUS*/}
+        {/* LABEL 1 - AEQUUS*/}
         <Row className="mt-5 border-section">
           <Col xs={12} md={12} lg={6}>
             <img src={AEQUUS} alt="aequus" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
@@ -44,7 +40,7 @@ function Work() {
           </Col>
         </Row>
 
-        {/* ETICHETTA 2 - EQUILIBRIUM */}
+        {/* LABEL 2 - EQUILIBRIUM */}
         <Row className="mt-5 border-section">
           <Col xs={12} md={12} lg={6}>
             <img src={EQUILIBRIUM} alt="equilibrium" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
@@ -62,7 +58,7 @@ function Work() {
           </Col>
         </Row>
 
-        {/* ETICHETTA 3 - THLEIA */}
+        {/* LABEL 3 - THLEIA */}
         <Row className="mt-5 border-section">
           <Col xs={12} md={12} lg={6}>
             <img src={THLEIA} alt="thleia" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
@@ -80,7 +76,7 @@ function Work() {
           </Col>
         </Row>
 
-        {/* ETICHETTA 4 - ESSENZA*/}
+        {/* LABEL 4 - ESSENZA*/}
         <Row className="mt-5 border-section">
           <Col xs={12} md={12} lg={6}>
             <img src={ESSENZA} alt="essenza" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
@@ -98,7 +94,7 @@ function Work() {
           </Col>
         </Row>
 
-        {/* ETICHETTA 5 - NOCTIS */}
+        {/* LABEL 5 - NOCTIS */}
         <Row className="mt-5 border-section">
           <Col xs={12} md={12} lg={6}>
             <img src={NOCTIS} alt="noctis" style={{ width: "100%" }} className="mb-4 mb-lg-0" />
@@ -116,7 +112,7 @@ function Work() {
           </Col>
         </Row>
 
-        {/* ETICHETTA 6 - LUNA ROSSA*/}
+        {/* LABEL 6 - LUNA ROSSA*/}
         <Row className="mt-5 border-section">
           <Col xs={12} md={12} lg={6}>
             <img src={LUNAROSSA} alt="luna-rossa" style={{ width: "100%" }} className="mb-4 mb-lg-0" />

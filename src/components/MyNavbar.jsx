@@ -25,7 +25,7 @@ function MyNavbar() {
               I nostri lavori
             </Nav.Link>
 
-            {/*LOGIN & LOGOUT*/}
+            {/* LOGIN */}
             <Nav.Link as={Link} to="/login" className="d-flex align-items-center ms-4">
               <People size={30} />
             </Nav.Link>

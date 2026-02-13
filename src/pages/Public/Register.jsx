@@ -4,8 +4,12 @@ import { Eye, EyeSlash } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
 import MyNavbar from "../../components/MyNavbar";
 
-//PAGINA REGISTRAZIONE UTENTE
-//EFFETTUATA LA REGISTRAZIONE, L'UTENTE VERRA' INDIRIZZATO DIRETTAMENTE NELLA PAGINA LOGIN
+//REGISTER PAGE
+//-VALIDATE ALL REQUIRED FIELDS
+//-CHECKS THAT PASSWORD AND CONFIRM-PASSWORD MATCH
+//-SENDS REGISTRATION REQUEST TO BACKEND
+//-MANAGES SUCCESS/ ERROR STATES
+//-RESETS FORM AND REDIRECTS TO LOGIN PAGE ON SUCCESS
 
 function Register() {
   const navigate = useNavigate();
@@ -24,7 +28,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //CONTROLLO CAMPPI VUOTI
+    //BASIC CLIENT-SIDE VALIDATION TO ENSURE ALL FIELDS ARE FILLED
     if (!name || !surname || !email || !companyName || !phoneNumber || !password || !confirmPassword) {
       setError("I campi sono obbligatori!");
       setTimeout(() => {
@@ -33,7 +37,7 @@ function Register() {
       return;
     }
 
-    //CONTROLLO PASSWORD E CONFERMA PASSWORD
+    //CHECKS THAT PASSWORD AND CONFIRM-PASSWORD MACTH
     if (password !== confirmPassword) {
       setError("Le password non coincidono!");
       setTimeout(() => {
@@ -42,7 +46,6 @@ function Register() {
       return;
     }
 
-    //OGGETTO BODY
     const body = {
       Email: email,
       Password: password,
@@ -52,7 +55,7 @@ function Register() {
       PhoneNumber: phoneNumber,
     };
 
-    //FETCH REGISTER
+    //SEND REGISTRATION REQUEST TO BACKEND API
     try {
       const response = await fetch("https://localhost:7046/api/AspNetUser/Register", {
         method: "POST",
@@ -69,8 +72,6 @@ function Register() {
       setSuccess("Registrazione effettuata con successo!");
       setTimeout(() => {
         setSuccess("");
-
-        //PULIZIA CAMPI FORM
         setName("");
         setSurname("");
         setEmail("");
@@ -79,7 +80,7 @@ function Register() {
         setPassword("");
         setConfirmPassword("");
 
-        //QUANDO LA REGISTRAZIONE E' ANDATA A BUON FINE --> NAVIGATE VERSO LOGIN PAGE
+        //REDIRECT TO LOGIN PAGE AFTER SUCCESSFULL REGISTRATION
         navigate("/login");
       }, 2000);
     } catch (error) {
@@ -102,7 +103,7 @@ function Register() {
             <p className="text-center bubbler-one-regular  fs-3"> Registrati per dare vita a un percorso esclusivo, dove il tuo vino diventa protagonista</p>
 
             <Form className=" " onSubmit={handleSubmit}>
-              {/* NAME --> INPUT CON NOME UTENTE */}
+              {/*USER INFORMATION */}
               <Form.Group className="mb-3" controlId="formName">
                 <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Nome</Form.Label>
                 <Form.Control
@@ -114,7 +115,6 @@ function Register() {
                 />
               </Form.Group>
 
-              {/* SURNAME --> INPUT CON COGNOME UTENTE */}
               <Form.Group className="mb-3" controlId="formSurname">
                 <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Cognome</Form.Label>
                 <Form.Control
@@ -126,7 +126,7 @@ function Register() {
                 />
               </Form.Group>
 
-              {/* EMAIL --> INPUT EMAIL AZIENDALE (REQUIRED)*/}
+              {/* COMPANY DETAILS*/}
               <Form.Group className="mb-3" controlId="formEmail">
                 <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Email aziendale</Form.Label>
                 <Form.Control
@@ -138,7 +138,6 @@ function Register() {
                 />
               </Form.Group>
 
-              {/* COMPANY NAME --> INPUT NOME AZIENDA (REQUIRED)*/}
               <Form.Group className="mb-3" controlId="formCompanyName">
                 <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Nome dell'azienda</Form.Label>
                 <Form.Control
@@ -150,7 +149,6 @@ function Register() {
                 />
               </Form.Group>
 
-              {/* PHONE NUMBER --> INPUT NUMERO DI TELEFONO  */}
               <Form.Group className="mb-3" controlId="formPhoneNumber">
                 <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Numero di telefono</Form.Label>
                 <Form.Control
@@ -162,7 +160,7 @@ function Register() {
                 />
               </Form.Group>
 
-              {/* PASSWORD --> INPUT PASSWORD (REQUIRED) */}
+              {/* SECURITY */}
               <Form.Group className="mb-3" controlId="formPassword">
                 <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Password</Form.Label>
                 <InputGroup>
@@ -173,7 +171,7 @@ function Register() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                  {/* INPUT PER POTER VISUALIZZARE O NASCONDERE LA PASSWORD */}
+
                   <InputGroup.Text
                     style={{ cursor: "pointer" }}
                     onClick={() => setShowPassword(!showPassword)}
@@ -183,7 +181,6 @@ function Register() {
                   </InputGroup.Text>
                 </InputGroup>
 
-                {/* REQUISITI PASSWORD --> OBBLIGO PER CREAZIONE PASSWORD */}
                 <ul className="fs-5" style={{ marginTop: "10px" }}>
                   <li style={{ color: password.length >= 8 ? "green" : "red" }}>Minimo 8 caratteri</li>
                   <li style={{ color: /[A-Z]/.test(password) ? "green" : "red" }}>Almeno una lettera maiuscola</li>
@@ -192,7 +189,6 @@ function Register() {
                 </ul>
               </Form.Group>
 
-              {/* CONFERMA PASSWORD */}
               <Form.Group className="mb-3" controlId="formConfirmPassword">
                 <Form.Label className="bubbler-one-regular fs-4 text-black fw-bold">Conferma Password</Form.Label>
                 <InputGroup>
@@ -203,7 +199,7 @@ function Register() {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
-                  {/* INPUT PER POTER VISUALIZZARE O NASCONDERE LA PASSWORD */}
+
                   <InputGroup.Text
                     style={{ cursor: "pointer" }}
                     onClick={() => setShowPassword(!showPassword)}
@@ -214,14 +210,12 @@ function Register() {
                 </InputGroup>
               </Form.Group>
 
-              {/* ALERT SUCCESS --> REGISTRAZIONE EFFETTUATA CON SUCCESSO */}
               {success && (
                 <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                   {success}
                 </Alert>
               )}
 
-              {/* ALERT ERROR --> ERRORE DURANTE LA REGISTRAZIONE - SE LE PASSWORD NON COINCIDONO*/}
               {error && (
                 <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                   {error}

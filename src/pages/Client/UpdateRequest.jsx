@@ -3,7 +3,8 @@ import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import NavbarUser from "../../components/NavbarUser";
 import { useEffect, useState } from "react";
 
-//UPDATE REQUEST E' LA PAGINE CHE PERMETTE LA MODIFICA DELLA DESCRIZIONE QUANDO LO STATO E' "IN LAVORAZIONE"
+//UPDATE REQUEST
+//THIS IS THE PAGE THAT ALLOWS YOU TO MODIFY THE DESCRIPTION WHEN THE STATUS IS "PENDING"
 
 function UpdateRequest() {
   const { id } = useParams();
@@ -11,12 +12,11 @@ function UpdateRequest() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
-  //SCADENZA TOKEN
+  //TOKEN EXPIRY
   const navigate = useNavigate();
   const [messageToken, setMessageToken] = useState();
 
-  //GET PER RECUPERARE LA DESCRIZIONE
-  //viene chiamato al caricamento della pagina per mostrare la descrizione corrente dell'utente
+  //GET REQUEST TO FETCH A USER'S WINE LABEL DESCRIPTION BY ID
   useEffect(() => {
     const getRequest = async () => {
       const token = localStorage.getItem("token");
@@ -30,7 +30,7 @@ function UpdateRequest() {
           },
         });
         if (!response.ok) {
-          //SCADENZA TOKEN
+          //TOKEN EXPIRY
           if (response.status == 401) {
             localStorage.removeItem("token");
             setMessageToken("Sessione scaduta. Effettua di nuovo il login");
@@ -56,8 +56,7 @@ function UpdateRequest() {
     getRequest();
   }, [id]);
 
-  //MODIFICA DELLA DESCRIZIONE
-  //invia la nuova descrizione al backend
+  //PUT REQUEST TO UPDATE THE DESCRIPRION WHEN THE STATUS IS "PENDING"
   const handleUpdate = async (e) => {
     e.preventDefault();
 
@@ -74,7 +73,7 @@ function UpdateRequest() {
       });
 
       if (!response.ok) {
-        //SCADENZA TOKEN
+        //TOKEN EXPIRY
         if (response.status == 401) {
           localStorage.removeItem("token");
           setMessageToken("Sessione scaduta. Effettua di nuovo il login");
@@ -90,7 +89,6 @@ function UpdateRequest() {
       await response.json();
       setSuccess("La descrizione è stata modificata!");
 
-      //NAVIGATE VERSO USER REQUEST MADE
       setTimeout(() => {
         setSuccess("");
         navigate("/userRequestMade");
@@ -104,27 +102,27 @@ function UpdateRequest() {
   };
   return (
     <>
-      {/* NAVBAR PER LE PAGINE DELL'UTENTE */}
+      {/* NAVBAR USER PAGE */}
       <NavbarUser />
       <Container className="mt-5">
         <Row className="justify-content-center">
           <Col xs={12} md={8} lg={6}>
             <h1 className="text-center bubbler-one-regular fw-bold fs-1">Modifica descrizione </h1>
 
-            {/* SCADENZA TOKEN */}
+            {/* TOKEN EXPIRY */}
             {messageToken && (
               <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                 {messageToken}
               </Alert>
             )}
 
-            {/* FORM MODIFICA */}
+            {/* UPDATE FORM */}
             <Form onSubmit={handleUpdate} className="mt-4">
               <Form.Group className="mb-3" controlId="formDescription">
                 <Form.Label className="bubbler-one-regular fs-5">Modifica la descrizione del tuo prodotto</Form.Label>
                 <Form.Control
                   className="bubbler-one-regular fs-3"
-                  as="textarea" //TYPE
+                  as="textarea"
                   rows={9}
                   maxLength={5000}
                   placeholder="Modifica la descrizione del tuo prodotto"
@@ -132,27 +130,24 @@ function UpdateRequest() {
                   onChange={(e) => setDescription(e.target.value)}
                 />
 
-                {/* REQUISITI DESCRIZIONE */}
+                {/* REQUIREMENTS DESCRIPTION */}
                 <ul className="fs-6" style={{ marginTop: "10px" }}>
                   <li style={{ color: description.length >= 5000 ? "red" : "green" }}>Raccontaci tutto sul tuo prodotto, in massimo 5000 caratteri</li>
                 </ul>
               </Form.Group>
 
-              {/* ALERT SUCCESS */}
               {success && (
                 <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                   {success}
                 </Alert>
               )}
 
-              {/* ALERT ERROR */}
               {error && (
                 <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                   {error}
                 </Alert>
               )}
 
-              {/* BUTTON */}
               <div className="d-flex justify-content-center mt-5">
                 <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-5 fw-bold w-100">
                   Modifica descrizione

@@ -4,21 +4,20 @@ import { Eye, EyeSlash } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router-dom";
 import MyNavbar from "../../components/MyNavbar";
 
-//PAGINA LOGIN
-//VIENE UTILIZZATA SIA DALL'UTENTE CHE DALL ADMIN
-//EFFETTUATO L'ACCESSO, IN BASE ALL'AUTORIZZAZIONE ENTRAMBI VERRANNO INDIRIZZATI NELLE PAGINE APPROPRIATE
+//LOGIN PAGE
+//IT IS USED FOR USER AND ADMIN LOGIN
+//ONCE YOU LOG IN, BASED ON YOUR AUTHORIZATION, BOTH OF YOU WILL BE DIRECTED TO THE APPROPRIATE PAGES
 
 function Login() {
   const navigate = useNavigate();
 
-  //SE L'UTENTE O L'ADMIN SONO GIA' LOGGATI, NON DEVONO ACCEDERE DI NUOVO
   useEffect(() => {
-    //TOKEN - ROLE (getItem recupera il valore salvato nel localStorage)
+    //TOKEN - ROLE
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 
-    //VERIFICA DEI RUOLI
-    //NAVIGAZIONE VERO LE PAGINE APPROPRIATE
+    //ROLE VERIFICATION
+    //NAVIGATION TO APPROPRIATE PAGES
     if (token && role) {
       if (role === "Admin") navigate("/message");
       else navigate("/userRequestMade");
@@ -33,7 +32,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //SE USERNAME O PASSWORD SONO VUOTI MOSTRA ERRORE
+    //PASSWORD FIELD CHECK
     if (!username || !password) {
       setError("Inserisci Username e Password!");
       setTimeout(() => {
@@ -59,19 +58,17 @@ function Login() {
       const data = await response.json();
       console.log("Login riuscito:", data);
 
-      //TOKEN - ROLE (setItem salva il token e il ruolo nel localStorage)
+      //TOKEN - ROLE
       localStorage.setItem("token", data.token);
       localStorage.setItem("role", data.role);
 
       setSuccess("Login effettuato con successo!");
       setTimeout(() => {
         setSuccess("");
-
-        //PULIZIA CAMPI FORM
         setUsername("");
         setPassword("");
 
-        //USE NAVIGATE IN BASE AL RUOLO
+        //USE ROLE-BASED NAVIGATE
         if (data.role === "Admin") {
           navigate("/message");
         } else {
@@ -82,8 +79,6 @@ function Login() {
       setError(error.message);
       setTimeout(() => {
         setError("");
-
-        //PULIZIA CAMPI FORM
         setUsername("");
         setPassword("");
       }, 2000);
@@ -102,14 +97,12 @@ function Login() {
               Accedi per raccontarci l'esprit del tuo prodotto, lasciaci trasformare il tuo vino in un’opera d’arte!
             </p>
 
-            {/*ALERT SUCCESS --> LOGIN EFFETTUATO CON SUCCESSO */}
             {success && (
               <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                 {success}
               </Alert>
             )}
 
-            {/*ALERT ERROR --> ERRORE DURANTE IL LOGIN - USERNAME O PASSWORD ERRATE */}
             {error && (
               <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                 {error}
@@ -141,7 +134,6 @@ function Login() {
                     onChange={(e) => setPassword(e.target.value)}
                   />
 
-                  {/* INPUT PER POTER VISUALIZZARE O NASCONDERE LA PASSWORD */}
                   <InputGroup.Text
                     style={{ cursor: "pointer" }}
                     onClick={() => setShowPassword(!showPassword)}
@@ -152,7 +144,6 @@ function Login() {
                 </InputGroup>
               </Form.Group>
 
-              {/* BUTTON */}
               <div className="d-flex justify-content-center mt-5">
                 <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-4 fw-bold w-100">
                   Accedi

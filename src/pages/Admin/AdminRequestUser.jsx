@@ -4,35 +4,32 @@ import NavbarAdmin from "../../components/NavbarAdmin";
 import { Alert, Button, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
 import { JournalText, PencilSquare } from "react-bootstrap-icons";
 
-//ADMIN REQUEST USER E' LA PAGINA DOVE L'ADMIN PUO' VEDERE TUTTE LE RICHIESTE DI UN SINGOLO UTENTE
-//E' COMPOSTA DA UNA TABELLA SUDDIVISA IN:
-//-DATA DI CREAZIONE DELLA RICHIESTA
-//-DESCRIZIONE PRODOTTO: MODALE PER VISUALIZZARE LA DESCRIZIONE E ID RICHIESTA
-//-STATO DELLA RICHIESTA
+//ADMIN REQUEST USER IS THE PAGE WHERE THE ADMIN CAN VIEW ALL REQUESTS FROM A SINGLE USER
+//IT CONSISTS OF A TABLE DIVIDED INTO:
+//-REQUEST CREATION DATE
+//-PRODUCT DESCRIPTION: MODAL TO VIEW THE DESCRIPTION AND REQUEST ID
+//-REQUEST STATUS
 
-//L'ADMIN PUO' MODIFICARE LO STATO DELLA RICHIESTA SOLO QUANDO E':
-//- "IN ATTESA"
-//-"IN LAVORAZIONE" --> AL SALVATAGGIO DELLO STATO VIENE INVIATA ALL'UTENTE UN'EMAIL DI DEFAULT
-//-"PREVENTIVO INVIATO" --> AL CAMBIO DI STATO L'ADMIN INVIA UN'EMAIL PERSONALIZZATA IN BASE AL BUDGET DEL CLIENTE PER IL PREVENTIVO
-//-"PAGAMENTO CONFERMATO" --> AL SALVATAGGIO DELLO STATO VIENE INVIATA ALL'UTENTE UN'EMAIL DI DEFAULT
+//THE ADMIN CHANGE THE STATUS OF THE REQUEST BASED ON THE PROGRESS
 
-//QUANDO SONO "COMPLETATE" O "RIFIUTATE" L'ADMIN NON HA PIU' LA POSSIBILITA' DI CAMBIARE LO STATO
-//-"COMPLETATA" --> AL CAMBIO DI STATO L'ADMIN INVIA UN'EMAIL CON L'IMMAGINE DELL ETICHETTA ALLEGATA (REQUIRED)
-// E PUO' SCEGLIERE SE UTILIZZARE IL BODY DI DEFAULT O SE PERSONALIZZARLO IN BASE ALLA RISPOSTA DELL'UTENTE
+//AN EMAIL IS SENT WHEN THE STATUS IS UPDATED:
+//-DEFAULT: FOR "IN PROGRESS", "PAYMENT CONFIRMED", "REJECTED"
+//-QUOTSENT: THE ADMIN WRITES THE CUSTOM BODY BASED ON THE QUOTE
+//-COMPLETED: THE ADMIN MUST ATTACH THE LABEL IMAGE AND CAN CUSTOMIZE THE BODY
 
 function AdminRequestUser() {
   const { email } = useParams();
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState("");
 
-  //SEARCH BAR PER LA RICERCA DI UN SINGOLO UTENTE
+  //SEARCH FOT REQUEST BY ID
   const [search, setSearch] = useState("");
 
-  //MODALE DESCRIZIONE
+  //MODAL DESCRIPTION
   const [modalDescription, setModalDescription] = useState(false);
   const [modalDescriptionRequest, setModalDescriptionRequest] = useState(null);
 
-  //MODALE STATO
+  //MODAL STATUS
   const [modalStatus, setModalStatus] = useState(false);
   const [modalStatusRequest, setModalStatusRequest] = useState("");
   const [newStatus, setNewStatus] = useState("");
@@ -43,7 +40,7 @@ function AdminRequestUser() {
   const [successEmail, setSuccessEmail] = useState("");
   const [errorImg, setErrorImg] = useState("");
 
-  //EMAIL PREVENTIVO
+  //EMAIL QUOTE
   const [bodyQuote, setBodyQuote] = useState("");
   const [successEmailQuote, setSuccessEmailQuote] = useState("");
   const [errorEmailQuote, setErrorEmailQuote] = useState("");
@@ -51,7 +48,7 @@ function AdminRequestUser() {
   //EMAIL DEFAULT
   const [successEmailDefault, setSuccessEmailDefault] = useState("");
 
-  //SCADENZA TOKEN
+  //TOKEN EXPIRY
   const navigate = useNavigate();
   const [messageToken, setMessageToken] = useState();
 
@@ -64,13 +61,13 @@ function AdminRequestUser() {
     Rejected: 5,
   };
 
-  //MODIFICA STATO
+  //UPDATE STATUS
   //------------------------------------------------------------------------------------------------------------------
   const handleActionStatus = async () => {
     const token = localStorage.getItem("token");
 
     try {
-      //STATO
+      //STATUS
       //------------------------------------------------------------------------------------------------------------------
       const updateStatus = await fetch(`https://localhost:7046/api/Request/updateAdmin/${modalStatusRequest.idRequest}`, {
         method: "PUT",
@@ -82,7 +79,7 @@ function AdminRequestUser() {
       });
 
       if (!updateStatus.ok) {
-        //SCADENZA TOKEN
+        //TOKEN EXPIRY
         if (updateStatus.status == 401) {
           localStorage.removeItem("token");
           setMessageToken("Sessione scaduta. Effettua di nuovo il login");
@@ -95,7 +92,7 @@ function AdminRequestUser() {
         throw new Error("Errore aggiornamento stato");
       }
 
-      //EMAIL DEFAULT "IN PROGRESS", "PAYMENT CONFIRMED", "JEGECTED"
+      //EMAIL DEFAULT "IN PROGRESS", "PAYMENT CONFIRMED", "REJECTED"
       //------------------------------------------------------------------------------------------------------------------
       if (newStatus === 1 || newStatus === 3 || newStatus === 5) {
         setSuccessEmailDefault("Email inviata con successo!");
@@ -106,7 +103,6 @@ function AdminRequestUser() {
 
       //EMAIL COMPLETED(4)
       //------------------------------------------------------------------------------------------------------------------
-      // L'IMMAGINE DELL'ETICHETTA E' OBBLIGATORIA
       if (newStatus === 4) {
         if (!imgCompleted) {
           setErrorImg("L'allegato è obbligatorio");
@@ -116,7 +112,7 @@ function AdminRequestUser() {
           return;
         }
 
-        //UPLOAD IMMAGINE
+        //UPLOAD LABEL IMAGE
         //------------------------------------------------------------------------------------------------------------------
         const formData = new FormData();
         formData.append("labelImage", imgCompleted);
@@ -130,7 +126,7 @@ function AdminRequestUser() {
         });
 
         if (!uploadResponse.ok) {
-          //SCADENZA TOKEN
+          //TOKEN EXPIRY
           if (uploadResponse.status == 401) {
             localStorage.removeItem("token");
             setMessageToken("Sessione scaduta. Effettua di nuovo il login");
@@ -143,7 +139,7 @@ function AdminRequestUser() {
           throw new Error("Errore upload immagine");
         }
 
-        //INVIO EMAIL COMPLETED
+        //SEND EMAIL COMPLETED
         const emailResponse = await fetch("https://localhost:7046/api/Email/completed", {
           method: "POST",
           headers: {
@@ -158,7 +154,7 @@ function AdminRequestUser() {
         });
 
         if (!emailResponse.ok) {
-          //SCADENZA TOKEN
+          //TOKEN EXPIRY
           if (emailResponse.status == 401) {
             localStorage.removeItem("token");
             setMessageToken("Sessione scaduta. Effettua di nuovo il login");
@@ -178,7 +174,7 @@ function AdminRequestUser() {
       }
       //------------------------------------------------------------------------------------------------------------------
 
-      //EMAIL PREVENTIVO (2)
+      //EMAIL QUOTE (2)
       //------------------------------------------------------------------------------------------------------------------
       if (newStatus === 2) {
         if (!bodyQuote || bodyQuote.trim() === "") {
@@ -201,7 +197,7 @@ function AdminRequestUser() {
         });
 
         if (!emailQuoteStatus.ok) {
-          //SCADENZA TOKEN
+          //TOKEN EXPIRY
           if (emailQuoteStatus.status == 401) {
             localStorage.removeItem("token");
             setMessageToken("Sessione scaduta. Effettua di nuovo il login");
@@ -235,7 +231,7 @@ function AdminRequestUser() {
     }
   };
 
-  //FETCH RICHIESTE IN BASE ALL'UTENTE
+  //REQUESTS BASED ON USER
   //------------------------------------------------------------------------------------------------------------------
   const userRequest = async () => {
     const token = localStorage.getItem("token");
@@ -249,7 +245,7 @@ function AdminRequestUser() {
       });
 
       if (!response.ok) {
-        //SCADENZA TOKEN
+        //TOKEN EXPIRY
         if (response.status == 401) {
           localStorage.removeItem("token");
           setMessageToken("Sessione scaduta. Effettua di nuovo il login");
@@ -264,7 +260,7 @@ function AdminRequestUser() {
 
       const data = await response.json();
 
-      // FILTRO PER POTER VISUALIZZARE TUTTE LE RICHIESTE DI UN SINGOLO UTENTE
+      //FILTER TO VIEW ALL REQUESTS FROM A SINGLE USER
       const filtered = data.filter((request) => request.userEmail === email);
       setRequests(filtered);
     } catch (error) {
@@ -275,26 +271,21 @@ function AdminRequestUser() {
     }
   };
 
-  //GESTIONE PER LA VISIBILITA' DEL PROCESSO DEGLI STATI
+  //STATE MANAGEMENT
   //------------------------------------------------------------------------------------------------------------------
   const isStatusDisabled = (disabledStatus) => {
     const currentStatus = modalStatusRequest.status;
-    // console.log("stato corrente", currentStatus);
 
     switch (currentStatus) {
-      //IN ATTESA --> si può modificare lo stato solo in "IN LAVORAZIONE" e "RIFIUTATA"
       case "Pending":
         return !(disabledStatus === "InProgress" || disabledStatus === "Rejected");
 
-      //IN LAVORAZIONE --> si può modificare lo stato in "PREVENTIVO INVIATO"
       case "InProgress":
         return disabledStatus !== "QuoteSent";
 
-      //PREVENTIVO INVIATO --> si può modificare lo stato solo in "PAGAMENTO CONFERMATO"
       case "QuoteSent":
         return disabledStatus !== "PaymentConfirmed";
 
-      //PAGAMENTO CONFERMATO --> si può cambiare lo stato solo in "COMPLETATA"
       case "PaymentConfirmed":
         return disabledStatus !== "Completed";
 
@@ -311,19 +302,19 @@ function AdminRequestUser() {
     userRequest();
   }, [email]);
 
-  //SEARCH --> RICERCA PER ID RICHIESTA
+  //SEARCH FOT REQUEST BY ID
   const filteredRequest = requests.filter((r) => r.idRequest.toString().includes(search));
 
   return (
     <>
-      {/* NAVBAR PER LE PAGINE DELL'ADMIN */}
+      {/* NAVBAR ADMIN PAGE */}
       <NavbarAdmin />
       <Container className="mt-5">
         <Row>
           <Col xs={12} md={12} lg={12}>
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RICHIESTE</h2>
 
-            {/* SCADENZA TOKEN */}
+            {/* TOKEN EXPIRY */}
             {messageToken && (
               <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                 {messageToken}
@@ -341,7 +332,6 @@ function AdminRequestUser() {
               }}
             />
 
-            {/* ALERT ERROR SE NON CI SONO UTENTI */}
             {requests.length === 0 && (
               <>
                 <Alert
@@ -371,7 +361,6 @@ function AdminRequestUser() {
                           <div className="text-center fs-4">{new Date(request.createdAt).toLocaleDateString()}</div>
                         </td>
 
-                        {/* BOTTONE MODALE DESCRIZIONE */}
                         <td className="text-center">
                           <div className="text-center fs-5">{request.idRequest}</div>
                           <Button
@@ -385,7 +374,6 @@ function AdminRequestUser() {
                           </Button>
                         </td>
 
-                        {/* COLORE DEL TESTO IN BASE AL CAMBIO DELLO STATO */}
                         <td
                           className="text-center"
                           style={{
@@ -401,15 +389,12 @@ function AdminRequestUser() {
                                       : "red",
                           }}
                         >
-                          {/* SE LO STATO E' COMPLETED --> TRADUZIONE IN ITALIANO  */}
                           {request.status === "Completed" ? (
                             "COMPLETATA"
-                          ) : // SE LO STAO E' IN PENDING --> TRADUZIONE IN ITALIANO, BOTTONE MODIFICA
-                          request.status === "Pending" ? (
+                          ) : request.status === "Pending" ? (
                             <div className="d-flex align-items-center flex-column">
                               <span>IN ATTESA</span>
                               <div className="d-flex gap-1">
-                                {/* BOTTONE MODALE STATO */}
                                 <Button
                                   size="lg"
                                   variant="light"
@@ -423,12 +408,10 @@ function AdminRequestUser() {
                                 </Button>
                               </div>
                             </div>
-                          ) : // SE LO STAO E' IN PROGRESS --> TRADUZIONE IN ITALIANO, BOTTONE MODIFICA
-                          request.status === "InProgress" ? (
+                          ) : request.status === "InProgress" ? (
                             <div className="d-flex align-items-center flex-column">
                               <span>IN LAVORAZIONE</span>
                               <div className="d-flex gap-1">
-                                {/* BOTTONE MODALE STATO */}
                                 <Button
                                   size="lg"
                                   variant="light"
@@ -442,12 +425,10 @@ function AdminRequestUser() {
                                 </Button>
                               </div>
                             </div>
-                          ) : // SE LO STAO E' QUOT SENT --> TRADUZIONE IN ITALIANO, BOTTONE MODIFICA
-                          request.status === "QuoteSent" ? (
+                          ) : request.status === "QuoteSent" ? (
                             <div className="d-flex align-items-center flex-column">
                               <span>PREVENTIVO INVIATO</span>
                               <div className="d-flex gap-1">
-                                {/* BOTTONE MODALE STATO */}
                                 <Button
                                   size="lg"
                                   variant="light"
@@ -461,12 +442,10 @@ function AdminRequestUser() {
                                 </Button>
                               </div>
                             </div>
-                          ) : // SE LO STAO E' PAYMENT CONFIRMED --> TRADUZIONE IN ITALIANO, BOTTONE MODIFICA
-                          request.status === "PaymentConfirmed" ? (
+                          ) : request.status === "PaymentConfirmed" ? (
                             <div className="d-flex align-items-center flex-column">
                               <span>PAGAMENTO COMPLETATO</span>
                               <div className="d-flex gap-1">
-                                {/* BOTTONE MODALE STATO */}
                                 <Button
                                   size="lg"
                                   variant="light"
@@ -481,7 +460,6 @@ function AdminRequestUser() {
                               </div>
                             </div>
                           ) : (
-                            // SE LO STAO E' REJECTED --> TRADUZIONE IN ITALIANO
                             "RIFIUTATA"
                           )}
                         </td>
@@ -491,7 +469,7 @@ function AdminRequestUser() {
               </Table>
             )}
 
-            {/* MODALE DESCRIZIONE --> PER VISUALIZZARE LA DESCRIZIONE DELL'UTENTE*/}
+            {/* MODAL DESCRIPTION*/}
             <Modal show={modalDescription} onHide={() => setModalDescription(false)} centered>
               <Modal.Header closeButton>
                 <Modal.Title className="bubbler-one-regular text-black fw-bold">Descrizione prodotto</Modal.Title>
@@ -502,13 +480,13 @@ function AdminRequestUser() {
               </Modal.Body>
             </Modal>
 
-            {/* MODALE STATO --> PER POTER CAMBIARE LO STATO DELLA RICHIESTA ED INVIARE L'EMAIL IN BASE ALLO STATO*/}
+            {/* MODAL STATUS*/}
             <Modal show={modalStatus} onHide={() => setModalStatus(false)} centered>
               <Modal.Header closeButton>
                 <Modal.Title className="bubbler-one-regular text-black fw-bold">Stato della richiesta</Modal.Title>
               </Modal.Header>
 
-              {/* GESTIONE PER LA VISIBILITA' DEL PROCESSO DEGLI STATI */}
+              {/* STATE MANAGEMENT */}
               <Modal.Body>
                 <Form.Select className="fs-3" value={newStatus} onChange={(e) => setNewStatus(Number(e.target.value))}>
                   <option value={0} disabled={isStatusDisabled("Pending")}>
@@ -531,7 +509,7 @@ function AdminRequestUser() {
                   </option>
                 </Form.Select>
 
-                {/* SOLO SE COMPLETED */}
+                {/* COMPLETED */}
                 {newStatus === 4 && (
                   <>
                     <Form.Group className="mt-3">
@@ -552,7 +530,7 @@ function AdminRequestUser() {
                   </>
                 )}
 
-                {/* SOLO SE QUOTE-SENT */}
+                {/* QUOTE-SENT */}
                 {newStatus === 2 && (
                   <>
                     <Form.Group className="mt-3">
@@ -601,7 +579,6 @@ function AdminRequestUser() {
                   </Alert>
                 )}
 
-                {/* BUTTON */}
                 <Button onClick={handleActionStatus} className="bubbler-one-regular bg-white border text-black fs-4 fw-bold">
                   Salva
                 </Button>

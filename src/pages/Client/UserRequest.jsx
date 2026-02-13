@@ -3,13 +3,14 @@ import NavbarUser from "../../components/NavbarUser";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-//USER REQUEST E' LA PAGINA PER L'UTENTE CHE PERMETTE DI EFFETTUARE L'INVIO DELLA RICHIESTA
-//IN BASE A DEGLI ELEMENTI CHIAVE, OBBLIGATORI PER LA CREAZIONE DELL'ETICHETTA
-//UNA VOLTA INVIATA LA RICHIESTA, L'UTENTE VERRA' INDIRIZZATO ALLA PAGINA "USER REQUEST MADE"
-//DOVE POTRA' VEDERE TUTTE LE RICHIESTE EFFETTUATE E IL LORO STATO
+//USER REQUEST
+//IS THE PAGE WHERE THE USER CAN SUBMIT A REQUEST
+//BASED ON KEY ELEMENTS REQUIRED TO CREATE THE LABEL
+//ONCE THE REQUEST IS SUBMITTED, THE USER WILL BE REDIRECTED TO THE "USER REQUEST MADE" PAGE
+//WHERE THEY CAN VIEW ALL THEIR REQUESTS AND THEIR CURRENT STATUS
 
 function UserRequest() {
-  //FORM DESCRIZIONE ETICHETTA
+  //LABEL DESCRIPTION FORM
   const [clientData, setClientData] = useState("");
   const [productionParams, setProductionParams] = useState("");
   const [identity, setIdentity] = useState("");
@@ -23,7 +24,7 @@ function UserRequest() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
-  //SCADENZA TOKEN
+  //TOKEN EXPIRY
   const navigate = useNavigate();
   const [messageToken, setMessageToken] = useState();
 
@@ -31,7 +32,7 @@ function UserRequest() {
   const handleCreate = async (e) => {
     e.preventDefault();
 
-    //SE MANCA LA DESCRIZIONE MOSTRA ERRORE
+    //IF DESCRIPTION IS MISSING IT SHOWS ERROR
     if (!clientData || !productionParams || !identity || !origin || !character || !target || !visuals || !constraints || !emotion) {
       setError("I campi sono obbligatori!");
       setTimeout(() => {
@@ -40,7 +41,7 @@ function UserRequest() {
       return;
     }
 
-    //VISUALIZZAZIONE DELLA DESCRIZIONE FINALE
+    //DISPLAY OF THE FINAL DESCRIPTION
     const finalDescription = `
     /DATI DEL CLIENTE :
     ${clientData}
@@ -83,7 +84,7 @@ function UserRequest() {
         body: JSON.stringify({ description: finalDescription }),
       });
       if (!response.ok) {
-        //SCADENZA TOKEN
+        //TOKEN EXPIRY
         if (response.status == 401) {
           localStorage.removeItem("token");
           setMessageToken("Sessione scaduta. Effettua di nuovo il login");
@@ -123,7 +124,7 @@ function UserRequest() {
 
   return (
     <>
-      {/* NAVBAR PER LE PAGINE DELL'UTENTE */}
+      {/* NAVBAR USER PAGE */}
       <NavbarUser />
       <Container className="mt-5">
         <Row className="justify-content-center">
@@ -131,17 +132,17 @@ function UserRequest() {
             <h2 className="text-center mt-4 bubbler-one-regular fw-bold fs-1 ">RACCONTACI LA MAGIA DEL TUO VINO</h2>
             <p className="mt-3 mb-0 text-center bubbler-one-regular fs-sm-5 fs-3 ">Compila la descrizione del tuo vino includendo tutti gli elementi chiave:</p>
 
-            {/* SCADENZA TOKEN */}
+            {/* TOKEN EXPIRY */}
             {messageToken && (
               <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                 {messageToken}
               </Alert>
             )}
 
-            {/* REQUISITI OBBLIGATORI PER LA LAVORAZIONE DELL'ETICHETTA */}
-            {/* FORM RICHIESTA */}
+            {/* MANDATORY REQUIREMENTS FOR LABEL CREATION */}
+
             <Form onSubmit={handleCreate} className="mt-4 bubbler-one-regular fs-3">
-              {/* DATI CLIENTE */}
+              {/* CUSTOMER DATA */}
               <Form.Group className="mb-3">
                 <Form.Label>
                   <strong>DATI DEL CLIENTE -</strong> Cantina di produzione, indirizzo di spedizione, referente, email
@@ -149,7 +150,7 @@ function UserRequest() {
                 <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={clientData} onChange={(e) => setClientData(e.target.value)} />
               </Form.Group>
 
-              {/* PARAMETRI PRODUZIONE */}
+              {/* PRODUCTION PARAMETERS */}
               <Form.Group className="mb-3">
                 <Form.Label>
                   <strong>PARAMETRI DI PRODUZIONE -</strong> Numero di etichette e budjet indicativo
@@ -163,7 +164,7 @@ function UserRequest() {
                 />
               </Form.Group>
 
-              {/* IDENTITA' */}
+              {/* IDENTITY */}
               <Form.Group className="mb-3">
                 <Form.Label>
                   <strong>IDENTITA' -</strong> Personalità profonde del vino : nome, linea, filosofia del produttore
@@ -171,7 +172,7 @@ function UserRequest() {
                 <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={identity} onChange={(e) => setIdentity(e.target.value)} />
               </Form.Group>
 
-              {/* ORIGINE */}
+              {/* ORIGIN */}
               <Form.Group className="mb-3">
                 <Form.Label>
                   <strong>ORIGINE -</strong> Contesto in cui viene prodotto: territorio, denominazione e vitigno, storia del luogo e della cantina
@@ -179,7 +180,7 @@ function UserRequest() {
                 <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={origin} onChange={(e) => setOrigin(e.target.value)} />
               </Form.Group>
 
-              {/* CARATTERE */}
+              {/* CHARACTER */}
               <Form.Group className="mb-3">
                 <Form.Label>
                   <strong>CARATTERE -</strong> Che tipo di "persona" sarebbe il suo vino?
@@ -187,7 +188,7 @@ function UserRequest() {
                 <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={character} onChange={(e) => setCharacter(e.target.value)} />
               </Form.Group>
 
-              {/* DESTINATARIO */}
+              {/* TARGET AUDIENCE */}
               <Form.Group className="mb-3">
                 <Form.Label>
                   <strong>DESTINATARIO -</strong> Per quale clientela ha prodotto questo vino? (fascia di prezzo e occasione di consumo)
@@ -195,7 +196,7 @@ function UserRequest() {
                 <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={target} onChange={(e) => setTarget(e.target.value)} />
               </Form.Group>
 
-              {/* PRIORITA' VISIVE */}
+              {/* VISUAL PRIORITIES */}
               <Form.Group className="mb-3">
                 <Form.Label>
                   <strong>PRIORITA' VISIVE -</strong> Quale elemento desideri valorizzare sull’etichetta?
@@ -203,7 +204,7 @@ function UserRequest() {
                 <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={visuals} onChange={(e) => setVisuals(e.target.value)} />
               </Form.Group>
 
-              {/* VINCOLI */}
+              {/* CONSTRAINTS */}
               <Form.Group className="mb-3">
                 <Form.Label>
                   <strong>VINCOLI -</strong> Cosa non si può fare? (obblighi legali, limiti di stampa, formato etichetta)
@@ -217,7 +218,7 @@ function UserRequest() {
                 />
               </Form.Group>
 
-              {/* EMOZIONE FINALE */}
+              {/* FINAL EMOTION */}
               <Form.Group className="mb-3">
                 <Form.Label>
                   <strong>EMOZIONE FINALE -</strong> Il cliente dovrà provare un emozione quando guarda la sua bottiglia, esattamente come quando si osserva un
@@ -226,21 +227,18 @@ function UserRequest() {
                 <Form.Control className="bubbler-one-regular fs-3" as="textarea" rows={3} value={emotion} onChange={(e) => setEmotion(e.target.value)} />
               </Form.Group>
 
-              {/* ALERT SUCCESS */}
               {success && (
                 <Alert variant="success" className="bubbler-one-regular fs-5 fw-bold">
                   {success}
                 </Alert>
               )}
 
-              {/* ALERT ERROR */}
               {error && (
                 <Alert variant="danger" className="bubbler-one-regular fs-5 fw-bold">
                   {error}
                 </Alert>
               )}
 
-              {/* BUTTON */}
               <div className="d-flex justify-content-center mt-5">
                 <Button variant="white" type="submit" className="border border-dark bubbler-one-regular fs-4 fw-bold w-100">
                   Invia descrizione
