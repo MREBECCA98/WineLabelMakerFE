@@ -28,7 +28,7 @@ function UserRequestMade() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`https://localhost:7046/api/Request/deleteRequest/${id}`, {
+      const response = await fetch(`https://winelabelmaker-be.onrender.com/api/Request/deleteRequest/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +68,7 @@ function UserRequestMade() {
       const token = localStorage.getItem("token");
 
       try {
-        const response = await fetch("https://localhost:7046/api/Request/allRequest", {
+        const response = await fetch("https://winelabelmaker-be.onrender.com/api/Request/allRequest", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

@@ -69,7 +69,7 @@ function AdminRequestUser() {
     try {
       //STATUS
       //------------------------------------------------------------------------------------------------------------------
-      const updateStatus = await fetch(`https://localhost:7046/api/Request/updateAdmin/${modalStatusRequest.idRequest}`, {
+      const updateStatus = await fetch(`https://winelabelmaker-be.onrender.com/api/Request/updateAdmin/${modalStatusRequest.idRequest}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -117,7 +117,7 @@ function AdminRequestUser() {
         const formData = new FormData();
         formData.append("labelImage", imgCompleted);
 
-        const uploadResponse = await fetch("https://localhost:7046/api/Email/uploadLabel", {
+        const uploadResponse = await fetch("https://winelabelmaker-be.onrender.com/api/Email/uploadLabel", {
           method: "POST",
           headers: {
             Authorization: "Bearer " + token,
@@ -140,7 +140,7 @@ function AdminRequestUser() {
         }
 
         //SEND EMAIL COMPLETED
-        const emailResponse = await fetch("https://localhost:7046/api/Email/completed", {
+        const emailResponse = await fetch("https://winelabelmaker-be.onrender.com/api/Email/completed", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -184,7 +184,7 @@ function AdminRequestUser() {
           }, 2000);
           return;
         }
-        const emailQuoteStatus = await fetch("https://localhost:7046/api/Email/sendQuote", {
+        const emailQuoteStatus = await fetch("https://winelabelmaker-be.onrender.com/api/Email/sendQuote", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -236,7 +236,7 @@ function AdminRequestUser() {
   const userRequest = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("https://localhost:7046/api/Request/allRequest", {
+      const response = await fetch("https://winelabelmaker-be.onrender.com/api/Request/allRequest", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
