@@ -22,7 +22,7 @@ function UpdateRequest() {
       const token = localStorage.getItem("token");
 
       try {
-        const response = await fetch(`https://winelabelmaker-be.onrender.com/api/Request/requestById/${id}`, {
+        const response = await fetch(`https://localhost:7046/api/Request/requestById/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -63,7 +63,7 @@ function UpdateRequest() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await fetch(`https://winelabelmaker-be.onrender.com/api/Request/updateClient/${id}`, {
+      const response = await fetch(`https://localhost:7046/api/Request/updateClient/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

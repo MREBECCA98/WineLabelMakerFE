@@ -75,7 +75,7 @@ function UserRequest() {
 
     //FETCH CREATE DESCRIPTION
     try {
-      const response = await fetch("https://winelabelmaker-be.onrender.com/api/Request/CreateRequest", {
+      const response = await fetch("https://localhost:7046/api/Request/CreateRequest", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
