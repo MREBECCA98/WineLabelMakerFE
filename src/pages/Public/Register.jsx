@@ -171,13 +171,19 @@ function Register() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
-
                   <InputGroup.Text
-                    style={{ cursor: "pointer" }}
+                    style={{
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      backgroundColor: "white",
+                      border: "1px solid #dee2e6",
+                      borderLeft: "none",
+                      marginBottom: "1rem",
+                    }}
                     onClick={() => setShowPassword(!showPassword)}
-                    title={showPassword ? "Nascondi password" : "Mostra password"}
                   >
-                    {showPassword ? <EyeSlash /> : <Eye />}
+                    <div style={{ fontSize: "1.5rem", display: "flex" }}>{showPassword ? <EyeSlash /> : <Eye />}</div>
                   </InputGroup.Text>
                 </InputGroup>
 
@@ -195,17 +201,24 @@ function Register() {
                   <Form.Control
                     className="bubbler-one-regular fs-4 mb-3 fw-bold"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Inserisci password"
+                    placeholder="Conferma password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
-
                   <InputGroup.Text
-                    style={{ cursor: "pointer" }}
+                    style={{
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      backgroundColor: "white",
+                      border: "1px solid #dee2e6",
+                      borderLeft: "none",
+                      marginBottom: "1rem",
+                    }}
                     onClick={() => setShowPassword(!showPassword)}
                     title={showPassword ? "Nascondi password" : "Mostra password"}
                   >
-                    {showPassword ? <EyeSlash /> : <Eye />}
+                    <div style={{ fontSize: "1.5rem", display: "flex" }}>{showPassword ? <EyeSlash /> : <Eye />}</div>
                   </InputGroup.Text>
                 </InputGroup>
               </Form.Group>
