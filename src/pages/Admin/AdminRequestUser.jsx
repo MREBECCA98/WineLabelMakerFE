@@ -225,6 +225,8 @@ function AdminRequestUser() {
     } catch (error) {
       console.error(error);
       setError(error.message);
+
+      userRequest();
       setTimeout(() => {
         setError("");
       }, 2000);
