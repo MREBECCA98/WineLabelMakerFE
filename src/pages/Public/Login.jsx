@@ -43,7 +43,7 @@ function Login() {
 
     //FETCH LOGIN
     try {
-      const response = await fetch("https://localhost:7046/api/AspNetUser/Login", {
+      const response = await fetch("https://winelabelmaker-be.onrender.com/api/AspNetUser/Login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

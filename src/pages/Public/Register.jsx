@@ -57,7 +57,7 @@ function Register() {
 
     //SEND REGISTRATION REQUEST TO BACKEND API
     try {
-      const response = await fetch("https://localhost:7046/api/AspNetUser/Register", {
+      const response = await fetch("https://winelabelmaker-be.onrender.com/api/AspNetUser/Register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
