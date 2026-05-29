@@ -18,8 +18,12 @@ function Login() {
 
     //ROLE VERIFICATION
     //NAVIGATION TO APPROPRIATE PAGES
+    // if (token && role) {
+    //   if (role === "Admin") navigate("/message");
+    //   else navigate("/userRequestMade");
+    // }
     if (token && role) {
-      if (role === "Admin") navigate("/message");
+      if (role.toLowerCase() === "admin") navigate("/message");
       else navigate("/userRequestMade");
     }
   }, []);
@@ -69,7 +73,12 @@ function Login() {
         setPassword("");
 
         //USE ROLE-BASED NAVIGATE
-        if (data.role === "Admin") {
+        // if (data.role === "Admin") {
+        //   navigate("/message");
+        // } else {
+        //   navigate("/userRequestMade");
+        // }
+        if (data.role && data.role.toLowerCase() === "admin") {
           navigate("/message");
         } else {
           navigate("/userRequestMade");
