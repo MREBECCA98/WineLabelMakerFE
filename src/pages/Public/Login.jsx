@@ -60,7 +60,6 @@ function Login() {
       }
 
       const data = await response.json();
-      console.log("Login riuscito:", data);
 
       //TOKEN - ROLE
       localStorage.setItem("token", data.token);
