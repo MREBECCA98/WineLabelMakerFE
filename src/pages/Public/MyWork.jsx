@@ -29,7 +29,7 @@ function Work() {
           </Col>
           <Col xs={12} md={12} lg={6}>
             <p className="fw-bold ">LINEA CONTINUA - Aequus (Langhe DOC Nebbiolo 2022) </p>
-            <p>
+            <p className="fs-6">
               Un Nebbiolo contemporaneo, essenziale e misurato che unisce eleganza e profondità.
               <br />
               Ogni dettaglio, dalla vinificazione alla presentazione, riflette equilibrio e precisione.
@@ -47,7 +47,7 @@ function Work() {
           </Col>
           <Col xs={12} md={12} lg={6}>
             <p className="fw-bold ">MANO FERMA - Equilibrium Rosè (Toscana IGT Rosè 2023) </p>
-            <p>
+            <p className="fs-6">
               Un rosè vibrante e raffinato, dove equilibrio e spontaneità si incontrano ad ogno sorso.
               <br />
               Fresco, elegante e leggermente ironico, accompagna aperitivi raffinati, pranzi estivi, e momenti di pura leggerezza.
@@ -65,7 +65,7 @@ function Work() {
           </Col>
           <Col xs={12} md={12} lg={6}>
             <p className="fw-bold "> MAISON FUORIMISURA - Θάλεια – THALEIA (Champagne AOC 2018) </p>
-            <p>
+            <p className="fs-6">
               Uno Champagne raffinato e audace, dove eleganza e intensità si incontrano in ogni bollicina.
               <br />
               Il perlage fine e persistente accompagna aromi di pesca bianca, crosta di pane e mandorla tostata.
@@ -83,7 +83,7 @@ function Work() {
           </Col>
           <Col xs={12} md={12} lg={6}>
             <p className="fw-bold "> TENUTA SAN LORENZO - Essenza ( IGT Toscana 2022) </p>
-            <p>
+            <p className="fs-6">
               Un Sangiovese con un tocco di Canaiolo, intenso e avvolgente, che celebra la passione e l'abbondanza della Toscana.
               <br />
               L'etichetta, impreziosita dal melograno, riflette eleganza e mistero, invitando a scoprire un vino morbido ma deciso, perfetto per momenti
@@ -101,7 +101,7 @@ function Work() {
           </Col>
           <Col xs={12} md={12} lg={6}>
             <p className="fw-bold "> CANTINA SAN MICHELE - Noctis Rubrum (DOC Barbera d'Alba 2021) </p>
-            <p>
+            <p className="fs-6">
               Un Barbera elegante e avvolgente, dal carattere deciso e raffinato.
               <br />
               Profondo e seducente, evoca il mistero della notte con note di ciliegia matura e spezie dolci.
@@ -119,7 +119,7 @@ function Work() {
           </Col>
           <Col xs={12} md={12} lg={6}>
             <p className="fw-bold "> CANTINA DELLE VIGNE DORATE - Luna Rossa (DOC Valpolicella Classico 2023) </p>
-            <p>
+            <p className="fs-6">
               Rosso vivace e armonico, che unisce freschezza fruttata e una sottile spezia.
               <br />
               Ispirato alla forza e grazia femminile, il vino sprigiona energia e fascino in ogni sorso.
